@@ -1,0 +1,96 @@
+﻿@page "/LienHe"
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .contact-form {
+            background-color: whitesmoke;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+            .contact-form .form-label {
+                font-weight: bold;
+            }
+
+            .contact-form .form-text {
+                font-size: 14px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mt-4">
+                <h4>Liên hệ với chúng tôi</h4>
+                <form class="contact-form mt-3">
+                    <div class="mb-3">
+                        <label for="ten" class="form-label">Họ tên</label>
+                        <span class="text-danger" style="font-size: 20px;">*</span>
+                        <input type="text" class="form-control" id="ten" ng-model="fullname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="diachi" class="form-label">Địa chỉ</label>
+                        <span class="text-danger" style="font-size: 20px;">*</span>
+                        <input type="text" class="form-control" id="diachi" ng-model="address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sdt" class="form-label">Số điện thoại</label>
+                        <span class="text-danger" style="font-size: 20px;">*</span>
+                        <input type="text" class="form-control" id="sdt" ng-model="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="GhiChu" class="form-label">Ghi chú</label>
+                        <span class="text-danger" style="font-size: 20px;">*</span>
+                        <textarea name="ghichu" id="GhiChu" cols="30" rows="6" class="form-control" ng-model="message"></textarea>
+                        <div class="form-text">
+                            Dấu <span class="text-danger"><strong>*</strong></span> không được bỏ trống
+                        </div>
+                    </div>
+                    <button type="button" id="send" class="btn btn-primary" ng-click="send()" data-bs-toggle="modal" data-bs-target="#exampleModal">Gửi</button>
+                </form>
+            </div>
+            <div class="col-md-6 mt-4">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.420430970218!2d105.75565247450827!3d9.982086773343747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a08906415c355f%3A0x416815a99ebd841e!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1705569671935!5m2!1svi!2s" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade mt-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Thông tin của bạn đã được gửi!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+@code {
+
+}
