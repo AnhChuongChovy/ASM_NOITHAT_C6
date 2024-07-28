@@ -1,17 +1,109 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/IMG/Brand.png" alt="Logo" style="width: 50%; height: 50%;">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">HOME</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="GioiThieu">GIỚI THIỆU</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="ChiTietSanPham">CHI TIET </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/LienHe">LIÊN HỆ</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/TaiKhoan">TÀI KHOẢN</NavLink>
+                </li>
+                <li class="nav-item icon-wrapper">
+                    <NavLink class="nav-link" href="/login"><i class="fas fa-user nav-link-icon"></i></NavLink>
+                    <NavLink class="nav-link" href="/cart"><i class="fas fa-shopping-cart nav-link-icon"></i></NavLink>
+                    
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <div class="content px-4">
-            @Body
+<div class="container" style="display:flex; justify-content:center;align-items:center">
+    <div class="search-bar w-50">
+        <div class="input-group">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" style="border-top-left-radius:20px; border-bottom-left-radius:20px;border"><i class="fas fa-search"></i></button>
+            </div>
+            <input type="text" class="form-control custom-search-input" style="border:1px solid black; border-left:none" placeholder="Tìm kiếm sản phẩm...">
+            
         </div>
     </div>
 </div>
+<div class="container">
+    @Body
+</div>
+
+
+<footer class="mt-3">
+    <div class="row mx-3">
+        <div class="col-sm-2 col-md-2 text-white mt-5">
+            <img src="\IMG\Brand.png" class="ms-5" alt="" style="background-color: white;" width="100px" height="100px">
+            <p class="mt-3"> 2XDOMDecor - Nội thất cao cấp</p>
+            <div>Liên kết mạng xã hội</div>
+            <div class="row mt-2">
+                <div class="col-sm-2"><a href="" style="background-color: dodgerblue; text-align: center;"><i class='bx bxl-facebook' style='color:white; width: 25px;'></i></a></div>
+                <div class="col-sm-2"><a href="" style="background-color: deepskyblue;text-align: center"><i class='bx bxl-twitter' style='color:white;width: 25px;'></i></a></div>
+                <div class="col-sm-2"><a href="" style="background-color: crimson;text-align: center"><i class='bx bxl-youtube' style='color:white;width: 25px;'></i></a></div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-3 text-white mt-5">
+            <span class="fs-4 fw-bold">Liên hệ</span>
+            <div style="width: 35px; border: 2px solid gray;" class="mt-1 mb-2"></div>
+            <p>Cửa hàng nội thất giá tốt hàng đầu Việt Nam</p>
+            <p>61/2 Quang Trung, P.10 Q. Gò Vấp, TP. HCM 61/2 Quang Trung, P.10 Q. Gò Vấp, TP. HCM</p>
+            <p class="bi bi-telephone"> 0909.000.000</p>
+            <p class="bi bi-envelope"> chovydecor@gmail.com</p>
+        </div>
+        <div class="col-sm-2 col-md-2 text-white mt-5">
+            <span class="fs-4 fw-bold">Giới thiệu</span>
+            <div style="width: 35px; border: 2px solid gray;" class="mt-1 mb-2"></div>
+            <p>Phòng khách</p>
+            <p>Phòng ngủ</p>
+            <p>Phòng làm việc</p>
+            <p>Phòng bếp</p>
+        </div>
+        <div class="col-sm-2 col-md-2 text-white mt-5">
+            <span class="fs-4 fw-bold">Hướng dẫn</span>
+            <div style="width: 35px; border: 2px solid gray;" class="mt-1 mb-2"></div>
+            <p>Câu hỏi thường gặp</p>
+            <p>Chính sách đổi trả</p>
+            <p>Hướng dẫn bảo quản</p>
+            <p>Hướng dẫn thanh toán</p>
+            <p>Hướng dẫn mua hàng</p>
+        </div>
+        <div class="col-sm-3 col-md-3 text-white mt-5">
+            <span class="fs-4 fw-bold">Đăng ký để nhận ưu đãi</span>
+            <div style="width: 35px; border: 2px solid gray;" class="mt-1 mb-2"></div>
+            <p>Hãy để lại email của bạn để nhận được những ý tưởng trang trí mới và những thông tin, ưu đãi từ ChovyDecor</p>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control youremail" placeholder="Email của bạn" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btndangky text-white border border-1" type="button" id="button-addon2">Đăng ký</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5" style="height: 70px;">
+        <div style="border: 1px solid gainsboro; height: 1px;"></div>
+        <div class="text-center mt-1 text-secondary">
+            © Bản quyền thuộc về 2XDOMDecor. Powered by Haravan
+        </div>
+    </div>
+</footer>

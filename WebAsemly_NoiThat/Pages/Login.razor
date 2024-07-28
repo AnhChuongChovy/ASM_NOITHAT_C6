@@ -1,0 +1,67 @@
+﻿@page "/login"
+@inject HttpClient Http
+
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-6 mt-3" style="width:100%">
+            <div class="ml-5">
+                <h3 class="font-weight-bold">ĐĂNG NHẬP</h3>
+                <div class="mt-5">
+                    <label for="taikhoan" class="form-label">TÊN ĐĂNG NHẬP</label>
+                    <input type="text" class="form-control input-dangnhap" id="taikhoan">
+                </div>
+                <div class="mt-4">
+                    <label for="password" class="form-label">MẬT KHẨU</label>
+                    <input type="password" class="form-control input-dangnhap" id="password" />
+                </div>
+
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        GHI NHỚ ĐĂNG NHẬP
+                    </label>
+                    <a style="padding-left:15px" href="/">QUÊN MẬT KHẨU?</a>
+                </div>
+                <div class="mt-4">
+                    <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG NHẬP</button>
+                </div>
+            </div>
+            
+
+        </div>
+
+        <div class="col-md-6 mt-3" style="width:100%">
+            <div class="ml-5">
+                <h3 class="font-weight-bold">ĐĂNG KÝ</h3>
+                <div class="mt-5">
+                    <label for="taikhoan" class="form-label">TÊN ĐĂNG NHẬP</label>
+                    <input type="text" class="form-control input-dangnhap" id="taikhoan">
+                </div>
+                <div class="mt-4">
+                    <label for="password" class="form-label">MẬT KHẨU</label>
+                    <input type="password" class="form-control input-dangnhap" id="password" />
+                </div>
+                <div class="mt-4">
+                    <label for="password" class="form-label">XÁC NHẬN MẬT KHẨU</label>
+                    <input type="password" class="form-control input-dangnhap" id="password" />
+                </div>
+                <div class="mt-4">
+                    <label for="email" class="form-label">EMAIL</label>
+                    <input type="email" class="form-control input-dangnhap" id="email" />
+                </div>
+                <div class="mt-4">
+                    <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG KÝ</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+
+
+
+@code {
+
+}
