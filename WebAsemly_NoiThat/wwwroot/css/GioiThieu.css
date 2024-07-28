@@ -1,0 +1,157 @@
+﻿
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0f2f1; /* Nền sáng hơn */
+    color: #2c6b6b; /* Màu chữ sáng hơn */
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background-color: antiquewhite; /* Nền sáng hơn */
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+    .header h1 {
+        font-size: 35px;
+        color: #4a4a4a; /* Màu chữ sáng hơn */
+        margin-bottom: 10px;
+        margin-top: 20px; /* Thêm khoảng cách phía trên tiêu đề */
+    }
+
+
+    .header p {
+        font-size: 18px;
+        color: #2c6b6b; /* Màu chữ sáng hơn */
+    }
+
+.content-section {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+    .content-section h2 {
+        font-size: 36px;
+        margin-bottom: 15px;
+        color: #4a4a4a; /* Màu tiêu đề sáng hơn */
+    }
+
+    .content-section p {
+        font-size: 16px;
+        color: #2c6b6b; /* Màu chữ sáng hơn */
+    }
+
+.image-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+.subscribe-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Căn giữa nội dung */
+    background-color: aquamarine; /* Nền sáng hơn */
+    border-radius: 10px;
+    padding: 30px; /* Tăng padding để phần theo dõi to hơn */
+    width: 100%;
+    max-width: 1200px; /* Đảm bảo độ rộng tối đa */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    margin-bottom: 50px; /* Thêm khoảng cách với phần cuối của trang */
+}
+
+.subscription-image {
+    flex: 1;
+    max-width: 300px; /* Đặt kích thước tối đa cho ảnh */
+    margin-right: 30px;
+}
+
+    .subscription-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+.subscription-content {
+    flex: 1;
+    text-align: center; /* Căn giữa nội dung bên trong */
+}
+
+    .subscription-content h1 {
+        font-size: 28px; /* Tăng kích thước tiêu đề */
+        margin-bottom: 15px; /* Tăng khoảng cách dưới tiêu đề */
+        color: #4a4a4a; /* Màu tiêu đề sáng hơn */
+        font-family: 'Arial', sans-serif; /* Thay đổi font chữ */
+        text-transform: uppercase; /* Chữ in hoa */
+        letter-spacing: 1px; /* Khoảng cách giữa các chữ cái */
+    }
+
+    .subscription-content p {
+        font-size: 18px; /* Tăng kích thước chữ */
+        margin-bottom: 25px; /* Tăng khoảng cách dưới đoạn văn */
+        color: #2c6b6b; /* Màu chữ sáng hơn */
+        font-style: italic; /* Chữ nghiêng */
+        line-height: 1.6; /* Khoảng cách dòng */
+    }
+
+.subscription-form {
+    display: flex;
+    justify-content: center; /* Căn giữa ô nhập và nút */
+    width: 100%;
+}
+
+    .subscription-form input {
+        padding: 14px; /* Tăng padding */
+        border: 1px solid #b2dfdb; /* Màu viền sáng hơn */
+        border-radius: 25px 0 0 25px; /* Bo tròn góc */
+        flex: 1;
+        font-size: 18px; /* Tăng kích thước chữ */
+        border: 1px solid #2c6b6b; /* Màu viền sáng hơn */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
+    }
+
+    .subscription-form button {
+        padding: 14px 20px; /* Tăng kích thước nút */
+        border: none;
+        background-color: #009688; /* Màu nút sáng hơn */
+        color: white;
+        border-radius: 0 25px 25px 0; /* Bo tròn góc */
+        cursor: pointer;
+        font-size: 18px; /* Tăng kích thước chữ */
+        transition: background-color 0.3s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
+    }
+
+        .subscription-form button:hover {
+            background-color: #00796b; /* Màu nút khi hover sáng hơn */
+        }
+
+.navbar {
+    margin-bottom: 20px;
+    background-color: #009688; /* Màu thanh điều hướng sáng hơn */
+}
+
+    .navbar a {
+        color: white !important; /* Màu chữ của thanh điều hướng */
+    }
