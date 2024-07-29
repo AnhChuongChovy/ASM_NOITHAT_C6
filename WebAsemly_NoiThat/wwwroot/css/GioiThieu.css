@@ -147,11 +147,11 @@ body {
             background-color: #00796b; /* Màu nút khi hover sáng hơn */
         }
 
-.navbar {
-    margin-bottom: 20px;
-    background-color: #009688; /* Màu thanh điều hướng sáng hơn */
-}
+/*.navbar {
+    margin-bottom: 20px;*/
+    /*background-color: #009688;*/ /* Màu thanh điều hướng sáng hơn */
+/*}
 
     .navbar a {
-        color: white !important; /* Màu chữ của thanh điều hướng */
-    }
+        color: white !important;*/ /* Màu chữ của thanh điều hướng */
+    /*}*/
