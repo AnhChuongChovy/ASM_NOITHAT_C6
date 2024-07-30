@@ -1,9 +1,10 @@
 ﻿ 
-
+ 
 .coupon .kanan {
     border-left: 1px dashed #ddd;
     width: 40% !important;
     position: relative;
+
 }
 
     .coupon .kanan .info::after, .coupon .kanan .info::before {

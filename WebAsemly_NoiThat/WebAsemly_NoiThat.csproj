@@ -12,6 +12,7 @@
     <None Include="Pages\LienHe.razor" />
     <None Include="Pages\Login.razor" />
     <None Include="Pages\TaiKhoan.razor" />
+    <None Include="wwwroot\css\homepages\card_category.css" />
   </ItemGroup>
 
   <ItemGroup>
