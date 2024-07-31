@@ -12,7 +12,7 @@ namespace WebAppBlazor.Models
         [Required]
         public string TenSP { get; set; }
         [Required]
-        public double Gia { get; set; }
+        public double Gia { get; set; } 
         [Required]
         public string MoTa { get; set; }
         [Required]
