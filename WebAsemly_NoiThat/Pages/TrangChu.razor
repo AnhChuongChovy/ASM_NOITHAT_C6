@@ -1,0 +1,98 @@
+﻿@page "/"
+@using WebAsemly_NoiThat.Service
+@inject ProductService ProductService
+@inject NavigationManager Navigation
+
+<div class="container">
+    <div class="">
+        <div>
+            <span style="font-size:30px;">Sản phẩm mới</span>
+        </div>
+        <hr />
+        @if (SanPham == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <div class="row">
+
+            @foreach (var obj in SanPham)
+            {
+                    <div class="col-md-3 mt-4 text-center" id="@obj.ID">
+                        <div class="card border border-1">
+                            <div class="mt-2">
+                                <h5 class="card-title">@obj.TenSP</h5>
+                            </div>
+
+                            <div class="">
+                                <img src="@obj.HinhAnh" width="80%" height="50%" @onclick="() => ChuyenTrang(obj.ID)" style="cursor: pointer; object-fit:cover">
+                            </div>
+
+                            <div class="">
+                                <p class="card-text mt-2 text-danger">@obj.Gia.ToString("N0") VNĐ</p>
+                            </div>
+                            <div class="">
+                                <div class="">
+                                    <button class="btn btn-primary mb-3 ">Mua</button>
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-primary mb-3">Hết hàng</button>
+                                </div>
+                            </div>
+                                
+
+                            @* <div class="mt-2" style="height:15%">
+                                <h5 class="card-title">@obj.TenSP</h5>
+                            </div>
+                            <div style="width:60%; height:60%; margin: 0 auto">
+                                <img src="@obj.HinhAnh" class="w-100 h-100" @onclick="() => ChuyenTrang(obj.ID)" style="cursor: pointer">
+                            </div>
+                            <div style="height:5%">
+                                <p class="card-text mt-2 text-danger">@obj.Gia.ToString("N0") VNĐ</p>
+                            </div>
+                            <div style="height:20%" class="row">
+                                @if (obj.SoLuongTrongKho != 0)
+                                {
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary mb-3 btnhideen">Mua</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary mb-3 btnhideen1">Hết hàng</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary mb-3 btnhideen">Mua</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form asp-action="" asp-controller="" method="post" class="add-to-cart-form">
+                                            <input type="hidden" name="productId" value="@obj.ID" />
+                                            <button type="submit" class="btn btn-danger mb-3 btnhideen1 add-to-cart-button">Thêm vào giỏ</button>
+                                        </form>
+                                    </div>                                    
+                                }
+                            </div> *@
+                        </div>
+                    </div>
+            }
+                </div>
+        }
+    </div>
+</div>
+
+
+
+@code {
+    private List<Model.Product> SanPham;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SanPham = await ProductService.GetProducts();
+    }
+    private void ChuyenTrang(int id)
+    {
+        Navigation.NavigateTo($"/ChiTietSanPham/{id}");
+    }   
+}

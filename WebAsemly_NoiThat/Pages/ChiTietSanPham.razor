@@ -1,115 +1,136 @@
-﻿@page "/ChiTietSanPham"
+﻿@page "/ChiTietSanPham/{id:int}"
+@using WebAsemly_NoiThat.Service
+@inject ProductService ProductService
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Model.Product product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.GetProductId(id);
+    }
+
+}
 
 
 
 
 <div class="container">
-    <p>Home/Sản phẩm/ Ghế sofa gỗ tràm tự nhiên</p>
-    <div class="row">
-        <div class="col-md-6 text-center">
-            <img src="\IMG\sofago601.webp" / class="ml-2" width="450px" height="400px">
-            <div class="mt-3">
-                <img src="\IMG\sofago601_anh2.webp" / width="100px" height="100px">
-                <img src="\IMG\sofago601_anh3.jpg" / width="100px" height="100px">
-                <img src="\IMG\sofago601_anh4.webp" / width="100px" height="100px">
-                <img src="\IMG\sofago601_anh4.webp" / width="100px" height="100px">
+    @if (product == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <p>Home/Sản phẩm/ Ghế sofa gỗ tràm tự nhiên</p>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <img src="@product.HinhAnh" / class="ml-2" width="450px" height="400px">
+                <div class="mt-3">
+                    <img src="\IMG\sofago601_anh2.webp" / width="100px" height="100px">
+                    <img src="\IMG\sofago601_anh3.jpg" / width="100px" height="100px">
+                    <img src="\IMG\sofago601_anh4.webp" / width="100px" height="100px">
+                    <img src="\IMG\sofago601_anh4.webp" / width="100px" height="100px">
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <h4>Ghế Sofa Gỗ Tràm Tự Nhiên </h4>
-            <span style="color:red; text-decoration:underline">4.8</span> |
-            <span>9,8k <span style="color:red">Đánh giá</span> </span>
+            <div class="col-md-6">
+                <h4> @product.TenSP</h4>
+                <span style="color:red; text-decoration:underline">4.8</span> |
+                <span>9,8k <span style="color:red">Đánh giá</span> </span>
 
-            <div class="row">
-                <span style="font-weight:bold;color:green;font-size:larger;padding-left:20px">-26%</span>
-                <span style="font-weight:bold;color:red; font-size:larger;padding-left:20px">8.400.000đ</span>
-                <span style="font-weight:bold; font-size:larger;padding-left:20px">14.500.000đ</span>
-            </div>
-            <div>
-                <p>Chất Liệu:</p>
-                <li>Thân ghế: Gỗ tràm tự nhiên</li>
-                <li>Chân ghế: Gỗ cao su tự nhiên</li>
-                <li>Vải sợ tổng hợp kháng khuẩn, chống nhăn, kháng bụi bẩn và nắm móc</li>
-                <li>Tấm phản: Gỗ công nghiệp Plywood chuẩn CARB-P2(*)</li>
-                <br />
-                <p>Màu sắc: Nâu</p>
-                <p>Vận chuyển: Miễn phí vận chuyển</p>
-                <div class="row" style="margin-left:1px">
-                    <p style="padding-top:7px; ">Số lượng:</p>
-                    <div class="btn-group ml-3" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary">-</button>
-                        <button type="button" class="btn" style="border:1px solid black">1</button>
-                        <button type="button" class="btn btn-primary">+</button>
+                <div class="row">
+                    <span style="font-weight:bold;color:green;font-size:larger;padding-left:20px">-25%</span>
+                    <span style="font-weight:bold;color:red; font-size:larger;padding-left:20px">8,500,000đ </span>
+                    <span style="font-weight:bold; font-size:larger;padding-left:20px">@product.Gia.ToString("N0")đ</span>
+                </div>
+                <div>
+                    <p>Chất Liệu:</p>
+                    <li>Thân ghế: Gỗ tràm tự nhiên</li>
+                    <li>Chân ghế: Gỗ cao su tự nhiên</li>
+                    <li>Vải sợ tổng hợp kháng khuẩn, chống nhăn, kháng bụi bẩn và nắm móc</li>
+                    <li>Tấm phản: Gỗ công nghiệp Plywood chuẩn CARB-P2(*)</li>
+                    <br />
+                    <p>Màu sắc: Nâu</p>
+                    <p>Vận chuyển: Miễn phí vận chuyển</p>
+                    <div class="row" style="margin-left:1px">
+                        <p style="padding-top:7px; ">Số lượng:</p>
+                        <div class="btn-group ml-3" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-primary">-</button>
+                            <button type="button" class="btn" style="border:1px solid black">1</button>
+                            <button type="button" class="btn btn-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <button class="btn w-100" style="background: #5AA897; color:white;font-weight:bold;height:50px">THÊM VÀO GIỎ HÀNG</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn w-100" style="background: #B93737; color:white;font-weight:bold;height:50px">MUA NGAY</button>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div style="background:#D9D9D9; height:50px; width:100%;">
+                <p style="padding:13px; font-size:large; font-weight:bold">Mô tả sản phẩm</p>
+            </div>
+            <div class="w-100 mt-3">
+                <div class="text-center">
+                    <p style="font-size:large">Ghế Sofa Gỗ Tràm Tự Nhiên</p>
+                    <p style="font-size:large">1. Thông số kỹ thuật</p>
+                    <img src="\IMG\hinh_update_kich_thuoc-05_6c77505fc2824f548de8964d1e70cf73_2048x2048.webp" width="100%" height="600px" />
+                </div>
+
                 <div class="text-center mt-3">
-                    <button class="btn w-75" style="background: #5AA897; color:white;font-weight:bold;height:50px">THÊM VÀO GIỎ HÀNG</button>
-                    <button class="btn w-75 mt-2" style="background: #B93737; color:white;font-weight:bold;height:50px">MUA NGAY</button>
+                    <p style="font-size:large">2. Chi tiết vật liệu</p>
+                    <img src="\IMG\vai.webp" width="100%" height="600px" />
+                </div>
+
+                <div class="mt-5">
+                    <span>Gỗ tràm tự nhiên</span><br />
+                    <span>Khung ghế được làm bằng gỗ tràm tự nhiên đảm bảo vệ độ chắc chắn cao, chống công vênh, mối mọt.</span><br />
+                    <span>Tấm phản</span><br />
+                    <span>Sử dụng gỗ công nghiệp Plywood có độ bền cao, đạt chuẩn CARB-P2 an toàn tuyệt đối cho người sức khỏe người dùng và đạt chứng nhận FSC bảo vệ và phát triển rừng bền vững.</span><br />
+                    <span>Vải bọc sợi tổng hợp - soil release</span><br />
+                    <span>Sofa VLINE sử dụng vải bọc sợi tổng hợp giúp kháng khuẩn, chống nhăn, kháng bụi bẩn và nấm mốc, dễ dàng vệ sinh.</span><br />
+                </div>
+
+                <div class="mt-5">
+                    <img src="\IMG\sofa_anh5.webp" width="100%" height="600px" />
+                </div>
+
+                <div class="mt-5">
+                    <span>Sofa có kích thước tiêu chuẩn</span><br />
+                    <span>Sofa có kích thước rộng rãi thoải mái, với thiết kế tinh giản giúp tối ưu hóa diện tích cho nội thất phòng khách dễ dàng kết hợp đồ nội thất gỗ khác trong ngôi nhà.</span>
+                </div>
+
+                <div class="mt-5">
+                    <img src="\IMG\sofa_anh6.webp" width="100%" height="600px" />
+                </div>
+
+                <div class="mt-5">
+                    <span>Độ nghiêng hoàn hảo</span><br />
+                    <span>Độ nghiêng lưng tựa vừa phải giúp cho người ngồi cảm thấy thư giản và thoải mái nhất.</span>
+                </div>
+
+                <div class="mt-5">
+                    <img src="\IMG\sofa_anh7.webp" width="100%" height="600px" />
+                </div>
+
+                <div class="mt-5">
+                    <span>Khóa dán chống trượt</span><br />
+                    <span>Với khóa dán cố định bạn không còn lo lắng về nệm trượt ra khỏi ghế sofa.</span>
+                </div>
+
+                <div class="mt-5">
+                    <img src="\IMG\sofa_anh8.webp" width="100%" height="600px" />
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row mt-4">
-        <div style="background:#D9D9D9; height:50px; width:100%;">
-            <p style="padding:13px; font-size:large; font-weight:bold">Mô tả sản phẩm</p>
-        </div>
-        <div class="w-100 mt-3">
-            <div class="text-center">
-                <p style="font-size:large">Ghế Sofa Gỗ Tràm Tự Nhiên</p>
-                <p style="font-size:large">1. Thông số kỹ thuật</p>
-                <img src="\IMG\hinh_update_kich_thuoc-05_6c77505fc2824f548de8964d1e70cf73_2048x2048.webp" width="100%" height="600px" />
-            </div>
-
-            <div class="text-center mt-3">
-                <p style="font-size:large">2. Chi tiết vật liệu</p>
-                <img src="\IMG\vai.webp" width="100%" height="600px" />
-            </div>
-
-            <div class="mt-5">
-                <span>Gỗ tràm tự nhiên</span><br />
-                <span>Khung ghế được làm bằng gỗ tràm tự nhiên đảm bảo vệ độ chắc chắn cao, chống công vênh, mối mọt.</span><br />
-                <span>Tấm phản</span><br />
-                <span>Sử dụng gỗ công nghiệp Plywood có độ bền cao, đạt chuẩn CARB-P2 an toàn tuyệt đối cho người sức khỏe người dùng và đạt chứng nhận FSC bảo vệ và phát triển rừng bền vững.</span><br />
-                <span>Vải bọc sợi tổng hợp - soil release</span><br />
-                <span>Sofa VLINE sử dụng vải bọc sợi tổng hợp giúp kháng khuẩn, chống nhăn, kháng bụi bẩn và nấm mốc, dễ dàng vệ sinh.</span><br />
-            </div>
-
-            <div class="mt-5">
-                <img src="\IMG\sofa_anh5.webp" width="100%" height="600px" />
-            </div>
-
-            <div class="mt-5">
-                <span>Sofa có kích thước tiêu chuẩn</span><br />
-                <span>Sofa có kích thước rộng rãi thoải mái, với thiết kế tinh giản giúp tối ưu hóa diện tích cho nội thất phòng khách dễ dàng kết hợp đồ nội thất gỗ khác trong ngôi nhà.</span>
-            </div>
-
-            <div class="mt-5">
-                <img src="\IMG\sofa_anh6.webp" width="100%" height="600px" />
-            </div>
-
-            <div class="mt-5">
-                <span>Độ nghiêng hoàn hảo</span><br />
-                <span>Độ nghiêng lưng tựa vừa phải giúp cho người ngồi cảm thấy thư giản và thoải mái nhất.</span>
-            </div>
-
-            <div class="mt-5">
-                <img src="\IMG\sofa_anh7.webp" width="100%" height="600px" />
-            </div>
-
-            <div class="mt-5">
-                <span>Khóa dán chống trượt</span><br />
-                <span>Với khóa dán cố định bạn không còn lo lắng về nệm trượt ra khỏi ghế sofa.</span>
-            </div>
-
-            <div class="mt-5">
-                <img src="\IMG\sofa_anh8.webp" width="100%" height="600px" />
-            </div>
-        </div>
-    </div>
+    }
+   
 </div>
-
-@code {
-
-}

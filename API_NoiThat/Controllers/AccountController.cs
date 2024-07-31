@@ -10,31 +10,31 @@ namespace API_NoiThat.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public ProductController(ApplicationDBContext context)
+        public AccountController(ApplicationDBContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Account>>> GetProducts()
         {
-            return await _context.Product.ToListAsync();
+            return await _context.Account.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductId(int id)
+        public async Task<ActionResult<Account>> GetProductId(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var account = await _context.Account.FindAsync(id);
 
-            if (product == null)
+            if (account == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return account;
         }
     }
 }
