@@ -1,0 +1,132 @@
+﻿@page "/cart"
+
+<div class="container my-5 cart-custom">
+    <h2 class="mb-4 font-weight-bold">GIỎ HÀNG</h2>
+    <div class="row" >
+        <div class="col-md-8" >
+            <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border">
+                <div class="d-flex align-items-center">
+                    <img src="https://via.placeholder.com/100" class="img-fluid" alt="Checkered Duvet Cover Set">
+                    <div class="ml-3">
+                        <h5>Checkered Duvet Cover Set</h5>
+                        <p>Art. No: 54637253<br>Color: Mint<br>Size: 210x145</p>
+                        <p class="text-muted">39.99 $</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-group w-auto justify-content-end align-items-center">
+                        <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1" data-field="quantity">
+                        <input type="number" step="1" min="0" max="10" value="1" name="quantity" class="quantity-field border-0 text-center w-auto">
+                        <input type="button" value="+" class="button-plus border icon-shape icon-sm lh-0" data-field="quantity">
+                    </div>
+                </div>
+                <div>
+                    <p>39.99 $</p>
+                </div>
+                <button class="btn fs-3">&times;</button>
+            </div>
+            <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border">
+                <div class="d-flex align-items-center">
+                    <img src="https://via.placeholder.com/100" class="img-fluid" alt="Tasseled Throw">
+                    <div class="ml-3">
+                        <h5>Tasseled Throw</h5>
+                        <p>Art. No: 54633464<br>Color: Beige<br>Size: 45x64</p>
+                        <p class="text-muted">42.99 $</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-group w-auto justify-content-end align-items-center">
+                        <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1" data-field="quantity">
+                        <input type="number" step="1" min="0" max="10" value="1" name="quantity" class="quantity-field border-0 text-center w-auto">
+                        <input type="button" value="+" class="button-plus border icon-shape icon-sm lh-0" data-field="quantity">
+                    </div>
+                </div>
+                <div>
+                    <p>42.99 $</p>
+                </div>
+                <button class="btn fs-3">&times;</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 border" style="background-color: #ECEBE9;">
+                <h4>Add a Discount Code</h4>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control-custom" placeholder="Discount code">
+                    <div class="input-group-append">
+                        <button class="cart-btn-custom" type="button">Add</button>
+                    </div>
+                </div>
+                <h4 class="mb-3">Order Summary</h4>
+                <div class="lh-1">
+                    <p>Order value: 82.98 $</p>
+                    <p>Shipping: 0.00 $</p>
+                    <p>Total: 82.98 $</p>
+                </div>
+
+                <button class="cart-btn-checkout btn-block">Continue to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+
+    <h2 class="mt-4 font-weight-bold">Có thể bạn sẽ thích</h2>
+
+
+</div>
+
+
+<script>
+    function incrementValue(e) {
+        e.preventDefault();
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+        if (!isNaN(currentVal)) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+        } else {
+            parent.find('input[name=' + fieldName + ']').val(1);
+        }
+    }
+
+    function decrementValue(e) {
+        e.preventDefault();
+        var fieldName = $(e.target).data('field');
+        var parent = $(e.target).closest('div');
+        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+        if (!isNaN(currentVal) && currentVal > 1) {
+            parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+        } else {
+            parent.find('input[name=' + fieldName + ']').val(1);
+        }
+    }
+
+    function validateValue(e) {
+        var fieldName = $(e.target).attr('name');
+        var value = parseInt($(e.target).val(), 10);
+
+        if (isNaN(value) || value < 1) {
+            $(e.target).val(1);
+        } else if (value > 10) {
+            $(e.target).val(10);
+        }
+    }
+
+    $('.input-group').on('click', '.button-plus', function (e) {
+        incrementValue(e);
+    });
+
+    $('.input-group').on('click', '.button-minus', function (e) {
+        decrementValue(e);
+    });
+
+    $('.input-group').on('blur', '.quantity-field', function (e) {
+        validateValue(e);
+    });
+
+    $('.input-group').on('input', '.quantity-field', function (e) {
+        validateValue(e);
+    });
+
+</script>
