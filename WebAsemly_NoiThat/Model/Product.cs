@@ -27,6 +27,7 @@ namespace WebAsemly_NoiThat.Model
         public ICollection<ProductImage> ProductImage { get; set; }
         //public ICollection<Reviews> Reviews { get; set; }
         //public ICollection<Favourite> Favourite { get; set; }
+        public int Quantity { get; set; }
         //public ICollection<Voucher> Voucher { get; set; }
         public CategoryType CategoryType { get; set; }
 

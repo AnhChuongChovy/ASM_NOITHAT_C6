@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAppBlazor.Models;
+using API_NoiThat.Models;
 
 namespace API_NoiThat.Controllers
 {
@@ -25,19 +25,19 @@ namespace API_NoiThat.Controllers
             return await _context.CategoryType.ToListAsync();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<CategoryType>> PostCategoryType(CategoryType catetype)
-        {
-            if (!_context.Category.Any(c => c.ID == catetype.IDDanhMuc))
-            {
-                return BadRequest("Invalid Category ID");
-            }
+        //[HttpPost]
+        //public async Task<ActionResult<CategoryType>> PostCategoryType(CategoryType catetype)
+        //{
+        //    if (!_context.Category.Any(c => c.ID == catetype.IDDanhMuc))
+        //    {
+        //        return BadRequest("Invalid Category ID");
+        //    }
 
-            _context.CategoryType.Add(catetype);
-            await _context.SaveChangesAsync();
+        //    _context.CategoryType.Add(catetype);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetCategoryTypeById), new { id = catetype.ID }, catetype);
-        }
+        //    return CreatedAtAction(nameof(GetCategoryTypeById), new { id = catetype.ID }, catetype);
+        //}
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryType>> GetCategoryTypeById(int id)

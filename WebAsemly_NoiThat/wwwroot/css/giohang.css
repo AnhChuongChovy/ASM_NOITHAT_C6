@@ -1,4 +1,4 @@
-﻿ 
+﻿
 .cart-custom .cart-item img {
     width: 100px;
     height: auto;
@@ -29,9 +29,9 @@
     background-color: #5AA897;
     color: #FFFF;
     border: inherit;
-     
 }
-.cart-custom .cart-btn-checkout{
+
+.cart-custom .cart-btn-checkout {
     width: 100%;
     height: 54px;
     background-color: #5AA897;
@@ -39,7 +39,7 @@
     border: inherit;
 }
 
-.cart-custom .border{
+.cart-custom .border {
     border-radius: initial;
 }
 
@@ -50,7 +50,6 @@ icon-shape {
     text-align: center;
     vertical-align: middle;
     background-color: #D9D9D9;
-
 }
 
 .icon-sm {

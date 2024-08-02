@@ -1,4 +1,11 @@
 ﻿@page "/"
+@using Newtonsoft.Json
+@using WebAsemly_NoiThat.Service
+@inject LocalStorageService LocalStorageService
+@inject ProductService ProductService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
 @* Carousel *@
 <WebAsemly_NoiThat.Pages.homepages.Carousel></WebAsemly_NoiThat.Pages.homepages.Carousel>
 
@@ -18,279 +25,61 @@
     <div class="position-relative">
         <div class="overlay3"></div>
     </div>
-
 </div>
 
 <h3 class="container mt-5 font-weight-bolder">TOP RATING</h3>
 
 <div class="container">
-    <div class="row ">
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class=" col-6 col-sm-3 mt-4">
-            <div class="card-product">
-                <div class="card">
-                    <div class="image-container position-relative">
-                        <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                        <div class="overlay"></div>
-                        <div class="icon-container">
-                            <i class="bi bi-cart"></i> |
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <div class="discount-badge">-10%</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Bàn học VLine0292</h5>
-                        <div class="rating">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="card-text">
-                            <span class="original-price">1.444.440 VND</span><br>
-                            <span class="price">1.300.000 VND</span>
-                        </p>
-                        <div class="overlay2">
-                            <button>MUA NGAY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+    @if (SanPham == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
         <div class="row">
-            <div class="button-custom mt-5" style="margin: 0 auto;">XEM THÊM</div>
+            @foreach (var obj in SanPham.Take(soluongHienThi))
+            {
+                <div class="col-md-3 mt-4">
+                    <div class="card-product">
+                        <div class="card">
+                            <div class="image-container position-relative" id="@obj.ID">
+                                <img src="/Image_SP_ASM/@obj.HinhAnh" class="card-img-top" alt="Product Image" >
+                                <div class="overlay"></div>
+                                <div class="icon-container">
+                                    <i class="bi bi-cart" @onclick="() => AddToCartAsync(obj)"></i> |
+                                    <i class="bi bi-heart"></i>
+                                </div>
+                                <div class="discount-badge">-10%</div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" @onclick="() => ChuyenTrang(obj.ID)" style="cursor: pointer; object-fit: cover;">@obj.TenSP</h5>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <p class="card-text">
+                                    <span class="original-price">@obj.Gia.ToString("N0")đ</span><br>
+                                    <span class="price">1.300.000đ</span>
+                                </p>
+                                <div class="overlay2">
+                                    <button>MUA NGAY</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
+    }
+    <div class="row">
+        <div class="button-custom mt-5" style="margin: 0 auto;" @onclick="LoadMore">XEM THÊM</div>
     </div>
 </div>
 
+
+@code {
+    
+}

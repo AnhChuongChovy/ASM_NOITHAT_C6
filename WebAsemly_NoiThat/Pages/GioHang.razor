@@ -1,163 +1,65 @@
 ﻿@page "/cart"
+@using Newtonsoft.Json
+@using WebAsemly_NoiThat.Service
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject LocalStorageService LocalStorageService
 
 <div class="container my-5 cart-custom">
     <h2 class="mb-4 font-weight-bold">GIỎ HÀNG</h2>
-    <div class="row" >
-        <div class="col-md-8" >
-            <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border">
-                <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/100" class="img-fluid" alt="Checkered Duvet Cover Set">
-                    <div class="ml-3">
-                        <h5>Checkered Duvet Cover Set</h5>
-                        <p>Art. No: 54637253<br>Color: Mint<br>Size: 210x145</p>
-                        <p class="text-muted">39.99 $</p>
+    <div class="row">
+        <div class="col-md-8">
+            @if (cartItems == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else if (cartItems.Count == 0)
+            {
+                <p><em>Giỏ hàng trống</em></p>
+            }
+            else
+            {
+                @foreach (var item in cartItems)
+                {
+                    <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border">
+                        <div class="d-flex align-items-center">
+                            <img src="/Image_SP_ASM/@item.HinhAnh" class="img-fluid" style="width: 100px; height: auto;">
+                            <div class="ml-3">
+                                <h5>@item.TenSP</h5>
+                                <p>Giá: @item.Gia.ToString("N0") VNĐ</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group w-auto justify-content-end align-items-center">
+                                <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1" @onclick="() => UpdateQuantity(item, -1)">
+                                <input type="number" step="1" min="1" max="10" value="@item.Quantity" class="quantity-field border-0 text-center w-auto" readonly>
+                                <input type="button" value="+" class="button-plus border icon-shape icon-sm lh-0" @onclick="() => UpdateQuantity(item, 1)">
+                            </div>
+                        </div>
+                        <div>
+                            <p>@((item.Gia * item.Quantity).ToString("N0"))VNĐ</p>
+                        </div>
+                        <button class="btn fs-3" @onclick="() => RemoveFromCart(item)">&times;</button>
                     </div>
-                    <div class="col-9">
-                        <p><strong>Checked Duvet Cover Set</strong></p>
-                        <p class="text-danger">Giá: </p>
-                        <p>Kích thước: </p>
-                        <p>Vật liệu: </p>
-                        <div class="quantity-controls">
-                            <button class="btn-quantity">-</button>
-                            <input type="text" value="1" class="quantity-input">
-                            <button class="btn-quantity">+</button>
-                </div>
-                <div>
-                    <div class="input-group w-auto justify-content-end align-items-center">
-                        <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1" data-field="quantity">
-                        <input type="number" step="1" min="0" max="10" value="1" name="quantity" class="quantity-field border-0 text-center w-auto">
-                        <input type="button" value="+" class="button-plus border icon-shape icon-sm lh-0" data-field="quantity">
-                    </div>
-                </div>
-                <div>
-                    <p>39.99 $</p>
-                </div>
-                <button class="btn fs-3">&times;</button>
-            </div>
-            <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border">
-                <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/100" class="img-fluid" alt="Tasseled Throw">
-                    <div class="ml-3">
-                        <h5>Tasseled Throw</h5>
-                        <p>Art. No: 54633464<br>Color: Beige<br>Size: 45x64</p>
-                        <p class="text-muted">42.99 $</p>
-                    </div>
-                </div>
-                <div>
-                    <div class="input-group w-auto justify-content-end align-items-center">
-                        <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1" data-field="quantity">
-                        <input type="number" step="1" min="0" max="10" value="1" name="quantity" class="quantity-field border-0 text-center w-auto">
-                        <input type="button" value="+" class="button-plus border icon-shape icon-sm lh-0" data-field="quantity">
-                    </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Bàn Học Gỗ Sơn Hồng">
-                                <div class="card-body">
-                                    <h5 class="card-title">Bàn Học Gỗ Sơn Hồng Cao Cấp</h5>
-                                    <p class="card-text text-danger"><del class="text-muted">8.200.000đ</del> 4.200.000đ</p>
-                                    <button class="btn btn-outline-danger"><i class="far fa-heart"></i></button>
-                </div>
-                <div>
-                    <p>42.99 $</p>
-                </div>
-                <button class="btn fs-3">&times;</button>
-            </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Bàn Trang Điểm Gỗ Tràm">
-                                <div class="card-body">
-                                    <h5 class="card-title">Bàn Trang Điểm Gỗ Tràm</h5>
-                                    <p class="card-text text-danger"><del class="text-muted">8.200.000đ</del> 4.200.000đ</p>
-                                    <button class="btn btn-outline-danger"><i class="far fa-heart"></i></button>
+                }
+
+            }
         </div>
         <div class="col-md-4">
             <div class="p-3 border" style="background-color: #ECEBE9;">
-                <h4>Add a Discount Code</h4>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control-custom" placeholder="Discount code">
-                    <div class="input-group-append">
-                        <button class="cart-btn-custom" type="button">Add</button>
-                    </div>
-                </div>
-                <h4 class="mb-3">Order Summary</h4>
+                <h4>Order Summary</h4>
                 <div class="lh-1">
-                    <p>Order value: 82.98 $</p>
-                    <p>Shipping: 0.00 $</p>
-                    <p>Total: 82.98 $</p>
+                    <p>Order value: @(totalPrice.ToString("N0")) VNĐ</p>
+                    <p>Shipping: 0.00 VNĐ</p>
+                    <p>Tổng: <span class="text-danger font-weight-bold">@(totalPrice.ToString("N0")) VNĐ</span></p>
                 </div>
 
-                <button class="cart-btn-checkout btn-block">Continue to Checkout</button>
+                <button class="cart-btn-checkout btn-block" @onclick="ChuyenTrangThanhToan">THANH TOÁN</button>
             </div>
         </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
     </div>
-
-
-    <h2 class="mt-4 font-weight-bold">Có thể bạn sẽ thích</h2>
-
-
 </div>
 
-
-<script>
-    function incrementValue(e) {
-        e.preventDefault();
-        var fieldName = $(e.target).data('field');
-        var parent = $(e.target).closest('div');
-        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-
-        if (!isNaN(currentVal)) {
-            parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
-        } else {
-            parent.find('input[name=' + fieldName + ']').val(1);
-        }
-    }
-
-    function decrementValue(e) {
-        e.preventDefault();
-        var fieldName = $(e.target).data('field');
-        var parent = $(e.target).closest('div');
-        var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-
-        if (!isNaN(currentVal) && currentVal > 1) {
-            parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
-        } else {
-            parent.find('input[name=' + fieldName + ']').val(1);
-        }
-    }
-
-    function validateValue(e) {
-        var fieldName = $(e.target).attr('name');
-        var value = parseInt($(e.target).val(), 10);
-
-        if (isNaN(value) || value < 1) {
-            $(e.target).val(1);
-        } else if (value > 10) {
-            $(e.target).val(10);
-        }
-    }
-
-    $('.input-group').on('click', '.button-plus', function (e) {
-        incrementValue(e);
-    });
-
-    $('.input-group').on('click', '.button-minus', function (e) {
-        decrementValue(e);
-    });
-
-    $('.input-group').on('blur', '.quantity-field', function (e) {
-        validateValue(e);
-    });
-
-    $('.input-group').on('input', '.quantity-field', function (e) {
-        validateValue(e);
-    });
-
-</script>
+@code {
+    
+}

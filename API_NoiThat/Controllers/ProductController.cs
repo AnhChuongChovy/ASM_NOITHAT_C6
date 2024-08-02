@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebAppBlazor.Models;
+using API_NoiThat.Models;
 
 namespace API_NoiThat.Controllers
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WebAsemly_NoiThat.Model;
 
-namespace WebAppBlazor.Models
+namespace WebAsemly_NoiThat.Model
 {
     public class CategoryType
     {

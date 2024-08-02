@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebAppBlazor.Models;
+using API_NoiThat.Models;
 
 namespace API_NoiThat.Controllers
 {
@@ -23,14 +23,15 @@ namespace API_NoiThat.Controllers
         public async Task<ActionResult<IEnumerable<Category>>> GetCategorys()
         {
             return await _context.Category.ToListAsync();
+
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Category>> Post(Category category)
-        {
-            _context.Category.Add(category);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCategorys), new { id = category.ID }, category);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<Category>> Post(Category category)
+        //{
+        //    _context.Category.Add(category);
+        //    await _context.SaveChangesAsync();
+        //    return CreatedAtAction(nameof(GetCategorys), new { id = category.ID }, category);
+        //}
     }
 }

@@ -29,5 +29,10 @@ namespace WebAsemly_NoiThat.Service
         {
             return await _httpClient.GetFromJsonAsync<Account>($"https://localhost:44320/api/Account/{id}");
         }
+
+        public async Task<List<Category>> GetCategorys()
+        {
+            return await _httpClient.GetFromJsonAsync<List<Category>>("https://localhost:44320/api/Category");
+        }
     }
 }

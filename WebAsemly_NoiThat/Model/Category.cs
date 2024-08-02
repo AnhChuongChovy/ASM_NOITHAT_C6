@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAppBlazor.Models
+namespace WebAsemly_NoiThat.Model
 {
     public class Category
     {
