@@ -1,4 +1,10 @@
-﻿@page "/ChiTietSanPham"
+﻿@page "/ChiTietSanPham/{id:int}"
+@using WebAsemly_NoiThat.Service
+@inject ProductService ProductService
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Model.Product product;
 
 
 

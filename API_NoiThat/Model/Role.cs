@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAppBlazor.Models
+namespace API_NoiThat.Models
 {
     public class Role
     {

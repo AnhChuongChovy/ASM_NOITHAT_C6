@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-using WebAppBlazor.Models;
+using API_NoiThat.Models;
 
 namespace API_NoiThat.Data
 {
