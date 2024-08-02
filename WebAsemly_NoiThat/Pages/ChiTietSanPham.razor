@@ -111,3 +111,16 @@
     }
    
 </div>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Model.Product product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.GetProductId(id);
+    }
+
+}
