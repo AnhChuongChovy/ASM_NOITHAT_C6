@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_NoiThat.Models
+namespace WebAppBlazor.Models
 {
     public class Reviews
     {

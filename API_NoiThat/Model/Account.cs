@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace API_NoiThat.Models
+namespace WebAppBlazor.Models
 {
     public class Account
     {
@@ -21,8 +21,6 @@ namespace API_NoiThat.Models
         public string SDT { get; set; }
         [Required]
         public string GioiTinh { get; set; }
-
-        public string HinhAnh { get; set; }
         public Role Role { get; set; }
         public ICollection<Bill> Bill { get; set; }
         public ICollection<Favourite> Favourite { get; set; }

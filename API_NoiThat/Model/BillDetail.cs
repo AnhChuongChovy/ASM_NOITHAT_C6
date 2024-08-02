@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.ComponentModel.DataAnnotations;
 
-namespace API_NoiThat.Models
+namespace WebAppBlazor.Models
 {
     public class BillDetail
     {
