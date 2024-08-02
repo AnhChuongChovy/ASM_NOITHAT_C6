@@ -1,0 +1,70 @@
+﻿@page "/thanhtoan"    
+<div class="row">
+        <div class="col-md-7">
+            <div class="form-group">
+                <label class="form-label">Tên người dùng:</label>
+                <input type="text" class="form-control sua" id="TenND" name="TenND" value="" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Số điện thoại:</label>
+                <input type="text" class="form-control sua" id="SDT" name="SDT" value="" />
+            </div>
+            
+            <form asp-action="MuaHang" method="post">
+                 <label for="province">Chọn Tỉnh:</label>
+                 <select id="province" name="province" class="form-select">
+                    <option value="">Chọn tỉnh/thành</option>
+                </select><br />
+                 <label for="district">Chọn Huyện:</label>
+                 <select id="district" name="district" class="form-select">
+                    <option value="">Chọn quận/huyện</option>
+                </select><br />
+                <div class="form-group">
+                    <input type="text" class="form-control sua" id="Diachi" name="Diachi" placeholder="Địa chỉ" />
+                </div>
+
+                <div>
+                    <label for="paymentMethod">Phương thức thanh toán:</label>
+                    <select id="paymentMethod" name="paymentMethod" class="form-select">
+                        <option value="CreditCard">Credit Card</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Thanh toán trực tiếp">Thanh toán khi nhận hàng</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-danger text-white mb-3 mt-3" style="width:50%; font-size:larger; border-radius:0; margin:0 auto">THANH TOÁN</button
+            </form>
+
+        </div>
+        <div class="col-md-5">
+            <div class="card" style="border-radius:0">
+                <h3 class="text-center mt-4 font-weight-bold">THÔNG TIN ĐƠN HÀNG</h3>
+                <hr />
+                @* <div class="row">
+                    @foreach (var item2 in groupedProducts)
+                    {
+                        var totalPrice = item2.TotalSoLuong * item2.SanPham.Price;
+                        overallTotal += totalPrice;
+
+                        <div class="col-md-4 mb-3">
+                            <div class="ml-3">
+                                <img src="@item2.SanPham.HinhAnh" width="100%" height="100%" />
+                            </div>
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <span>Tên sản phẩm: <strong> @item2.SanPham.Name </strong></span><br />
+                            <span>Số lượng: <span class="text-primary">@item2.TotalSoLuong</span></span><br />
+                            <span>Giá: </span><span class="text-danger"> @totalPrice.ToString("N0") </span> VNĐ
+                        </div>
+                    }
+                </div> 
+                <div style="position:relative; font-size:20px">
+                    <strong class="ml-2">Tổng tiền: <span class="text-danger" style="position:absolute; right:20px"> @overallTotal.ToString("N0")  VNĐ</span></strong>
+                </div>*@
+            </div>
+        </div>
+    </div>
+
+
+@code {
+
+}
