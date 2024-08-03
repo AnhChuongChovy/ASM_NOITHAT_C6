@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace WebAPI.Migrations
+namespace API_NoiThat.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
     [Migration("20240802103239_ThemHinhAnhVaoAccount")]

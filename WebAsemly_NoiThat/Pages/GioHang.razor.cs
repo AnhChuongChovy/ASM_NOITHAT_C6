@@ -9,7 +9,7 @@ namespace WebAsemly_NoiThat.Pages
     {
         private List<Model.Product> cartItems;
         private double totalPrice = 0;
-
+        private double vanchuyen = 1;
         protected override async Task OnInitializedAsync()
         {
             cartItems = await LocalStorageService.GetItemAsync<List<Model.Product>>("Cart") ?? new List<Model.Product>();
@@ -18,12 +18,12 @@ namespace WebAsemly_NoiThat.Pages
 
         private void CalculateTotalPrice()
         {
-            totalPrice = cartItems.Sum(item => item.Gia * item.Quantity);
+            totalPrice = cartItems.Sum(item => item.Gia * item.Quantity * vanchuyen);
         }
 
         private void ChuyenTrangThanhToan()
         {
-            Navigation.NavigateTo($"/ThanhToan");
+            Navigation.NavigateTo("/ThanhToan");
         }
 
         private async Task UpdateQuantity(Model.Product item, int change)

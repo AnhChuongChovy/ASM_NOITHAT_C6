@@ -9,7 +9,7 @@
     }
     else
     {
-        <p>Home/ Sản phẩm/ @product.TenSP</p>
+        <p>Home/ Sản phẩm/ <span class="font-weight-bold">@product.TenSP</span></p>
         <div class="row">
             <div class="col-md-6 text-center">
                 <img src="/Image_SP_ASM/@product.HinhAnh" / class="ml-2" width="450px" height="400px">
@@ -22,11 +22,11 @@
             </div>
 
             <div class="col-md-6">
-                <h4> @product.TenSP</h4>
+                <h4 class="font-weight-bold"> @product.TenSP</h4>
                 <span style="color:red; text-decoration:underline">4.8</span> |
                 <span>9,8k <span style="color:red">Đánh giá</span> </span>
 
-                <div class="row">
+                <div>
                     <span style="font-weight:bold;color:green;font-size:larger;padding-left:20px">-25%</span>
                     <span style="font-weight:bold;color:red; font-size:larger;padding-left:20px">8,500,000đ </span>
                     <span style="font-weight:bold; font-size:larger;padding-left:20px">@product.Gia.ToString("N0")đ</span>

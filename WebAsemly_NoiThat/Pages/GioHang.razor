@@ -6,7 +6,7 @@
 @inject LocalStorageService LocalStorageService
 
 <div class="container my-5 cart-custom">
-    <h2 class="mb-4 font-weight-bold">GIỎ HÀNG</h2>
+    <h2 class="mb-4 font-weight-bold bi bi-basket"> GIỎ HÀNG <span class="badge" style="border-radius:50%; background-color: royalblue"></span></h2>
     <div class="row">
         <div class="col-md-8">
             @if (cartItems == null)
@@ -21,25 +21,27 @@
             {
                 @foreach (var item in cartItems)
                 {
-                    <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border">
-                        <div class="d-flex align-items-center">
-                            <img src="/Image_SP_ASM/@item.HinhAnh" class="img-fluid" style="width: 100px; height: auto;">
-                            <div class="ml-3">
-                                <h5>@item.TenSP</h5>
+                    <div class="cart-item  mb-3 p-3 border">
+                        <div class=" row">
+                            <div class="col-md-3 mb-2">
+                                <div style="width: 150px; height: 150px;">
+                                    <img src="/Image_SP_ASM/@item.HinhAnh" class="w-100 h-100" style="object-fit:cover">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h5 class="font-weight-bold mb-1">@item.TenSP</h5>
                                 <p>Giá: @item.Gia.ToString("N0") VNĐ</p>
+                                <div class="input-group w-auto mt-3 mb-3">
+                                    <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1" @onclick="() => UpdateQuantity(item, -1)">
+                                    <input type="number" step="1" min="1" max="10" value="@item.Quantity" class="quantity-field border-0 text-center w-auto" readonly>
+                                    <input type="button" value="+" class="button-plus border icon-shape icon-sm lh-0" @onclick="() => UpdateQuantity(item, 1)">
+                                </div>
+                                <span >Tổng: </span><span class="text-danger">@((item.Gia * item.Quantity).ToString("N0"))VNĐ</span>
+                            </div>
+                            <div class="col-md-1"> 
+                                <span class="btn fs-3" @onclick="() => RemoveFromCart(item)">&times;</span>
                             </div>
                         </div>
-                        <div>
-                            <div class="input-group w-auto justify-content-end align-items-center">
-                                <input type="button" value="-" class="button-minus border icon-shape icon-sm mx-1" @onclick="() => UpdateQuantity(item, -1)">
-                                <input type="number" step="1" min="1" max="10" value="@item.Quantity" class="quantity-field border-0 text-center w-auto" readonly>
-                                <input type="button" value="+" class="button-plus border icon-shape icon-sm lh-0" @onclick="() => UpdateQuantity(item, 1)">
-                            </div>
-                        </div>
-                        <div>
-                            <p>@((item.Gia * item.Quantity).ToString("N0"))VNĐ</p>
-                        </div>
-                        <button class="btn fs-3" @onclick="() => RemoveFromCart(item)">&times;</button>
                     </div>
                 }
 
@@ -47,10 +49,11 @@
         </div>
         <div class="col-md-4">
             <div class="p-3 border" style="background-color: #ECEBE9;">
-                <h4>Order Summary</h4>
+                <h4 class="text-center font-weight-bold">THÔNG TIN ĐƠN HÀNG</h4>
+                <hr />
                 <div class="lh-1">
-                    <p>Order value: @(totalPrice.ToString("N0")) VNĐ</p>
-                    <p>Shipping: 0.00 VNĐ</p>
+                    <p>Giá: @(totalPrice.ToString("N0")) VNĐ</p>
+                    <p>Vận chuyển: 0.00 VNĐ</p>
                     <p>Tổng: <span class="text-danger font-weight-bold">@(totalPrice.ToString("N0")) VNĐ</span></p>
                 </div>
 

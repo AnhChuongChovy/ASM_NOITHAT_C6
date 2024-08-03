@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using API_NoiThat.Data;
 
-namespace WebAPI.Migrations
+namespace API_NoiThat.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
     [Migration("20240727103601_CreateDB")]

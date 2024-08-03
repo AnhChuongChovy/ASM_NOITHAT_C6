@@ -19,13 +19,13 @@ namespace API_NoiThat.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
             return await _context.Account.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetProductId(int id)
+        public async Task<ActionResult<Account>> GetAccountId(int id)
         {
             var account = await _context.Account.FindAsync(id);
 
