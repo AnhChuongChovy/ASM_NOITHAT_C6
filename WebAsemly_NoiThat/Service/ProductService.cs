@@ -25,10 +25,10 @@ namespace WebAsemly_NoiThat.Service
             return await _httpClient.GetFromJsonAsync<Product>($"https://localhost:44320/api/Product/{id}");
         }
 
-        public async Task<Account> GetAccountId(int id)
+        /*public async Task<Account> GetAccountId(int id)
         {
             return await _httpClient.GetFromJsonAsync<Account>($"https://localhost:44320/api/Account/{id}");
-        }
+        }*/
 
         public async Task<List<Category>> GetCategorys()
         {
