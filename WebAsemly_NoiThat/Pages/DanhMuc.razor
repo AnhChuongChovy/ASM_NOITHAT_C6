@@ -1,65 +1,20 @@
-﻿@* @page "/DanhMuc"
+﻿@page "/DanhMuc/{id:int}"
 @using WebAsemly_NoiThat.Service
 @using WebAsemly_NoiThat.Model
 @inject ProductService ProductService
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 
-<h3>Danh Mục Sản Phẩm</h3>
+<h3>Home/ Danh Mục Sản Phẩm/ @categoryType.TenLoaiDanhMuc</h3>
 
-@if (categories == null)
-{
-    <p>Loading...</p>
-}
-else
-{
-    <div class="accordion" id="categoryAccordion">
-        @foreach (var category in categories)
-        {
-            <div class="card">
-                <div class="card-header" id="heading@category.ID">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse@category.ID" aria-expanded="true" aria-controls="collapse@category.ID">
-                            @category.TenDanhMuc
-                        </button>
-                    </h2>
-                </div>
-
-                <div id="collapse@category.ID" class="collapse" aria-labelledby="heading@category.ID" data-parent="#categoryAccordion">
-                    <div class="card-body">
-                        @if (category.CategoryType != null)
-                        {
-                            @foreach (var subcategory in category.CategoryType)
-                            {
-                                <div>
-                                    <h4>@subcategory.TenLoaiDanhMuc</h4>
-                                    @if (subcategory.Product != null)
-                                    {
-                                        <ul>
-                                            @foreach (var product in subcategory.Product)
-                                            {
-                                                <li>
-                                                    <a href="/ChiTietSanPham/@product.ID">@product.TenSP</a> - @product.Gia VNĐ
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-}
 
 @code {
-    private List<Category> categories;
-
+    [Parameter]
+    public int id { get; set; }
+    private Model.CategoryType categoryType;
     protected override async Task OnInitializedAsync()
     {
-        categories = await ProductService.GetCategorys();
-    }
+        categoryType = await ProductService.GetCategoryTypesId(id);
+
+    }  
 }
- *@

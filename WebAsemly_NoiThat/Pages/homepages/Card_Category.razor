@@ -1,62 +1,52 @@
-﻿
-<div class="container text-center mt-3">
-    <div class="row">
-        <div class="col-6 col-sm-3 mt-5">
-            <div class="card-category">
-                <div class="card" style="width: 19rem;">
-                    <img src="/images/products/banan1.webp" class="card-img-top" alt="...">
-                    <div class="overlay">
-                        <button>XEM NGAY</button>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text text-uppercase">BÀN ĂN, BÀN LÀM VIỆC</p>
+﻿@using WebAsemly_NoiThat.Service
+@inject ProductService ProductService
+@using Newtonsoft.Json
+@inject LocalStorageService LocalStorageService
+@inject ProductService ProductService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+
+<div class="container mt-3">
+        @if(CategoryTypes == null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+        <div class="row">
+            @foreach(var item in CategoryTypes)
+            {
+                <div class="col-md-3 mt-5">
+                    <div class="card-category">
+                        <div class="card" style="width: 19rem;" id="@item.ID">
+                            <img src="/images/products/@item.HinhAnh" class="card-img-top" alt="...">
+                            <div class="overlay">
+                                <button @onclick="() => ChuyenTrang(item.ID)">XEM NGAY</button>
+                            </div>
+                            <div class="card-body text-center">
+                                <p class="card-text text-uppercase">@item.TenLoaiDanhMuc</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            }
         </div>
-
-        <div class=" col-6 col-sm-3 mt-5 ">
-            <div class="card-category">
-                <div class="card" style="width: 19rem;">
-                    <img src="/images/products/ghedonut.webp" class="card-img-top" alt="...">
-                    <div class="overlay">
-                        <button>XEM NGAY</button>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text text-uppercase">GHẾ ĂN, GHẾ LÀM VIỆC</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class=" col-6 col-sm-3 mt-5 ">
-            <div class="card-category">
-                <div class="card" style="width: 19rem;">
-                    <img src="/images/products/giuongngu1.webp" class="card-img-top" alt="...">
-                    <div class="overlay">
-                        <button>XEM NGAY</button>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text text-uppercase">GIƯỜNG NGỦ</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class=" col-6 col-sm-3 mt-5 ">
-            <div class="card-category">
-                <div class="card" style="width: 19rem;">
-                    <img src="/images/products/tuquanao3.webp" class="card-img-top" alt="...">
-                    <div class="overlay">
-                        <button>XEM NGAY</button>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text text-uppercase">TỦ QUẦN ÁO VÀ KỆ</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+        }
 </div>
+
+@code {
+    private List<Model.CategoryType> CategoryTypes;
+    private List<int> targetIds = new List<int> { 6, 9, 10, 18 };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var allCategoryTypes = await ProductService.GetCategoryTypes();
+        CategoryTypes = allCategoryTypes.Where(ct => targetIds.Contains(ct.ID)).ToList();
+    }
+    private void ChuyenTrang(int id)
+    {
+        var item = CategoryTypes.FirstOrDefault(p => p.ID == id);
+        Navigation.NavigateTo($"/DanhMuc/{id}");
+    }
+}

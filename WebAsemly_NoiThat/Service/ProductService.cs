@@ -15,9 +15,22 @@ namespace WebAsemly_NoiThat.Service
             _httpClient = httpClient;
         }
 
+        //List Product
+
         public async Task<List<Product>> GetProducts()
         {
             return await _httpClient.GetFromJsonAsync<List<Product>>("https://localhost:44320/api/Product");
+        }
+
+        //List CategoryType
+        public async Task<List<CategoryType>> GetCategoryTypes()
+        {
+            return await _httpClient.GetFromJsonAsync<List<CategoryType>>("https://localhost:44320/api/CategoryType");
+        }
+
+        public async Task<CategoryType> GetCategoryTypesId(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<CategoryType>($"https://localhost:44320/api/CategoryType/{id}");
         }
 
         public async Task<Product> GetProductId(int id)

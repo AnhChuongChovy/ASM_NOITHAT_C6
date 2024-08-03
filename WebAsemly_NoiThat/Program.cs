@@ -20,6 +20,8 @@ namespace WebAsemly_NoiThat
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<LocalStorageService>();
+            builder.Services.AddScoped<AdminService>();
+
             await builder.Build().RunAsync();
         }
     }

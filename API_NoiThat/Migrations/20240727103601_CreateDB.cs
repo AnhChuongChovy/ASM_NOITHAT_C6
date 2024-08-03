@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebAPI.Migrations
+namespace API_NoiThat.Migrations
 {
     public partial class CreateDB : Migration
     {

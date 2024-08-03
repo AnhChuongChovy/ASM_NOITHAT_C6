@@ -9,7 +9,7 @@
     }
     else
     {
-        <p>Home/ Sản phẩm/ @product.TenSP</p>
+        <p>Home/ Sản phẩm/ <span class="font-weight-bold">@product.TenSP</span></p>
         <div class="row">
             <div class="col-md-6 text-center">
                 <img src="/Image_SP_ASM/@product.HinhAnh" / class="ml-2" width="450px" height="400px">
@@ -21,40 +21,44 @@
                 </div>
             </div>
 
-        <div class="col-md-6">
-            <h4>Ghế Sofa Gỗ Tràm Tự Nhiên </h4>
-            <span style="color:red; text-decoration:underline">4.8</span> |
-            <span>9,8k <span style="color:red">Đánh giá</span> </span>
+            <div class="col-md-6">
+                <h4 class="font-weight-bold"> @product.TenSP</h4>
+                <span style="color:red; text-decoration:underline">4.8</span> |
+                <span>9,8k <span style="color:red">Đánh giá</span> </span>
 
-            <div class="row">
-                <span style="font-weight:bold;color:green;font-size:larger;padding-left:20px">-26%</span>
-                <span style="font-weight:bold;color:red; font-size:larger;padding-left:20px">8.400.000đ</span>
-                <span style="font-weight:bold; font-size:larger;padding-left:20px">14.500.000đ</span>
-            </div>
-            <div>
-                <p>Chất Liệu:</p>
-                <li>Thân ghế: Gỗ tràm tự nhiên</li>
-                <li>Chân ghế: Gỗ cao su tự nhiên</li>
-                <li>Vải sợ tổng hợp kháng khuẩn, chống nhăn, kháng bụi bẩn và nắm móc</li>
-                <li>Tấm phản: Gỗ công nghiệp Plywood chuẩn CARB-P2(*)</li>
-                <br />
-                <p>Màu sắc: Nâu</p>
-                <p>Vận chuyển: Miễn phí vận chuyển</p>
-                <div class="row" style="margin-left:1px">
-                    <p style="padding-top:7px; ">Số lượng:</p>
-                    <div class="btn-group ml-3" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary">-</button>
-                        <button type="button" class="btn" style="border:1px solid black">1</button>
-                        <button type="button" class="btn btn-primary">+</button>
-                    </div>
+                <div>
+                    <span style="font-weight:bold;color:green;font-size:larger;padding-left:20px">-25%</span>
+                    <span style="font-weight:bold;color:red; font-size:larger;padding-left:20px">8,500,000đ </span>
+                    <span style="font-weight:bold; font-size:larger;padding-left:20px">@product.Gia.ToString("N0")đ</span>
                 </div>
-                <div class="text-center mt-3">
-                    <button class="btn w-75" style="background: #5AA897; color:white;font-weight:bold;height:50px">THÊM VÀO GIỎ HÀNG</button>
-                    <button class="btn w-75 mt-2" style="background: #B93737; color:white;font-weight:bold;height:50px">MUA NGAY</button>
+                <div>
+                    <p>Chất Liệu:</p>
+                    <li>Thân ghế: Gỗ tràm tự nhiên</li>
+                    <li>Chân ghế: Gỗ cao su tự nhiên</li>
+                    <li>Vải sợ tổng hợp kháng khuẩn, chống nhăn, kháng bụi bẩn và nắm móc</li>
+                    <li>Tấm phản: Gỗ công nghiệp Plywood chuẩn CARB-P2(*)</li>
+                    <br />
+                    <p>Màu sắc: Nâu</p>
+                    <p>Vận chuyển: Miễn phí vận chuyển</p>
+                    <div class="row" style="margin-left:1px">
+                        <p style="padding-top:7px; ">Số lượng:</p>
+                        <div class="btn-group ml-3" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-primary">-</button>
+                            <button type="button" class="btn" style="border:1px solid black">1</button>
+                            <button type="button" class="btn btn-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <button class="btn w-100" style="background: #5AA897; color:white;font-weight:bold;height:50px">THÊM VÀO GIỎ HÀNG</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn w-100" style="background: #B93737; color:white;font-weight:bold;height:50px">MUA NGAY</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <div class="row mt-4">
             <div style="background:#D9D9D9; height:50px; width:100%;">
