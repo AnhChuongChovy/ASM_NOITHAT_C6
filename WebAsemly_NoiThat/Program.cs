@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using WebAsemly_NoiThat.Service;
 
 namespace WebAsemly_NoiThat
 {

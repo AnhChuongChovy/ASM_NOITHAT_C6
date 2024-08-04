@@ -1,6 +1,6 @@
 ﻿@page "/DanhMuc/{id:int}"
 @using WebAsemly_NoiThat.Service
-@using WebAsemly_NoiThat.Model
+@using WebAsemly_NoiThat.Models
 @inject ProductService ProductService
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
@@ -11,7 +11,7 @@
 @code {
     [Parameter]
     public int id { get; set; }
-    private Model.CategoryType categoryType;
+    private Models.CategoryType categoryType;
     protected override async Task OnInitializedAsync()
     {
         categoryType = await ProductService.GetCategoryTypesId(id);

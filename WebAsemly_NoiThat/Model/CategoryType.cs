@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WebAsemly_NoiThat.Model;
+using WebAsemly_NoiThat.Service;
 
-namespace WebAsemly_NoiThat.Model
+namespace WebAsemly_NoiThat.Models
 {
     public class CategoryType
     {

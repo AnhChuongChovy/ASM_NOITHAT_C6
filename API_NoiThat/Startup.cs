@@ -41,7 +41,7 @@ namespace API_NoiThat
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web_API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_NoiThat", Version = "v1" });
             });
 
             services.AddHttpContextAccessor();
@@ -56,7 +56,7 @@ namespace API_NoiThat
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API_NoiThat v1"));
             }
 
             app.UseHttpsRedirection();

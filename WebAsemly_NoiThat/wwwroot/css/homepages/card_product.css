@@ -152,3 +152,134 @@
         background: #5AA897;
         color: white;
     }
+
+
+
+@media (min-width: 769px) and (max-width: 1440px ) {
+    .card-product {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-product .card {
+            width: 100%;
+            height: auto;
+        }
+
+    .card-product .image-container {
+        height: auto;
+    }
+
+    .card-product .card-body {
+        padding: 1rem;
+    }
+
+    .card-product .card-title {
+        font-size: 16px;
+    }
+
+    .card-product .price,
+    .card-product .original-price {
+        font-size: 14px;
+    }
+
+    .card-product .icon-container {
+        font-size: 20px;
+    }
+
+    .card-product .card .overlay2 button {
+        width: 150px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+/* Responsive styles for smaller tablets */
+@media (min-width: 575px) and (max-width: 768px) {
+    .card-product {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-product .card {
+            width: 100%;
+            height: auto;
+        }
+
+    .card-product .image-container {
+        height: auto;
+    }
+
+    .card-product .card-body {
+        padding: 1rem;
+    }
+
+    .card-product .card-title {
+        font-size: 14px;
+    }
+
+    .card-product .price,
+    .card-product .original-price {
+        font-size: 12px;
+    }
+
+    .card-product .icon-container {
+        font-size: 18px;
+    }
+
+    .card-product .card .overlay2 button {
+        width: 130px;
+        height: 32px;
+        font-size: 12px;
+    }
+}
+
+/* Responsive styles for mobile phones */
+@media all and (max-width: 575px) {
+    .card-product {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+         
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-product .card {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-product .image-container {
+            height: auto;
+        }
+
+        .card-product .card-body {
+            padding: 0.5rem;
+        }
+
+        .card-product .card .discount-badge {
+            font-size: 15px;
+        }
+
+        .card-product .card-title {
+            font-size: 12px;
+        }
+
+        .card-product .price,
+        .card-product .original-price {
+            font-size: 10px;
+        }
+
+        .card-product .icon-container {
+            font-size: 16px;
+        }
+
+        .card-product .card .overlay2 button {
+            width: 110px;
+            height: 28px;
+            font-size: 10px;
+        }
+}

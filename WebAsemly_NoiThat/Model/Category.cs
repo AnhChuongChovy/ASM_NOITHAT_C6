@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WebAsemly_NoiThat.Models;
+using WebAsemly_NoiThat.Pages.homepages;
 
-namespace WebAsemly_NoiThat.Model
-{
+namespace WebAsemly_NoiThat.Service { 
     public class Category
     {
         [Required]
@@ -12,7 +13,7 @@ namespace WebAsemly_NoiThat.Model
         public string TenDanhMuc { get; set; }
         public string HinhAnh { get; set; }
         public ICollection<CategoryType> CategoryType { get; set; }
-        //public ICollection<Voucher> Voucher { get; set; }
+        public ICollection<Voucher> Voucher { get; set; }
 
     }
 

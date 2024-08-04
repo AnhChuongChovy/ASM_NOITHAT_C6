@@ -1,4 +1,5 @@
 ﻿@using WebAsemly_NoiThat.Service
+@using WebAsemly_NoiThat.Models
 @inject ProductService ProductService
 @using Newtonsoft.Json
 @inject LocalStorageService LocalStorageService
@@ -11,7 +12,7 @@
         @if(CategoryTypes == null)
         {
             <p>Loading...</p>
-        }
+        }   
         else
         {
         <div class="row">
@@ -36,7 +37,7 @@
 </div>
 
 @code {
-    private List<Model.CategoryType> CategoryTypes;
+    private List<Models.CategoryType> CategoryTypes;
     private List<int> targetIds = new List<int> { 6, 9, 10, 18 };
 
     protected override async Task OnInitializedAsync()
