@@ -1,0 +1,56 @@
+﻿@page "/admin/add-categorytype"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@layout AdminLayout
+@using WebAsemly_NoiThat.Model
+
+<h3>Thêm Danh Mục Con</h3>
+
+<EditForm Model="@categoryType" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="TenLoaiDanhMuc">Tên Danh Mục Con</label>
+        <InputText id="TenLoaiDanhMuc" class="form-control" @bind-Value="categoryType.TenLoaiDanhMuc" />
+    </div>
+    <div class="form-group">
+        <label for="HinhAnh">Hình Ảnh</label>
+        <InputText id="HinhAnh" class="form-control" @bind-Value="categoryType.HinhAnh" />
+    </div>
+    <div class="form-group">
+        <label for="IDDanhMuc">Danh Mục</label>
+        <select id="IDDanhMuc" class="form-control" @bind="categoryType.IDDanhMuc">
+            <option value="">Chọn danh mục</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.ID">@category.TenDanhMuc</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</EditForm>
+
+@code {
+    private CategoryType categoryType = new CategoryType();
+    private List<Category> categories = new List<Category>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await Http.GetFromJsonAsync<List<Category>>("https://localhost:44320/api/Category");
+    }
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            await Http.PostAsJsonAsync("https://localhost:44320/api/CategoryType", categoryType);
+            NavigationManager.NavigateTo("/admin/list-categorytypes");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding category type: {ex.Message}");
+        }
+    }
+}

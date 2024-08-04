@@ -1,0 +1,50 @@
+﻿<!-- Pages/Admin/Categories.razor -->
+@page "/admin/add-categories"
+@inject HttpClient Http
+@layout AdminLayout
+@using WebAsemly_NoiThat.Model
+
+<h3 class="mt-3">Thêm danh mục</h3>
+
+<!-- Form để thêm/sửa danh mục -->
+<EditForm Model="@category" OnValidSubmit="@SaveCategory">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-6">
+        <div>
+            <label for="tenDanhMuc" class="form-label">Tên danh mục</label>
+            <InputText id="tenDanhMuc" @bind-Value="category.TenDanhMuc" class="form-control" />
+        </div>
+        <div class="mt-3">
+            <label for="hinhAnh" class="form-label">Hình ảnh</label>
+            <InputText id="hinhAnh" @bind-Value="category.HinhAnh" class="form-control" />
+        </div>
+        <div class="mt-3">
+            <button class="btn btn-primary" type="submit">THÊM</button>
+        </div>
+    </div>
+    
+    
+</EditForm>
+
+@code {
+    private Category category = new Category();
+
+    private async Task SaveCategory()
+    {
+        var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Category", category);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Xử lý thành công, có thể thông báo cho người dùng
+            Console.WriteLine("Danh mục đã được thêm thành công.");
+        }
+        else
+        {
+            // Xử lý lỗi, ví dụ thông báo lỗi cho người dùng
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Lỗi khi thêm danh mục: {errorMessage}");
+        }
+    }
+}
+

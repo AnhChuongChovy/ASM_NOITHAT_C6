@@ -1,7 +1,4 @@
 ﻿@page "/TaiKhoan/{id:int}"
-@using System.Net.Http
-@using System.Net.Http.Json
-@using Microsoft.JSInterop
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
@@ -19,10 +16,10 @@
                     <p style="font-size:25px; font-weight:bold; text-transform:uppercase; padding-left:10px">Tài khoản cá nhân</p>
                 </div>
                 <div class="text-center mt-2">
-                    <img id="profileImagePreview" src="" height="100px" width="100px" style="border-radius:50%; object-fit:cover; border:1px solid black"><br />
+                    <img id="profileImagePreview" src="@account.HinhAnh" height="100px" width="100px" style="border-radius:50%; object-fit:cover; border:1px solid black"><br />
                     <label for="profileImage" class="btn btn-primary mt-2">
                         Chọn ảnh
-                        <input type="file" id="profileImage" name="profileImage" class="d-none">
+                        <input type="file" id="profileImage" name="profileImage" class="d-none" @onchange="OnFileChange">
                     </label>
                 </div>
             </div>
@@ -38,126 +35,121 @@
         <div class="col-md-8">
             <h2 class="font-weight-bold text-uppercase" style="margin-top:30px">Thông Tin Tài Khoản</h2>
             <hr />
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label for="TenND">Tên Người Dùng</label>
+            <EditForm Model="account" OnValidSubmit="UpdateAccount">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="TenND">Tên Người Dùng</label>
+                    </div>
+                    <div class="col-md-9">
+                        <InputText class="form-control sua" id="TenND" @bind-Value="account.TenNguoiDung" />
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <input type="text" class="form-control sua" id="TenND" @bind-value="account.TenNguoiDung" />
-                </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label for="Email">Email</label>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="Email">Email</label>
+                    </div>
+                    <div class="col-md-9">
+                        <InputText type="email" class="form-control sua" id="Email" @bind-Value="account.Email" />
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <input type="email" class="form-control sua" id="Email" @bind-value="account.Email" />
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="Diachi">Địa Chỉ</label>
+                    </div>
+                    <div class="col-md-9">
+                        <InputText class="form-control sua" id="Diachi" @bind-Value="account.DiaChi" />
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label for="Diachi">Địa Chỉ</label>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="SDT">Số Điện Thoại</label>
+                    </div>
+                    <div class="col-md-9">
+                        <InputText class="form-control sua" id="SDT" @bind-Value="account.SDT" />
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <input type="text" class="form-control sua" id="Diachi" @bind-value="account.DiaChi" />
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label>Giới Tính</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            @foreach (var gender in new[] { "Nam", "Nữ", "Khác" })
+                            {
+                                <div class="form-check col-md-2 ml-2">
+                                    <InputRadio id="@($"gioiTinh{gender}")" class="form-check-input" @bind="account.GioiTinh" Value="@gender" />
+                                    <label class="form-check-label" for="@($"gioiTinh{gender}")">@gender</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label for="SDT">Số Điện Thoại</label>
-                </div>
-                <div class="col-md-9">
-                    <input type="text" class="form-control sua" id="SDT" @bind-value="account.SDT" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label>Giới Tính</label>
-                </div>
-    <div class="col-md-9">
-    <div class="row">
-                        @if (account.GioiTinh == "Nam")
-                        {
-                            <div class="form-check col-md-2 ml-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNam" @bind="account.GioiTinh" checked>
-                                <label class="form-check-label" for="gioiTinhNam">Nam</label>
-                            </div>
-                            <div class="form-check col-md-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNu" @bind="account.GioiTinh">
-                                <label class="form-check-label" for="gioiTinhNu">Nữ</label>
-                            </div>
-                            <div class="form-check col-md-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhKhac" @bind="account.GioiTinh">
-                                <label class="form-check-label" for="gioiTinhKhac">Khác</label>
-                            </div>
-                        }
-                        else if(account.GioiTinh == "Nữ")
-                        {
-                            <div class="form-check col-md-2 ml-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNam" @bind="account.GioiTinh" >
-                                <label class="form-check-label" for="gioiTinhNam">Nam</label>
-                            </div>
-                            <div class="form-check col-md-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNu" @bind="account.GioiTinh" checked>
-                                <label class="form-check-label" for="gioiTinhNu">Nữ</label>
-                            </div>
-                            <div class="form-check col-md-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhKhac" @bind="account.GioiTinh">
-                                <label class="form-check-label" for="gioiTinhKhac">Khác</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="form-check col-md-2 ml-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNam" @bind="account.GioiTinh">
-                                <label class="form-check-label" for="gioiTinhNam">Nam</label>
-                            </div>
-                            <div class="form-check col-md-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNu" @bind="account.GioiTinh" >
-                                <label class="form-check-label" for="gioiTinhNu">Nữ</label>
-                            </div>
-                            <div class="form-check col-md-2">
-                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhKhac" @bind="account.GioiTinh" checked>
-                                <label class="form-check-label" for="gioiTinhKhac">Khác</label>
-                            </div>
-                        }
-
-    </div>
-</div>
-
-
-            </div>
-
-            <button type="button" class="btn btn-primary" style="width: 150px; border-radius:0; padding:10px" @* @onclick="UpdateAccount" *@>Cập Nhật</button>
+                <button type="submit" class="btn btn-primary" style="width: 150px; border-radius:0; padding:10px">Cập Nhật</button>
+            </EditForm>
         </div>
     </div>
 </div>
 
 @code {
     [Parameter]
-    public int id { get; set; } 
+    public int id { get; set; }
+
     private Account account = new Account();
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadAccountInfo(id);
-    }
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
 
-    private async Task LoadAccountInfo(int userId)
-    {
-        var response = await Http.GetAsync($"https://localhost:44320/api/Account/{userId}");
-        if (response.IsSuccessStatusCode)
+        if (!string.IsNullOrEmpty(userId))
         {
-            account = await response.Content.ReadFromJsonAsync<Account>();
+            account = await Http.GetFromJsonAsync<Account>($"https://localhost:44320/api/Account/{id}");
         }
         else
         {
-            Console.WriteLine("Failed to load account info.");
+            Navigation.NavigateTo("/DangNhap");
         }
     }
 
+    private async Task UpdateAccount()
+    {
+        var response = await Http.PutAsJsonAsync($"https://localhost:44320/api/Account/{account.ID}", account);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Cập nhật thành công!");
+        }
+        else
+        {
+            Console.WriteLine("Cập nhật không thành công.");
+        }
+    }
+
+    private async Task OnFileChange(ChangeEventArgs e)
+    {
+        var file = (IBrowserFile)e.Value;
+
+        if (file != null)
+        {
+            var imageUrl = await UploadFile(file);
+            account.HinhAnh = imageUrl;
+            StateHasChanged();
+        }
+    }
+
+    private async Task<string> UploadFile(IBrowserFile file)
+    {
+        var formData = new MultipartFormDataContent();
+        var fileContent = new StreamContent(file.OpenReadStream());
+        formData.Add(fileContent, "file", file.Name);
+
+        var response = await Http.PostAsync("https://localhost:44320/api/Upload", formData);
+        var imageUrl = await response.Content.ReadAsStringAsync();
+
+        return imageUrl;
+    }
 }

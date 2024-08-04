@@ -1,0 +1,84 @@
+﻿@inherits LayoutComponentBase
+
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <nav class="navbar navbar-expand-lg border-bottom">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Danh mục
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/admin/list-categories">Danh mục</a>
+                            <a class="dropdown-item" href="/admin/add-categories">Thêm danh mục</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Sản phẩm
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/admin/list-products">Danh mục</a>
+                            <a class="dropdown-item" href="/admin/add-products">Thêm sản phẩm</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Danh mục con
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/admin/list-categorytypes">Danh mục</a>
+                            <a class="dropdown-item" href="/admin/add-categorytype">Thêm danh mục con</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper" class="w-100">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        </nav>
+
+        <div class="container-fluid">
+            @Body
+        </div>
+    </div>
+</div>
+
+<style>
+    #wrapper {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        overflow-x: hidden;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #page-content-wrapper {
+        flex: 1;
+    }
+
+    .list-group-item-action:hover {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+
+@code {
+    // Toggle sidebar
+    private void ToggleMenu()
+    {
+        // Implement logic to toggle sidebar visibility if needed
+    }
+}
+
+

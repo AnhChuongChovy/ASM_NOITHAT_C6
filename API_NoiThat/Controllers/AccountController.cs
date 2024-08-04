@@ -22,11 +22,11 @@ namespace API_NoiThat.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
-        {
-            return await _context.Account.ToListAsync();
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        //{
+        //    return await _context.Account.ToListAsync();
+        //}
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccountId(int id)
@@ -42,20 +42,50 @@ namespace API_NoiThat.Controllers
         }
 
 
-        
 
-        //[HttpGet("user/{id}")]
-        //public async Task<IActionResult> GetUser(int id)
-        //{
-        //    var user = await _context.Account.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    return Ok(user);
-        //}
+        [HttpPost("login")]
+        public async Task<ActionResult<Account>> Login([FromBody] LoginModel model)
+        {
+            var account = await _context.Account
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(a => a.Email == model.Email && a.MatKhau == model.Password);
 
-        
+            if (account == null)
+            {
+                return Unauthorized(); // Trả về mã lỗi 401 nếu thông tin đăng nhập không chính xác
+            }
+
+            // Trả về thông tin người dùng và token (nếu sử dụng token)
+            return Ok(new
+            {
+                account.ID,
+                account.TenNguoiDung,
+                account.Email,
+                account.Role.NameRole
+            });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAccount(int id, [FromBody] Account updatedAccount)
+        {
+            var account = await _context.Account.FindAsync(id);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            account.TenNguoiDung = updatedAccount.TenNguoiDung;
+            account.Email = updatedAccount.Email;
+            account.DiaChi = updatedAccount.DiaChi;
+            account.SDT = updatedAccount.SDT;
+            account.GioiTinh = updatedAccount.GioiTinh;
+            account.HinhAnh = updatedAccount.HinhAnh;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

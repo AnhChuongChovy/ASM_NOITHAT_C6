@@ -1,0 +1,45 @@
+﻿@page "/edit-category/{Id:int}"
+@inject HttpClient Http
+@layout AdminLayout
+@inject NavigationManager NavigationManager
+@using WebAsemly_NoiThat.Model
+
+<h3 class="mt-3">Chỉnh Sửa Danh Mục</h3>
+
+<EditForm Model="@category" OnValidSubmit="@SaveCategory">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-6">
+        <div>
+            <label for="tenDanhMuc" class="form-label">Tên danh mục</label>
+            <InputText id="tenDanhMuc" class="form-control" @bind-Value="category.TenDanhMuc" />
+        </div>
+        <div class="mt-3">
+            <label for="hinhAnh" class="form-label">Hình ảnh</label>
+            <InputText id="hinhAnh" typeof="file" class="form-control" @bind-Value="category.HinhAnh" />
+        </div>
+        <button class="btn btn-primary mt-3" type="submit">Lưu</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Category category = new Category();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategory();
+    }
+
+    private async Task LoadCategory()
+    {
+        category = await Http.GetFromJsonAsync<Category>($"https://localhost:44320/api/Category/{Id}");
+    }
+
+    private async Task SaveCategory()
+    {
+        await Http.PutAsJsonAsync($"https://localhost:44320/api/Category/{category.ID}", category);
+        NavigationManager.NavigateTo("/admin/list-categories");
+    }
+}

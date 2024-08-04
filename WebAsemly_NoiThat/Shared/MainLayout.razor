@@ -1,9 +1,11 @@
 ﻿@inherits LayoutComponentBase
 @using Microsoft.AspNetCore.Components.Authorization
+@using System.Text.Json
 @using WebAsemly_NoiThat.Service
 @inject ProductService ProductService
 @inject HttpClient Http
-@inject NavigationManager Navigation
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <style>
@@ -66,18 +68,24 @@
                     <NavLink class="nav-link" href="/LienHe">LIÊN HỆ</NavLink>
                 </li>
                 <li class="nav-item dropdown">
-                    <NavLink class="nav-link dropdown-toggle" href="/TaiKhoan" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        TÀI KHOẢN
+                    <NavLink class="nav-link dropdown-toggle" href="#" @onclick="NavigateToAccountOrLogin" role=" button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @accountName
                     </NavLink>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/DangNhap">ĐĂNG NHẬP</a></li>
-                        <li><a class="dropdown-item" href="/DangKy">ĐĂNG KÝ</a></li>
-                        <li><a class="dropdown-item" @onclick="Logout">ĐĂNG XUẤT</a></li>
+                        @if (string.IsNullOrEmpty(accountName))
+                        {
+                            <li><a class="dropdown-item" href="/DangNhap">ĐĂNG NHẬP</a></li>
+                        }
+                        else
+                        {
+                            <li><a class="dropdown-item" @onclick="Logout">ĐĂNG XUẤT</a></li>
+                            <li><a class="dropdown-item" href="/TaiKhoan">TÀI KHOẢN</a></li>
+                        }
                     </ul>
                 </li>
                 
                 <li class="nav-item icon-wrapper">
-                    <NavLink class="nav-link" href="@accountLink">
+                    <NavLink class="nav-link" href="" @onclick="NavigateToAccountOrLogin">
                         <i class="fas fa-user nav-link-icon"></i>
                     </NavLink>                    
                     <NavLink class="nav-link" href="/cart"><i class="fas fa-shopping-cart nav-link-icon"></i></NavLink>
@@ -175,38 +183,51 @@
         {
             Console.WriteLine($"Error loading categories: {ex.Message}");
         }
-        accountLink = await GetAccountLinkAsync();
 
     }
 
-        private string accountLink;
-
-        private async Task<string> GetAccountLinkAsync()
-        {
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-
-            if (user.Identity.IsAuthenticated)
-            {
-                var userId = user.FindFirst("UserId")?.Value;
-                return $"/TaiKhoan/{userId}";
-            }
-            else
-            {
-                return "/DangNhap";
-            }
-        }
-
-    private async Task Logout()
+    private async Task NavigateToAccountOrLogin()
     {
-        var response = await Http.PostAsync("https://localhost:44320/api/Login/logout", null);
-        if (response.IsSuccessStatusCode)
+        // Lấy ID người dùng từ localStorage
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+
+        if (!string.IsNullOrEmpty(userId))
         {
-            Navigation.NavigateTo("/DangNhap");
+            // Nếu đã đăng nhập, chuyển đến trang tài khoản
+            NavigationManager.NavigateTo($"/TaiKhoan/{userId}");
         }
         else
         {
-            Console.WriteLine("Đăng xuất không thành công: " + response.ReasonPhrase);
+            // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
+            NavigationManager.NavigateTo("/DangNhap");
         }
+    }
+
+    private string accountName = "TÀI KHOẢN";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var json = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "user");
+            if (!string.IsNullOrEmpty(json))
+            {
+                var user = JsonSerializer.Deserialize<Model.Account>(json);
+                if (user != null)
+                {
+                    accountName = user.TenNguoiDung;
+                }
+            }
+            StateHasChanged();
+        }
+    }
+
+    private async Task Logout()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "user");
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "userId");
+        accountName = "TÀI KHOẢN";
+        NavigationManager.NavigateTo("/");
+        StateHasChanged();
     }
 }

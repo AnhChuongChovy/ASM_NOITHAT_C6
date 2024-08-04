@@ -23,33 +23,6 @@ namespace API_NoiThat.Controllers
             _context = context;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
-        {
-            var account = await _context.Account
-                .Include(a => a.Role)
-                .FirstOrDefaultAsync(a => a.Email == request.Email);
-
-            if (account == null || !VerifyPassword(request.MatKhau, account.MatKhau))
-            {
-                return Unauthorized();
-            }
-
-            var user = new User
-            {
-                Username = account.TenNguoiDung,
-                Role = account.Role.ID.ToString(),
-            };
-
-            return Ok(user);
-        }
-
-        private bool VerifyPassword(string password, string passwordHash)
-        {
-            // Logic to verify password hash
-            return passwordHash == password; // Placeholder, replace with your actual password verification logic
-        }
-
         [HttpPost("logout")]
         public IActionResult Logout()
         {

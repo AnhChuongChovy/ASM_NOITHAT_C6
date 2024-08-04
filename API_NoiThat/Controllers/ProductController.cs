@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_NoiThat.Models;
+using System.Linq;
+using System;
 
 namespace API_NoiThat.Controllers
 {
@@ -19,9 +21,24 @@ namespace API_NoiThat.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int pageIndex = 0, int pageSize = 10, string searchTerm = "")
         {
-            return await _context.Product.ToListAsync();
+            var query = _context.Product.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(p => p.TenSP.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+            }
+
+            var totalProducts = await query.CountAsync();
+            var products = await query
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            Response.Headers.Add("X-Total-Count", totalProducts.ToString());
+
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
@@ -35,6 +52,54 @@ namespace API_NoiThat.Controllers
             }
 
             return product;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostProduct(Product product)
+        {
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
+            _context.Product.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetProduct", new { id = product.ID }, product);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, Product product)
+        {
+            if (id != product.ID)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(product).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
+        private bool ProductExists(int id)
+        {
+            return _context.Product.Any(e => e.ID == id);
         }
     }
 }

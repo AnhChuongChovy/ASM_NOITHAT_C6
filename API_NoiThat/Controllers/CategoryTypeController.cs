@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API_NoiThat.Models;
+using System;
 
 namespace API_NoiThat.Controllers
 {
@@ -19,31 +20,66 @@ namespace API_NoiThat.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("categorytypes")]
         public async Task<ActionResult<IEnumerable<CategoryType>>> GetCategoryTypes()
         {
-            return await _context.CategoryType.ToListAsync();
+            var categoryTypes = await _context.CategoryType.ToListAsync();
+            return Ok(categoryTypes);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<CategoryType>> PostCategoryType(CategoryType catetype)
-        //{
-        //    if (!_context.Category.Any(c => c.ID == catetype.IDDanhMuc))
-        //    {
-        //        return BadRequest("Invalid Category ID");
-        //    }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CategoryType>>> CategoryType(int pageIndex = 0, int pageSize = 10, string searchTerm = "")
+        {
+            var query = _context.CategoryType.AsQueryable();
 
-        //    _context.CategoryType.Add(catetype);
-        //    await _context.SaveChangesAsync();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(p => p.TenLoaiDanhMuc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+            }
 
-        //    return CreatedAtAction(nameof(GetCategoryTypeById), new { id = catetype.ID }, catetype);
-        //}
+            var totalProducts = await query.CountAsync();
+            var products = await query
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            Response.Headers.Add("X-Total-Count", totalProducts.ToString());
+
+            return Ok(products);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CategoryType>> PostCategoryType(CategoryType categoryType)
+        {
+            if (categoryType == null)
+            {
+                return BadRequest();
+            }
+
+            _context.CategoryType.Add(categoryType);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCategoryType", new { id = categoryType.ID }, categoryType);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategoryType(int id, CategoryType categoryType)
+        {
+            if (id != categoryType.ID)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(categoryType).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryType>> GetCategoryTypeById(int id)
+        public async Task<ActionResult<CategoryType>> GetCategoryType(int id)
         {
             var categoryType = await _context.CategoryType.FindAsync(id);
-
             if (categoryType == null)
             {
                 return NotFound();

@@ -18,7 +18,7 @@ namespace WebAsemly_NoiThat.Service
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var response = await _httpClient.GetAsync("https://localhost:44320/api/Login/user");
+            var response = await _httpClient.GetAsync("https://localhost:44320/api/Login/login");
             if (response.IsSuccessStatusCode)
             {
                 var account = await response.Content.ReadFromJsonAsync<Account>();

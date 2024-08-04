@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -19,22 +20,12 @@ namespace WebAsemly_NoiThat.Service
             _jsRuntime = jsRuntime;
         }
 
-        //public async Task<bool> LoginAsync(UserLoginModel model)
-        //{
-        //    var response = await _httpClient.PostAsJsonAsync("https://localhost:44320/api/Login/", model);
+        public async Task<bool> IsLoggedIn()
+        {
+            var user = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "user");
+            return !string.IsNullOrEmpty(user);
+        }
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var account = await response.Content.ReadFromJsonAsync<Account>();
-
-        //        // Lưu thông tin vào localStorage
-        //        await _jsRuntime.InvokeVoidAsync("localStorageHelper.setItem", "authToken", account.TenNguoiDung);
-        //        await _jsRuntime.InvokeVoidAsync("localStorageHelper.setItem", "userId", account.ID.ToString());
-        //        await _jsRuntime.InvokeVoidAsync("localStorageHelper.setItem", "userRole", account.Role.NameRole);
-
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        
     }
 }

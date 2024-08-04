@@ -60,11 +60,11 @@ namespace API_NoiThat
 
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
+                options.AddPolicy("AllowAll", builder =>
                 {
-                    builder.WithOrigins("https://localhost:44391")
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
                 });
             });
 
@@ -86,7 +86,7 @@ namespace API_NoiThat
             app.UseRouting();
 
             app.UseSession(); //Session
-            app.UseCors();
+            app.UseCors("AllowAll");
 
             app.UseAuthentication();
             app.UseAuthorization();

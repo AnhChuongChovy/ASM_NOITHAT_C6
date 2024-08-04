@@ -1,0 +1,19 @@
+﻿@page "/Logout"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+<h3>Đăng Xuất</h3>
+
+<p>Đang đăng xuất...</p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // Xóa thông tin người dùng khỏi localStorage
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "user");
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "userId");
+
+        // Điều hướng đến trang đăng nhập
+        NavigationManager.NavigateTo("/DangNhap");
+    }
+}

@@ -24,9 +24,8 @@ namespace WebAsemly_NoiThat
             builder.Services.AddScoped<LocalStorageService>();
             builder.Services.AddScoped<AdminService>();
             builder.Services.AddScoped<LoginService>();
+
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-
-
             builder.Services.AddHttpClient("https://localhost:44320/", client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);

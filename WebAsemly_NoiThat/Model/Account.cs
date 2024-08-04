@@ -21,6 +21,8 @@ namespace WebAsemly_NoiThat.Model
         public string SDT { get; set; }
         [Required]
         public string GioiTinh { get; set; }
+        public string HinhAnh { get; set; }
+
         public Role Role { get; set; }
         //public ICollection<Bill> Bill { get; set; }
         //public ICollection<Favourite> Favourite { get; set; }
@@ -28,9 +30,9 @@ namespace WebAsemly_NoiThat.Model
 
     }
 
-    public class User
+    public class LoginModel
     {
-        public string Username { get; set; }
-        public string Role { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
