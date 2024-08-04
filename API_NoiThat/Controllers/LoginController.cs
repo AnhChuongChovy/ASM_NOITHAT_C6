@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static WebAsemly_NoiThat.Service.LoginService;
@@ -25,22 +26,28 @@ namespace API_NoiThat.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            //Xét email và mật khẩu và role khi đăng nhập
             var account = await _context.Account
                 .Include(a => a.Role)
-                .FirstOrDefaultAsync(a => a.Email == request.Email && a.MatKhau == request.MatKhau);
+                .FirstOrDefaultAsync(a => a.Email == request.Email);
 
-            if (account == null)
+            if (account == null || !VerifyPassword(request.MatKhau, account.MatKhau))
             {
                 return Unauthorized();
             }
 
-            //Lưu email vs role vào session 
-            HttpContext.Session.SetString("user", account.Email);
-            HttpContext.Session.SetString("role", account.IDRole.ToString());
-            HttpContext.Session.SetInt32("userId", account.ID);
+            var user = new User
+            {
+                Username = account.TenNguoiDung,
+                Role = account.Role.ID.ToString(),
+            };
 
-            return Ok(new { role = account.IDRole.ToString(), userId = account.ID });
+            return Ok(user);
+        }
+
+        private bool VerifyPassword(string password, string passwordHash)
+        {
+            // Logic to verify password hash
+            return passwordHash == password; // Placeholder, replace with your actual password verification logic
         }
 
         [HttpPost("logout")]
@@ -51,36 +58,6 @@ namespace API_NoiThat.Controllers
             return Ok();
         }
 
-        [HttpGet("user")]
-        public IActionResult GetUser()
-        {
-            var user = HttpContext.Session.GetString("user");
-            var role = HttpContext.Session.GetString("role");
-            var userId = HttpContext.Session.GetInt32("userId");
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
-            var account = _context.Account
-                .FirstOrDefault(a => a.ID == userId);
-
-            if (account == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(account);
-            //var user = HttpContext.Session.GetString("user");
-            //var role = HttpContext.Session.GetString("role");
-
-            //if (user == null)
-            //{
-            //    return Unauthorized();
-            //}
-
-            //return Ok(new { user, role });
-        }
+       
     }
 }

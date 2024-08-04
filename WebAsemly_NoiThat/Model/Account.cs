@@ -27,9 +27,10 @@ namespace WebAsemly_NoiThat.Model
         //public ICollection<Reviews> Reviews { get; set; }
 
     }
-    public class LoginRequest
+
+    public class User
     {
-        public string Email { get; set; }
-        public string MatKhau { get; set; }
+        public string Username { get; set; }
+        public string Role { get; set; }
     }
 }

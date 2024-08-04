@@ -24,10 +24,10 @@ namespace WebAsemly_NoiThat.Service
                 var account = await response.Content.ReadFromJsonAsync<Account>();
                 var identity = new ClaimsIdentity(new[]
                 {
-                new Claim(ClaimTypes.Name, account.Email),
-                new Claim(ClaimTypes.Role, account.Role.ToString()),
-                new Claim("UserId", account.ID.ToString())
-            }, "apiauth_type");
+            new Claim(ClaimTypes.Name, account.Email),
+            new Claim(ClaimTypes.Role, account.Role.ToString()),
+            new Claim("UserId", account.ID.ToString())
+        }, "apiauth_type");
 
                 var user = new ClaimsPrincipal(identity);
                 return new AuthenticationState(user);
@@ -37,5 +37,6 @@ namespace WebAsemly_NoiThat.Service
                 return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
             }
         }
+
     }
 }

@@ -179,23 +179,23 @@
 
     }
 
-    private string accountLink;
+        private string accountLink;
 
-    private async Task<string> GetAccountLinkAsync()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
+        private async Task<string> GetAccountLinkAsync()
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
 
-        if (user.Identity.IsAuthenticated)
-        {
-            var userId = user.FindFirst("UserId")?.Value;
-            return $"/TaiKhoan/{userId}";
+            if (user.Identity.IsAuthenticated)
+            {
+                var userId = user.FindFirst("UserId")?.Value;
+                return $"/TaiKhoan/{userId}";
+            }
+            else
+            {
+                return "/DangNhap";
+            }
         }
-        else
-        {
-            return "/DangNhap";
-        }
-    }
 
     private async Task Logout()
     {

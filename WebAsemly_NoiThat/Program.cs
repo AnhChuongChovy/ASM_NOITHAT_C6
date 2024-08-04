@@ -18,7 +18,6 @@ namespace WebAsemly_NoiThat
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44320/api/Product") });
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44320/api/Account") });
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44320/api/Login") });
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44320/") });
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<ProductService>();
@@ -28,7 +27,7 @@ namespace WebAsemly_NoiThat
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 
-            builder.Services.AddHttpClient("https://localhost:44320/api", client =>
+            builder.Services.AddHttpClient("https://localhost:44320/", client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });

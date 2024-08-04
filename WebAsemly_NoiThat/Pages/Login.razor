@@ -1,4 +1,4 @@
-﻿@page "/DangNhap"
+﻿@* @page "/DangNhap"
 @using System.Net.Http
 @using System.Net.Http.Json
 @using Microsoft.JSInterop
@@ -63,5 +63,61 @@
 
     }
 
+}
+
+*@
+
+@page "/DangNhap"
+@inject HttpClient Http
+@using WebAsemly_NoiThat.Service
+@using WebAsemly_NoiThat.Model
+@inject LocalStorageService LocalStorageService
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+<form @onsubmit="HandleSubmit">
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" @bind="email" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" @bind="password" />
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+@code {
+    private string email;
+    private string password;
+
+    private async Task HandleSubmit()
+    {
+        var loginRequest = new { Email = email, Password = password };
+        var response = await Http.PostAsJsonAsync("api/Login/login", loginRequest);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var user = await response.Content.ReadFromJsonAsync<User>();
+
+            // Lưu thông tin người dùng vào localStorage
+            await LocalStorageService.SetItemAsync("user", user);
+
+            // Chuyển hướng dựa trên vai trò
+            if (user.Role == "1")
+            {
+                NavigationManager.NavigateTo("/admin");
+            }
+            else if (user.Role == "2")
+            {
+                NavigationManager.NavigateTo("/");
+            }
+        }
+        else
+        {
+            // Xử lý lỗi đăng nhập (hiển thị thông báo lỗi cho người dùng)
+        }
+    }
 }
 

@@ -36,4 +36,9 @@ namespace API_NoiThat.Models
         [Required]
         public string MatKhau { get; set; }
     }
+    public class User
+    {
+        public string Username { get; set; }
+        public string Role { get; set; }
+    }
 }

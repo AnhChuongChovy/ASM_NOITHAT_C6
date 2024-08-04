@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_NoiThat.Models;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace API_NoiThat.Controllers
 {
@@ -13,9 +15,11 @@ namespace API_NoiThat.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public AccountController(ApplicationDBContext context)
+        private readonly IConfiguration _configuration;
+        public AccountController(ApplicationDBContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -36,5 +40,22 @@ namespace API_NoiThat.Controllers
 
             return account;
         }
+
+
+        
+
+        //[HttpGet("user/{id}")]
+        //public async Task<IActionResult> GetUser(int id)
+        //{
+        //    var user = await _context.Account.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(user);
+        //}
+
+        
     }
 }
