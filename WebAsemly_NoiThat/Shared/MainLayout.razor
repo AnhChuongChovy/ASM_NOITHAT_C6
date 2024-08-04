@@ -1,4 +1,22 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
+@using WebAsemly_NoiThat.Service
+@inject ProductService ProductService
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<style>
+    .dropdown-submenu {
+        position: relative;
+    }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
+</style>
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
     <div class="container">
@@ -15,11 +33,35 @@
                     <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">HOME</NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink class="nav-link" href="GioiThieu">GIỚI THIỆU</NavLink>
+                    <NavLink class="nav-link" href="/GioiThieu">GIỚI THIỆU</NavLink>
                 </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="DanhMuc">DANH MỤC</NavLink>
-                </li>
+
+                @if (categories == null)
+                {
+                    <li class="nav-item">Loading...</li>
+                }
+                else if (!categories.Any())
+                {
+                    <li class="nav-item">No categories available</li>
+                }
+                else
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            DANH MỤC
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            @foreach (var category in categories)
+                            {
+                                var subcategoryUrl = $"DanhMuc/{category.ID}";
+                                <li>
+                                        <NavLink href="@subcategoryUrl" class="dropdown-item">@category.TenDanhMuc</NavLink>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
                 <li class="nav-item">
                     <NavLink class="nav-link" href="/LienHe">LIÊN HỆ</NavLink>
                 </li>
@@ -29,12 +71,15 @@
                     </NavLink>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/DangNhap">ĐĂNG NHẬP</a></li>
-                        <li><a class="dropdown-item" href="DangKy">ĐĂNG KÝ</a></li>
+                        <li><a class="dropdown-item" href="/DangKy">ĐĂNG KÝ</a></li>
+                        <li><a class="dropdown-item" @onclick="Logout">ĐĂNG XUẤT</a></li>
                     </ul>
                 </li>
                 
                 <li class="nav-item icon-wrapper">
-                    <NavLink class="nav-link" href="/TaiKhoan"><i class="fas fa-user nav-link-icon"></i></NavLink>
+                    <NavLink class="nav-link" href="@accountLink">
+                        <i class="fas fa-user nav-link-icon"></i>
+                    </NavLink>                    
                     <NavLink class="nav-link" href="/cart"><i class="fas fa-shopping-cart nav-link-icon"></i></NavLink>
                 </li>
             </ul>
@@ -57,7 +102,6 @@
 <div>
     @Body
 </div>
-
 
 <footer class="mt-3">
     <div class="row mx-3">
@@ -113,3 +157,56 @@
         </div>
     </div>
 </footer>
+
+@code {
+    private List<Model.Category> categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            categories = await ProductService.GetCategorys();
+            if (categories == null)
+            {
+                Console.WriteLine("Failed to load categories.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading categories: {ex.Message}");
+        }
+        accountLink = await GetAccountLinkAsync();
+
+    }
+
+    private string accountLink;
+
+    private async Task<string> GetAccountLinkAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userId = user.FindFirst("UserId")?.Value;
+            return $"/TaiKhoan/{userId}";
+        }
+        else
+        {
+            return "/DangNhap";
+        }
+    }
+
+    private async Task Logout()
+    {
+        var response = await Http.PostAsync("https://localhost:44320/api/Login/logout", null);
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/DangNhap");
+        }
+        else
+        {
+            Console.WriteLine("Đăng xuất không thành công: " + response.ReasonPhrase);
+        }
+    }
+}

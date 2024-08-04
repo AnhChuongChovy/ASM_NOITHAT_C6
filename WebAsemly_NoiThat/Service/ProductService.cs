@@ -22,6 +22,11 @@ namespace WebAsemly_NoiThat.Service
         {
             return await _httpClient.GetFromJsonAsync<List<Product>>("https://localhost:44320/api/Product");
         }
+        //List Category
+        public async Task<List<Category>> GetCategorys()
+        {
+            return await _httpClient.GetFromJsonAsync<List<Category>>("https://localhost:44320/api/Category");
+        }
 
         //List CategoryType
         public async Task<List<CategoryType>> GetCategoryTypes()
@@ -29,24 +34,37 @@ namespace WebAsemly_NoiThat.Service
             return await _httpClient.GetFromJsonAsync<List<CategoryType>>("https://localhost:44320/api/CategoryType");
         }
 
+        //CategoryType ID
         public async Task<CategoryType> GetCategoryTypesId(int id)
         {
             return await _httpClient.GetFromJsonAsync<CategoryType>($"https://localhost:44320/api/CategoryType/{id}");
         }
 
+        //Product ID
         public async Task<Product> GetProductId(int id)
         {
             return await _httpClient.GetFromJsonAsync<Product>($"https://localhost:44320/api/Product/{id}");
         }
-
-        /*public async Task<Account> GetAccountId(int id)
+        //Account ID
+        public async Task<Account> GetAccountId(int id)
         {
             return await _httpClient.GetFromJsonAsync<Account>($"https://localhost:44320/api/Account/{id}");
-        }*/
-
-        public async Task<List<Category>> GetCategorys()
+        }
+        public async Task UpdateAccount(Account account)
         {
-            return await _httpClient.GetFromJsonAsync<List<Category>>("https://localhost:44320/api/Category");
+            var response = await _httpClient.PutAsJsonAsync($"https://localhost:44320/api/Account/{account.ID}", account);
+            response.EnsureSuccessStatusCode();
+        }
+
+
+        public async Task<List<CategoryType>> GetCategoryTypesAsync(int categoryId)
+        {
+            return await _httpClient.GetFromJsonAsync<List<CategoryType>>($"https://localhost:44320/api/CategoryType/{categoryId}/types");
+        }
+
+        public async Task<List<Product>> GetProductsAsync(int categoryTypeId)
+        {
+            return await _httpClient.GetFromJsonAsync<List<Product>>($"https://localhost:44320/api/CategoryType/{categoryTypeId}/products");
         }
     }
 }

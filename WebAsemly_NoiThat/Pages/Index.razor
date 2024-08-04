@@ -42,17 +42,17 @@
                 <div class="col-md-3 mt-4">
                     <div class="card-product">
                         <div class="card">
-                            <div class="image-container position-relative" id="@obj.ID">
-                                <img src="/Image_SP_ASM/@obj.HinhAnh" class="card-img-top" alt="Product Image" >
+                            <div class="image-container position-relative" @onclick="() => ChuyenTrang(obj.ID)" id="@obj.ID">
+                                <img src="/Image_SP_ASM/@obj.HinhAnh" class="card-img-top" alt="Product Image" style="cursor: pointer;">
                                 <div class="overlay"></div>
                                 <div class="icon-container">
-                                    <i class="bi bi-cart" @onclick="() => AddToCartAsync(obj)"></i> |
-                                    <i class="bi bi-heart"></i>
+                                    <i class="bi bi-cart" @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)"></i> |
+                                    <i class="bi bi-heart" @onclick:stopPropagation="true"></i>
                                 </div>
                                 <div class="discount-badge">-10%</div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title" @onclick="() => ChuyenTrang(obj.ID)" style="cursor: pointer; object-fit: cover;">@obj.TenSP</h5>
+                                <h5 class="card-title">@obj.TenSP</h5>
                                 <div class="rating">
                                     <i class="bi bi-star-fill"></i>
                                     <i class="bi bi-star-fill"></i>

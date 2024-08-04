@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace API_NoiThat.Models
+namespace WebAsemly_NoiThat.Model
 {
     public class Account
     {
@@ -21,19 +21,15 @@ namespace API_NoiThat.Models
         public string SDT { get; set; }
         [Required]
         public string GioiTinh { get; set; }
-
-        public string HinhAnh { get; set; }
         public Role Role { get; set; }
-        public ICollection<Bill> Bill { get; set; }
-        public ICollection<Favourite> Favourite { get; set; }
-        public ICollection<Reviews> Reviews { get; set; }
+        //public ICollection<Bill> Bill { get; set; }
+        //public ICollection<Favourite> Favourite { get; set; }
+        //public ICollection<Reviews> Reviews { get; set; }
 
     }
     public class LoginRequest
     {
-        [Required]
         public string Email { get; set; }
-        [Required]
         public string MatKhau { get; set; }
     }
 }

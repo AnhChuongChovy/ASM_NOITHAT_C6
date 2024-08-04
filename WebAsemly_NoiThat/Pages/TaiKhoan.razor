@@ -1,159 +1,163 @@
-﻿@page "/TaiKhoan"
+﻿@page "/TaiKhoan/{id:int}"
+@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.JSInterop
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@using WebAsemly_NoiThat.Model
 
-<h3>TaiKhoan</h3>
-
-<style>
-    a {
-        text-decoration: none;
-        color: black;
-    }
-
-        a:hover {
-            color: black;
-            text-decoration: none;
-        }
-
-    .dangxuat:hover {
-        color: royalblue;
-    }
-
-    /* ẩn chữ no file choosen */
-    input[type="file"]::-webkit-file-upload-button {
-        visibility: hidden;
-        opacity: 0;
-        position: absolute;
-        z-index: 0;
-    }
-    /* đổi chữ choosen file thành chọn ảnh */
-    input[type="file"]::before {
-        content: "Chọn ảnh";
-    }
-
-    label {
-        margin-top: 5px;
-    }
-
-    .sua {
-        border-radius: 0;
-        padding: 15px;
-        background-color: #ededed;
-    }
-
-    .form-control:focus {
-        box-shadow: none;
-    }
-
-</style>
-
-<body>
-    <div class="container">
-        <div>
-            <a class="dangxuat" asp-action="Index" asp-controller="Home">Trang chủ </a> |
-            <a> Thông tin tài khoản</a>
-        </div>
-        <form asp-action="TaiKhoan" method="post" enctype="multipart/form-data" class="" id="infoform">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="w-100" style="margin-top:30px">
-                        <div style="border-left: 10px solid royalblue">
-                            <p style="font-size:25px; font-weight:bold; text-transform:uppercase; padding-left:10px">Tài khoản cá nhân</p>
-                        </div>
-                        <div class="text-center mt-2">
-                            <img id="profileImagePreview" src="" height="100px" width="100px" style="border-radius:50%; object-fit:cover; border:1px solid black"><br />
-                            <label for="profileImage" class="btn btn-primary">
-                                Chọn ảnh
-                                <input type="file" id="profileImage" name="profileImage" class="d-none">
-                            </label>
-                        </div>
-
-                    </div>
-                    <br />
-                    <div>
-                        <a class="dangxuat" asp-action="TaiKhoan" asp-controller="Home">Thông tin tài khoản</a><br />
-                        <a class="dangxuat" asp-action="DonHang" asp-controller="Home">Đơn hàng</a><br />
-                        <a class="dangxuat" asp-action="DoiMatKhau" asp-controller="Home">Đổi mật khẩu</a> <br />
-                        <a class="dangxuat" asp-action="Logout" asp-controller="Home">Đăng xuất</a>
-                    </div>
+<div class="container">
+    <div>
+        <a class="dangxuat" href="/">Trang chủ</a> |
+        <a>Thông tin tài khoản</a>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="w-100" style="margin-top:30px">
+                <div style="border-left: 10px solid royalblue">
+                    <p style="font-size:25px; font-weight:bold; text-transform:uppercase; padding-left:10px">Tài khoản cá nhân</p>
                 </div>
-
-                <div class="col-md-8">
-                    <h2 class="font-weight-bold text-uppercase" style="margin-top:30px">Thông Tin Tài Khoản</h2>
-                    <hr />
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label for="TenND">Tên Người Dùng</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control sua" id="TenND" name="TenND" value="" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label for="Email">Email</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="email" class="form-control sua" id="Email" name="Email" value="" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label for="Diachi">Địa Chỉ</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control sua" id="Diachi" name="Diachi" value="" />
-                        </div>
-                    </div>
-
-
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label for="SDT">Số Điện Thoại</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control sua" id="SDT" name="SDT" value="" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <label>Giới Tính</label>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="form-check col-md-2 ml-2">
-                                    <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNam" value="Nam">
-                                    <label class="form-check-label" for="gioiTinhNam">Nam</label>
-                                </div>
-                                <div class="form-check col-md-2">
-                                    <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNu" value="Nữ">
-                                    <label class="form-check-label" for="gioiTinhNu">Nữ</label>
-                                </div>
-                                <div class="form-check col-md-2">
-                                    <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhKhac" value="Khác">
-                                    <label class="form-check-label" for="gioiTinhKhac">Khác</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" style="width: 150px; border-radius:0; padding:10px">Cập Nhật</button>
-
-
-                    @* @if (ViewBag.Message != null)
-                    {
-                        <div id="alertMessage" class="mt-3 alert alert-success">@ViewBag.Message</div>
-                    } *@
-
-
+                <div class="text-center mt-2">
+                    <img id="profileImagePreview" src="" height="100px" width="100px" style="border-radius:50%; object-fit:cover; border:1px solid black"><br />
+                    <label for="profileImage" class="btn btn-primary mt-2">
+                        Chọn ảnh
+                        <input type="file" id="profileImage" name="profileImage" class="d-none">
+                    </label>
                 </div>
             </div>
-        </form>
+            <br />
+            <div>
+                <a class="dangxuat" href="/TaiKhoan">Thông tin tài khoản</a><br />
+                <a class="dangxuat" href="/DonHang">Đơn hàng</a><br />
+                <a class="dangxuat" href="/DoiMatKhau">Đổi mật khẩu</a> <br />
+                <a class="dangxuat" href="/Logout">Đăng xuất</a>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h2 class="font-weight-bold text-uppercase" style="margin-top:30px">Thông Tin Tài Khoản</h2>
+            <hr />
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label for="TenND">Tên Người Dùng</label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control sua" id="TenND" @bind-value="account.TenNguoiDung" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label for="Email">Email</label>
+                </div>
+                <div class="col-md-9">
+                    <input type="email" class="form-control sua" id="Email" @bind-value="account.Email" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label for="Diachi">Địa Chỉ</label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control sua" id="Diachi" @bind-value="account.DiaChi" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label for="SDT">Số Điện Thoại</label>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control sua" id="SDT" @bind-value="account.SDT" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label>Giới Tính</label>
+                </div>
+    <div class="col-md-9">
+    <div class="row">
+                        @if (account.GioiTinh == "Nam")
+                        {
+                            <div class="form-check col-md-2 ml-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNam" @bind="account.GioiTinh" checked>
+                                <label class="form-check-label" for="gioiTinhNam">Nam</label>
+                            </div>
+                            <div class="form-check col-md-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNu" @bind="account.GioiTinh">
+                                <label class="form-check-label" for="gioiTinhNu">Nữ</label>
+                            </div>
+                            <div class="form-check col-md-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhKhac" @bind="account.GioiTinh">
+                                <label class="form-check-label" for="gioiTinhKhac">Khác</label>
+                            </div>
+                        }
+                        else if(account.GioiTinh == "Nữ")
+                        {
+                            <div class="form-check col-md-2 ml-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNam" @bind="account.GioiTinh" >
+                                <label class="form-check-label" for="gioiTinhNam">Nam</label>
+                            </div>
+                            <div class="form-check col-md-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNu" @bind="account.GioiTinh" checked>
+                                <label class="form-check-label" for="gioiTinhNu">Nữ</label>
+                            </div>
+                            <div class="form-check col-md-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhKhac" @bind="account.GioiTinh">
+                                <label class="form-check-label" for="gioiTinhKhac">Khác</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-check col-md-2 ml-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNam" @bind="account.GioiTinh">
+                                <label class="form-check-label" for="gioiTinhNam">Nam</label>
+                            </div>
+                            <div class="form-check col-md-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhNu" @bind="account.GioiTinh" >
+                                <label class="form-check-label" for="gioiTinhNu">Nữ</label>
+                            </div>
+                            <div class="form-check col-md-2">
+                                <input class="form-check-input" type="radio" name="GioiTinh" id="gioiTinhKhac" @bind="account.GioiTinh" checked>
+                                <label class="form-check-label" for="gioiTinhKhac">Khác</label>
+                            </div>
+                        }
 
     </div>
-</body>
+</div>
+
+
+            </div>
+
+            <button type="button" class="btn btn-primary" style="width: 150px; border-radius:0; padding:10px" @* @onclick="UpdateAccount" *@>Cập Nhật</button>
+        </div>
+    </div>
+</div>
 
 @code {
+    [Parameter]
+    public int id { get; set; } 
+    private Account account = new Account();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAccountInfo(id);
+    }
+
+    private async Task LoadAccountInfo(int userId)
+    {
+        var response = await Http.GetAsync($"https://localhost:44320/api/Account/{userId}");
+        if (response.IsSuccessStatusCode)
+        {
+            account = await response.Content.ReadFromJsonAsync<Account>();
+        }
+        else
+        {
+            Console.WriteLine("Failed to load account info.");
+        }
+    }
 
 }
