@@ -29,4 +29,11 @@ namespace API_NoiThat.Models
         public ICollection<Reviews> Reviews { get; set; }
 
     }
+    public class LoginRequest
+    {
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string MatKhau { get; set; }
+    }
 }

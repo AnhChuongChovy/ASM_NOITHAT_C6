@@ -50,6 +50,7 @@
     width: 100%;
     height: 307px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .card-product .overlay {
