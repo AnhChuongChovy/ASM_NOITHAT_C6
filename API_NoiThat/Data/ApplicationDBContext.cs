@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using API_NoiThat.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace API_NoiThat.Data
 {

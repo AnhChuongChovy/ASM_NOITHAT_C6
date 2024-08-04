@@ -91,5 +91,5 @@
                 districtSelect.disabled = true;
             }
         });
-
+    });
 }
