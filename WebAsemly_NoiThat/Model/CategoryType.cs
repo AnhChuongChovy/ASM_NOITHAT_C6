@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using WebAsemly_NoiThat.Model;
 using WebAsemly_NoiThat.Service;
 
-namespace WebAsemly_NoiThat.Models
+namespace WebAsemly_NoiThat.Model
 {
     public class CategoryType
     {

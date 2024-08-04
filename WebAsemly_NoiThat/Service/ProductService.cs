@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WebAsemly_NoiThat.Model;
-using WebAsemly_NoiThat.Models;
 
 namespace WebAsemly_NoiThat.Service
 {

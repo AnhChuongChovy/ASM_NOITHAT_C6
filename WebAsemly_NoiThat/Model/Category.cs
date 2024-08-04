@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WebAsemly_NoiThat.Models;
+using WebAsemly_NoiThat.Model;
 using WebAsemly_NoiThat.Pages.homepages;
 
-namespace WebAsemly_NoiThat.Service { 
+namespace WebAsemly_NoiThat.Model { 
     public class Category
     {
         [Required]

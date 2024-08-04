@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WebAsemly_NoiThat.Models;
-
+using WebAsemly_NoiThat.Model;
 
 namespace WebAsemly_NoiThat.Model
 {

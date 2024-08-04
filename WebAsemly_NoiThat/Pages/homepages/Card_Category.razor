@@ -1,5 +1,5 @@
 ﻿@using WebAsemly_NoiThat.Service
-@using WebAsemly_NoiThat.Models
+@using WebAsemly_NoiThat.Model
 @inject ProductService ProductService
 @using Newtonsoft.Json
 @inject LocalStorageService LocalStorageService
@@ -8,7 +8,7 @@
 @inject IJSRuntime JSRuntime
 
 
-<div class="container mt-3">
+<div class="container-fluid">
         @if(CategoryTypes == null)
         {
             <p>Loading...</p>
@@ -18,12 +18,14 @@
         <div class="row">
             @foreach(var item in CategoryTypes)
             {
-                <div class="col-md-3 mt-5">
+                <div class="col-6 col-sm-3 col-md-3 col-lg-3 mt-4">
                     <div class="card-category">
-                        <div class="card" style="width: 19rem;" id="@item.ID">
-                            <img src="/images/products/@item.HinhAnh" class="card-img-top" alt="...">
-                            <div class="overlay">
-                                <button @onclick="() => ChuyenTrang(item.ID)">XEM NGAY</button>
+                        <div class="card" id="@item.ID">
+                            <div class="img-container">
+                                <img src="/images/products/@item.HinhAnh" class="card-img-top" alt="...">
+                                <div class="overlay">
+                                    <button @onclick="() => ChuyenTrang(item.ID)">XEM NGAY</button>
+                                </div>
                             </div>
                             <div class="card-body text-center">
                                 <p class="card-text text-uppercase">@item.TenLoaiDanhMuc</p>
@@ -37,7 +39,7 @@
 </div>
 
 @code {
-    private List<Models.CategoryType> CategoryTypes;
+    private List<Model.CategoryType> CategoryTypes;
     private List<int> targetIds = new List<int> { 6, 9, 10, 18 };
 
     protected override async Task OnInitializedAsync()

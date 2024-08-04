@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebAsemly_NoiThat.Model;
 
-namespace WebAsemly_NoiThat.Models
+namespace WebAsemly_NoiThat.Model
 {
     public class ProductImage
     {

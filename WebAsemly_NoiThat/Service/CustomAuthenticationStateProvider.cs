@@ -25,7 +25,7 @@ namespace WebAsemly_NoiThat.Service
                 var identity = new ClaimsIdentity(new[]
                 {
                 new Claim(ClaimTypes.Name, account.Email),
-                new Claim(ClaimTypes.Role, account.Role.ToString()),
+                new Claim(ClaimTypes.Role, account.IDRole.ToString()),
                 new Claim("UserId", account.ID.ToString())
             }, "apiauth_type");
 

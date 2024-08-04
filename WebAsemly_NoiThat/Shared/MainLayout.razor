@@ -1,6 +1,8 @@
 ﻿@inherits LayoutComponentBase
 @using Microsoft.AspNetCore.Components.Authorization
 @using WebAsemly_NoiThat.Service
+
+@using WebAsemly_NoiThat.Model
 @inject ProductService ProductService
 @inject HttpClient Http
 @inject NavigationManager Navigation
@@ -159,7 +161,7 @@
 </footer>
 
 @code {
-    private List<Model.Category> categories;
+    public List<Model.Category> categories;
 
     protected override async Task OnInitializedAsync()
     {

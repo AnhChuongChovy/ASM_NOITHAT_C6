@@ -29,3 +29,59 @@
 .coupon .time {
     font-size: 1.3rem;
 }
+
+
+/* Media query for devices with a width between 769px and 1440px */
+@media (min-width: 769px) and (max-width: 1440px) {
+    .coupon .kanan {
+        width: 30% !important;
+    }
+}
+
+/* Media query for devices with a width between 575px and 768px */
+@media (min-width: 575px) and (max-width: 768px) {
+    .coupon {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+        .coupon .kiri, .coupon .kanan {
+            flex: none;
+            width: 100%;
+            border-left: none;
+            border-top: 1px dashed #ddd;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+            .coupon .kanan .info::before, .coupon .kanan .info::after {
+                display: none;
+            }
+}
+
+/* Media query for devices with a width of 575px or less */
+@media all and (max-width: 575px) {
+    .coupon {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+        .coupon .kiri, .coupon .kanan {
+            flex: none;
+            width: 100%;
+            border-left: none;
+            border-top: 1px dashed #ddd;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+            .coupon .kanan .info::before, .coupon .kanan .info::after {
+                display: none;
+            }
+
+        .coupon .time {
+            font-size: 1rem;
+        }
+}
