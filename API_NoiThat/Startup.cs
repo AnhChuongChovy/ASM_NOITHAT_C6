@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,15 @@ namespace API_NoiThat
         {
             services.AddDbContext<ApplicationDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(30); // Th?i gian h?t h?n session
+                options.Cookie.HttpOnly = true; // Cài ??t cookie ch? có th? truy c?p qua HTTP
+                options.Cookie.IsEssential = true; // Cookie c?n thi?t cho ?ng d?ng
+            });
+
             services.AddControllersWithViews();
 
             services.AddSession(options =>
@@ -74,6 +84,8 @@ namespace API_NoiThat
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
             }
+
+            app.UseSession();
 
             app.UseHttpsRedirection();
 
