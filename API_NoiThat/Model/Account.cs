@@ -34,4 +34,15 @@ namespace API_NoiThat.Models
         public string Email { get; set; }
         public string Password { get; set; }
     }
+
+    public class CartItem
+    {
+        public int ProductId { get; set; }
+        public string TenSP { get; set; }
+        public decimal Gia { get; set; }
+        public int Quantity { get; set; }
+        public string HinhAnh { get; set; }
+
+        // Bạn có thể thêm các thuộc tính khác nếu cần
+    }
 }

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_NoiThat.Models;
 using System.Linq;
+using System.IO;
+using System;
 
 namespace API_NoiThat.Controllers
 {
@@ -55,6 +57,7 @@ namespace API_NoiThat.Controllers
             return CreatedAtAction(nameof(GetCategoryId), new { id = category.ID }, category);
         }
 
+
         //Put
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, Category category)
@@ -88,5 +91,38 @@ namespace API_NoiThat.Controllers
         {
             return _context.Category.Any(e => e.ID == id);
         }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadFile([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            try
+            {
+                var filePath = Path.Combine("wwwroot/Image_SP_ASM", file.FileName);
+
+                if (!Directory.Exists("wwwroot/Image_SP_ASM"))
+                {
+                    Directory.CreateDirectory("wwwroot/Image_SP_ASM");
+                }
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var response = new { FileName = file.FileName };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+
+
     }
 }

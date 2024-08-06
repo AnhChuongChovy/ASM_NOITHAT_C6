@@ -62,7 +62,7 @@ namespace API_NoiThat.Controllers
                 account.ID,
                 account.TenNguoiDung,
                 account.Email,
-                account.Role.NameRole
+                account.IDRole
             });
         }
 
@@ -86,6 +86,59 @@ namespace API_NoiThat.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+
+        //[HttpPost("Register")]
+        //public async Task<IActionResult> Register([FromBody] Account account)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    // Kiểm tra xem tài khoản đã tồn tại chưa
+        //    var existingAccount = await _context.Account
+        //        .FirstOrDefaultAsync(a => a.Email == account.Email);
+
+        //    if (existingAccount != null)
+        //    {
+        //        return Conflict("Tài khoản đã tồn tại.");
+        //    }
+
+        //    // Mã hóa mật khẩu trước khi lưu
+        //    account.MatKhau = HashPassword(account.MatKhau);
+
+        //    _context.Account.Add(account);
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok();
+        //}
+
+        //private string HashPassword(string password)
+        //{
+        //    // Implement your password hashing logic here
+        //    return password; // Placeholder
+        //}
+
+
+        [HttpPost("Register")]
+        public async Task<ActionResult<Account>> PostProduct(Account product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Trả về chi tiết lỗi
+            }
+
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
+            _context.Account.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetAccountId", new { id = product.ID }, product);
         }
     }
 }

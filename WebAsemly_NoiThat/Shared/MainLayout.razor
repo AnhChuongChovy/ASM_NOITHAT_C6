@@ -75,11 +75,14 @@
                         @if (string.IsNullOrEmpty(accountName))
                         {
                             <li><a class="dropdown-item" href="/DangNhap">ĐĂNG NHẬP</a></li>
+                            <li><a class="dropdown-item" href="/DangKy">ĐĂNG KÝ</a></li>
+
                         }
                         else
                         {
                             <li><a class="dropdown-item" @onclick="Logout">ĐĂNG XUẤT</a></li>
                             <li><a class="dropdown-item" href="/TaiKhoan">TÀI KHOẢN</a></li>
+                            <li><a class="dropdown-item" href="/DangKy">ĐĂNG KÝ</a></li>
                         }
                     </ul>
                 </li>
@@ -224,6 +227,11 @@
 
     private async Task Logout()
     {
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+
+        // Xóa giỏ hàng tạm thời khỏi Local Storage
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "Cart");
+
         await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "user");
         await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "userId");
         accountName = "TÀI KHOẢN";

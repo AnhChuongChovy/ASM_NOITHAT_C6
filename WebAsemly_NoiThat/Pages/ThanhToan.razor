@@ -4,29 +4,29 @@
 @inject NavigationManager Navigation
 @inject LocalStorageService LocalStorageService
 @inject IJSRuntime JSRuntime
+@inject HttpClient Http
+@using WebAsemly_NoiThat.Model
 
 <div class="row">
     <div class="col-md-7">
         <div class="form-group">
             <label class="form-label">Tên người dùng:</label>
-            <input type="text" class="form-control sua" id="TenND" name="TenND" value="" />
+            <input type="text" class="form-control sua" id="TenND" name="TenND" value="@account.TenNguoiDung" />
         </div>
         <div class="form-group">
             <label class="form-label">Số điện thoại:</label>
-            <input type="text" class="form-control sua" id="SDT" name="SDT" value="" />
+            <input type="text" class="form-control sua" id="SDT" name="SDT" value="@account.SDT" />
         </div>
 
-        <label for="province">Chọn Tỉnh:</label>
-        <select id="province" name="province" class="form-select">
-            <option value="">--Chọn Tỉnh--</option>
-        </select><br />
-        <label for="district">Chọn Huyện:</label>
-        <select id="district" name="district" class="form-select" disabled>
-            <option value="">--Chọn Huyện--</option>
-        </select><br />
         <div class="form-group">
+            <label class="form-label">Địa chỉ:</label>
             <input type="text" class="form-control sua" id="Diachi" name="Diachi" placeholder="Địa chỉ" />
         </div>
+
+        @* <div class="form-group">
+            <label class="form-label">Mã giảm giá:</label>
+            <input type="text" class="form-control sua" id="QR" name="QR" placeholder="Mã giảm giá" />
+        </div> *@
 
         <div>
             <label for="paymentMethod">Phương thức thanh toán:</label>
@@ -36,7 +36,7 @@
                 <option value="Thanh toán trực tiếp">Thanh toán khi nhận hàng</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-danger text-white mb-3 mt-3" style="width:50%; font-size:larger; border-radius:0; margin:0 auto">THANH TOÁN</button>
+        <button type="submit" class="btn btn-danger text-white mb-3 mt-3" style="width:50%; font-size:larger; border-radius:0; margin:0 auto" @onclick="HandlePayment">THANH TOÁN</button>
     </div>
     <div class="col-md-5">
         <div class="card" style="border-radius:0">
@@ -63,15 +63,18 @@
                             </div>
                         </div>
                         <div class="col-md-8 mb-3">
-                            <span>Tên sản phẩm: <strong>@item.TenSP</strong></span><br />
+                            <span style="white-space: nowrap, overflow: hidden, text-overflow: ellipsis,display: block,width: 90%">Tên sản phẩm: <strong>@item.TenSP</strong></span><br />
                             <span>Số lượng: <span class="text-primary">@item.Quantity</span></span><br />
-                            <span>Giá: @item.Gia.ToString("N0") VNĐ</span>
+                            <span>Giá: <span class="text-danger">@item.Gia.ToString("N0") VNĐ</span></span>
                         </div>
                     }
                 }
             </div>
-            <div style="position:relative; font-size:20px">
-                <strong class="ml-2">Tổng tiền: <span class="text-danger" style="position:absolute; right:20px">@totalPrice.ToString("N0") VNĐ</span></strong>
+            <hr />
+            <div class="row ml-3 mb-3" style="font-size:20px">
+                <strong>
+                    Tổng tiền: 
+                 <span  class="text-danger">@totalPrice.ToString("N0") VNĐ</span></strong>
             </div>
         </div>
     </div>
@@ -79,19 +82,53 @@
 
 @code {
     private List<Model.Product> cartItems;
+    private Model.Account account = new Model.Account();
     private double totalPrice = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        cartItems = await LocalStorageService.GetItemAsync<List<Model.Product>>("Cart") ?? new List<Model.Product>();
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+            Navigation.NavigateTo("/DangNhap");
+            return;
+        }
+
+        
+        account = await Http.GetFromJsonAsync<Model.Account>($"https://localhost:44320/api/Account/{userId}");
+        // Lấy giỏ hàng từ localStorage
+        cartItems = await LocalStorageService.GetItemAsync<List<Model.Product>>($"Cart_{userId}") ?? new List<Model.Product>();
         totalPrice = cartItems.Sum(item => item.Gia * item.Quantity);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async Task HandlePayment()
     {
-        if (firstRender)
+        
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+        var bill = new Bill
+            {
+                IDThanhToan =1,
+                IDVanChuyen =1,
+                IDNguoiDung = int.Parse(userId),
+                TongTien = (float)totalPrice,
+                NgayDatHang = DateTime.Now.ToString("yyyy-MM-dd"),
+                TrangThai = "Chờ xử lý",  // Hoặc trạng thái phù hợp với quy trình của bạn
+                                          // Điền thêm các thông tin liên quan khác nếu có
+            };
+
+        var response = await Http.PostAsJsonAsync("https://localhost:44320/api/HoaDon/", bill);
+
+        if (response.IsSuccessStatusCode)
         {
-            await JSRuntime.InvokeVoidAsync("loadProvincesAndDistricts");
+            await JSRuntime.InvokeVoidAsync("alert", "Thanh toán thành công!");
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Đã xảy ra lỗi trong quá trình thanh toán.");
         }
     }
+
 }

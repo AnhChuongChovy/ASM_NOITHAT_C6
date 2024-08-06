@@ -31,32 +31,5 @@
 </div>
 
 @code {
-    private LoginModel loginModel = new LoginModel();
-
-    private async Task HandleLogin()
-    {
-        var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Account/login", loginModel);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var user = await response.Content.ReadFromJsonAsync<Account>();
-            var json = JsonSerializer.Serialize(user);
-            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "user", json);
-            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "userId", user.ID.ToString()); // Lưu ID
-            
-            if (user.IDRole == 2)
-            {
-                NavigationManager.NavigateTo($"/TaiKhoan/{user.ID}");
-            }
-            else if (user.IDRole == 1)
-            {
-                NavigationManager.NavigateTo("/admin/index");
-            }
-        }
-        else
-        {
-            // Xử lý lỗi ở đây
-            Console.WriteLine("Đăng nhập không thành công.");
-        }
-    }
+    
 }

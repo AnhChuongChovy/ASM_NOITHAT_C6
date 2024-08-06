@@ -23,7 +23,7 @@ namespace WebAsemly_NoiThat.Model
         [Required]
         public string KichThuoc { get; set; }
         public string HinhAnh { get; set; }
-        //public ICollection<BillDetail> BillDetail { get; set; }
+        public ICollection<BillDetail> BillDetail { get; set; }
         public ICollection<ProductImage> ProductImage { get; set; }
         //public ICollection<Reviews> Reviews { get; set; }
         //public ICollection<Favourite> Favourite { get; set; }
