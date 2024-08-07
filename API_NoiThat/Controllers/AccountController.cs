@@ -67,25 +67,37 @@ namespace API_NoiThat.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAccount(int id, [FromBody] Account updatedAccount)
+        public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
-            var account = await _context.Account.FindAsync(id);
-
-            if (account == null)
+            if (id != account.ID)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            account.TenNguoiDung = updatedAccount.TenNguoiDung;
-            account.Email = updatedAccount.Email;
-            account.DiaChi = updatedAccount.DiaChi;
-            account.SDT = updatedAccount.SDT;
-            account.GioiTinh = updatedAccount.GioiTinh;
-            account.HinhAnh = updatedAccount.HinhAnh;
+            _context.Entry(account).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException)
+            {
+                if (!AccountExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
+        }
+
+        private bool AccountExists(int id)
+        {
+            return _context.Account.Any(e => e.ID == id);
         }
 
 

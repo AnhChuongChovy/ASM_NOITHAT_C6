@@ -2,6 +2,7 @@
 @page "/admin/add-categories"
 @inject HttpClient Http
 @layout AdminLayout
+@inject NavigationManager Navigation
 @using WebAsemly_NoiThat.Model
 
 <h3 class="mt-3">Thêm danh mục</h3>
@@ -16,8 +17,8 @@
             <InputText id="tenDanhMuc" @bind-Value="category.TenDanhMuc" class="form-control" />
         </div>
         <div class="mt-3">
-            <label for="hinhAnh" class="form-label">Hình ảnh (URL)</label>
-            <InputText id="hinhAnh"  @bind-Value="category.HinhAnh" class="form-control" />
+            <label for="hinhAnh" class="form-label">Hình ảnh (Chọn file)</label>
+            <InputFile id="hinhAnh" OnChange="HandleFileSelected" class="form-control" />
         </div>
         <div class="mt-3">
             <button class="btn btn-primary" type="submit">THÊM</button>
@@ -25,8 +26,34 @@
     </div>
 </EditForm>
 
+
+
 @code {
     private Category category = new Category();
+    private IBrowserFile selectedFile;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+        var buffer = new byte[selectedFile.Size];
+        await selectedFile.OpenReadStream().ReadAsync(buffer);
+
+        // Gửi buffer lên server
+        var content = new MultipartFormDataContent();
+        content.Add(new ByteArrayContent(buffer), "file", selectedFile.Name);
+
+        var uploadResult = await Http.PostAsync("https://localhost:44320/api/Category/upload-image", content);
+
+        if (uploadResult.IsSuccessStatusCode)
+        {
+            var imageUrl = await uploadResult.Content.ReadAsStringAsync();
+            category.HinhAnh = imageUrl; // Lưu URL vào category
+        }
+        else
+        {
+            Console.WriteLine("Failed to upload image.");
+        }
+    }
 
     private async Task SaveCategory()
     {
@@ -36,19 +63,17 @@
 
             if (response.IsSuccessStatusCode)
             {
-                // Xử lý thành công, có thể thông báo cho người dùng
                 Console.WriteLine("Danh mục đã được thêm thành công.");
+                Navigation.NavigateTo($"/admin/list-categories");
             }
             else
             {
-                // Xử lý lỗi, ví dụ thông báo lỗi cho người dùng
                 var errorMessage = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"Lỗi khi thêm danh mục: {errorMessage}");
             }
         }
         catch (Exception ex)
         {
-            // Xử lý lỗi kết nối hoặc lỗi khác
             Console.WriteLine($"Lỗi khi gửi yêu cầu: {ex.Message}");
         }
     }

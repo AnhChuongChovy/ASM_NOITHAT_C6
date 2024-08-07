@@ -17,8 +17,14 @@ namespace WebAsemly_NoiThat.Pages
 
         private async Task AddToCartAsync(Model.Product product)
         {
+            // Lấy userId từ localStorage
+            var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+
+            // Khóa để lưu trữ giỏ hàng trong Local Storage
+            var cartKey = string.IsNullOrEmpty(userId) ? "Cart" : $"Cart_{userId}";
+
             // Lấy dữ liệu giỏ hàng từ localStorage
-            var existingCart = await LocalStorageService.GetItemAsync<List<Model.Product>>("Cart");
+            var existingCart = await LocalStorageService.GetItemAsync<List<Model.Product>>(cartKey);
             List<Model.Product> cart = existingCart ?? new List<Model.Product>();
 
             // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
@@ -36,11 +42,12 @@ namespace WebAsemly_NoiThat.Pages
             }
 
             // Serialize danh sách giỏ hàng thành JSON và lưu lại vào localStorage
-            await LocalStorageService.SetItemAsync("Cart", cart);
+            await LocalStorageService.SetItemAsync(cartKey, cart);
 
             // Cung cấp phản hồi cho người dùng
             await JSRuntime.InvokeVoidAsync("alert", "Sản phẩm đã được thêm vào giỏ hàng!");
         }
+
 
         //Chuyển qua trang chi tiết khi nhấn vào sản phẩm 
         private void ChuyenTrang(int id)

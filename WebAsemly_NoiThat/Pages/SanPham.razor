@@ -1,0 +1,261 @@
+﻿@page "/SanPham"
+
+@using Newtonsoft.Json
+@using WebAsemly_NoiThat.Model
+@using WebAsemly_NoiThat.Service
+@inject LocalStorageService LocalStorageService
+@inject ProductService ProductService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .sidebar {
+        padding: 20px;
+        min-height: 100vh;
+    }
+
+        .sidebar h5, .sidebar ul {
+            margin-bottom: 20px;
+        }
+
+    .product-card {
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    max-width: 100%;
+    height: auto;
+    }
+
+    .product-card h5 {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .product-card p {
+        margin-top: 10px;
+        color: #e31e25;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card-product .card {
+        border: none;
+    }
+
+    .image-container {
+        position: relative;
+    }
+
+        .image-container .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container:hover .overlay {
+            opacity: 1;
+        }
+
+    .icon-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: white;
+    }
+
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: red;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .card-body {
+        text-align: left;
+    }
+
+    .rating .bi-star-fill {
+        color: gold;
+    }
+
+    .overlay2 {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+        .overlay2 button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .overlay2 button:hover {
+                background-color: #0056b3;
+            }
+</style>
+
+<div class="mt-2">
+    <p class="mt-3">Trang chủ/ Sản phẩm</p>
+
+    <img src="images/banner/banner_sp1.png" class="w-100 h-auto" alt="Alternate Text" />
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Thanh bên -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                <h5>Sản phẩm mới</h5>
+                <ul>
+                    <li><a href="#">Sản phẩm mới</a></li>
+                </ul>
+
+                <h5>Mua theo phòng</h5>
+                <ul>
+                    <li><a href="#">Phòng Ngủ</a></li>
+                    <li><a href="#">Phòng Khách</a></li>
+                    <li><a href="#">Nhà Bếp</a></li>
+                    <li><a href="#">Phòng Làm Việc</a></li>
+                    <li><a href="#">Tủ bếp</a></li>
+                </ul>
+
+                <h5>Giá</h5>
+                <div>
+                    <input type="checkbox" checked="checked">
+                    500.000 VND - 1.000.000 VND
+                </div>
+                <div class="mt-2">
+                    <input type="checkbox">
+                    1.000.000 VND - 2.000.000 VND
+                </div>
+                <div class="mt-2">
+                    <input type="checkbox">
+                    2.000.000 VND - 5.000.000 VND
+                </div>
+                <div class="mt-2">
+                    <input type="checkbox">
+                    5.000.000 VND - 10.000.000 VND
+                </div>
+            </nav>
+
+            <!-- Nội dung chính -->
+            <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <h1 class="my-4">Tất cả sản phẩm</h1>
+                @if (sp == null)
+                {
+                    <p><em>Đang tải...</em></p>
+                }
+                else
+                {
+                    <div class="row">
+                        @foreach (var obj in sp.Take(9))
+                        {
+                            <div class="col-md-3 mt-4">
+                                <div class="card-product">
+                                    <div class="card">
+                                        <div class="image-container position-rel/ative" id="@obj.ID">
+                                            <img src="/Image_SP_ASM/@obj.HinhAnh" class="card-img-top" alt="Product Image">
+                                            <div class="overlay"></div>
+                                            <div class="icon-container">
+                                                <i class="bi bi-cart" @onclick="() => ThemVaoGioHang(obj)"></i> |
+                                                <i class="bi bi-heart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title" @onclick="() => ChuyenTrang(obj.ID)" style="cursor: pointer; object-fit: cover;">@obj.TenSP</h5>
+                                            <div class="rating">
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-half"></i>
+                                            </div>
+                                            <p class="card-text">
+                                                <span class="price">@obj.Gia.ToString("N0")đ</span>
+                                                <span class="price">1.300.000đ</span>
+                                            </p>
+                                            <div class="overlay2">
+                                                <button>MUA NGAY</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                <div class="row">
+                    <div class="button-custom mt-5" style="margin: 0 auto;" @onclick="XemThem">XEM THÊM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Product> sp;
+    private string soluongHienThi;
+
+    protected override async Task OnInitializedAsync()
+    {
+        sp = await ProductService.GetProducts();
+    }
+    private async Task ThemVaoGioHang(Model.Product product)
+    {
+        // Lấy dữ liệu giỏ hàng từ localStorage
+        var existingCart = await LocalStorageService.GetItemAsync<List<Model.Product>>("Cart");
+        List<Model.Product> cart = existingCart ?? new List<Model.Product>();
+
+        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+        var existingProduct = cart.FirstOrDefault(p => p.ID == product.ID);
+        if (existingProduct != null)
+        {
+            // Nếu có, tăng số lượng của sản phẩm lên 1
+            existingProduct.Quantity++;
+        }
+        else
+        {
+            // Nếu chưa, thêm sản phẩm vào giỏ hàng với số lượng ban đầu là 1
+            product.Quantity = 1;
+            cart.Add(product);
+        }
+
+        // Serialize danh sách giỏ hàng thành JSON và lưu lại vào localStorage
+        await LocalStorageService.SetItemAsync("Cart", cart);
+
+        // Cung cấp phản hồi cho người dùng
+        await JSRuntime.InvokeVoidAsync("alert", "Sản phẩm đã được thêm vào giỏ hàng!");
+    }
+
+    //Chuyển qua trang chi tiết khi nhấn vào sản phẩm
+    private void ChuyenTrang(int id)
+    {
+        var product = sp.FirstOrDefault(p => p.ID == id);
+        Navigation.NavigateTo($"/ChiTietSanPham/{id}");
+    }
+
+    //Thêm 8 sản phẩm nữa khi bấm vào nút xem thêm
+    private void XemThem()
+    {
+        soluongHienThi += 8;
+    }
+}

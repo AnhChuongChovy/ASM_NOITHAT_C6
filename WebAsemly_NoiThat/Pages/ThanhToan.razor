@@ -1,4 +1,8 @@
 ﻿@page "/ThanhToan"
+@using QRCoder
+@using System.Drawing
+@using System.IO
+@using System.Drawing.Imaging
 @using WebAsemly_NoiThat.Service
 @using Newtonsoft.Json
 @inject NavigationManager Navigation
@@ -6,6 +10,7 @@
 @inject IJSRuntime JSRuntime
 @inject HttpClient Http
 @using WebAsemly_NoiThat.Model
+
 
 <div class="row">
     <div class="col-md-7">
@@ -23,11 +28,6 @@
             <input type="text" class="form-control sua" id="Diachi" name="Diachi" placeholder="Địa chỉ" />
         </div>
 
-        @* <div class="form-group">
-            <label class="form-label">Mã giảm giá:</label>
-            <input type="text" class="form-control sua" id="QR" name="QR" placeholder="Mã giảm giá" />
-        </div> *@
-
         <div>
             <label for="paymentMethod">Phương thức thanh toán:</label>
             <select id="paymentMethod" name="paymentMethod" class="form-select">
@@ -36,6 +36,8 @@
                 <option value="Thanh toán trực tiếp">Thanh toán khi nhận hàng</option>
             </select>
         </div>
+
+
         <button type="submit" class="btn btn-danger text-white mb-3 mt-3" style="width:50%; font-size:larger; border-radius:0; margin:0 auto" @onclick="HandlePayment">THANH TOÁN</button>
     </div>
     <div class="col-md-5">
@@ -105,12 +107,11 @@
 
     private async Task HandlePayment()
     {
-        
         var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
         var bill = new Bill
             {
-                IDThanhToan =1,
-                IDVanChuyen =1,
+                IDThanhToan = 1,
+                IDVanChuyen = 1,
                 IDNguoiDung = int.Parse(userId),
                 TongTien = (float)totalPrice,
                 NgayDatHang = DateTime.Now.ToString("yyyy-MM-dd"),
@@ -118,10 +119,14 @@
                                           // Điền thêm các thông tin liên quan khác nếu có
             };
 
-        var response = await Http.PostAsJsonAsync("https://localhost:44320/api/HoaDon/", bill);
+        var response = await Http.PostAsJsonAsync("https://localhost:44320/api/HoaDon", bill);
 
         if (response.IsSuccessStatusCode)
         {
+            // Xóa giỏ hàng khỏi Local Storage
+            await LocalStorageService.RemoveItemAsync($"Cart_{userId}");
+
+            // Thông báo thành công và điều hướng
             await JSRuntime.InvokeVoidAsync("alert", "Thanh toán thành công!");
             Navigation.NavigateTo("/");
         }
@@ -130,5 +135,11 @@
             await JSRuntime.InvokeVoidAsync("alert", "Đã xảy ra lỗi trong quá trình thanh toán.");
         }
     }
+
+
+   
+
+    
+
 
 }

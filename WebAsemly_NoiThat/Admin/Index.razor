@@ -1,12 +1,16 @@
 ﻿@page "/admin/index"
 @using System.Text.Json
-@layout AdminLayout
+@layout AdminLayout 
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @using WebAsemly_NoiThat.Model
+@inherits LayoutComponentBase
+
 
 <h3 class="text-center mt-5">Hello @userName</h3>
 <button @onclick="Logout" class="btn btn-outline-danger">Đăng Xuất</button>
+
+
 
 @code {
     private string userName = "";

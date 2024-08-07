@@ -65,7 +65,7 @@
                                     <span class="price">1.300.000đ</span>
                                 </p>
                                 <div class="overlay2">
-                                    <button>MUA NGAY</button>
+                                    <button @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)">MUA NGAY</button>
                                 </div>
                             </div>
                         </div>
