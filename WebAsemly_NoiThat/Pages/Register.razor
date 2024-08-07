@@ -1,10 +1,12 @@
-﻿@page "/DangKy"
+﻿@page "/Register"
 @using System.Net.Http
 @using System.Net.Http.Json
 @using Microsoft.JSInterop
 @using WebAsemly_NoiThat.Model
 @inject HttpClient Http
 @inject NavigationManager Navigation
+
+
 
 <div style="margin:0 auto">
     <div class="col-md-6 mt-3" style="width:100%">
@@ -69,10 +71,6 @@
     }
 
 
-    private class LoginResponse
-    {
-        public string Role { get; set; }
-        public int UserId { get; set; }
-    }
+     
 }
  

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
-using static WebAsemly_NoiThat.Service.LoginService;
+using static WebAsemly_NoiThat.Service.RegisterService;
 
 
 namespace API_NoiThat.Controllers
@@ -24,6 +24,7 @@ namespace API_NoiThat.Controllers
         }
 
         [HttpPost("Register")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -43,8 +44,8 @@ namespace API_NoiThat.Controllers
             {
                 TenNguoiDung = request.TenNguoiDung,
                 Email = request.Email,
-                MatKhau = request.MatKhau
-                
+                MatKhau = request.MatKhau,
+                IDRole = 2
             };
 
             _context.Account.Add(newAccount);
