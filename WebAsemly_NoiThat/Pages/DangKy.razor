@@ -1,34 +1,78 @@
 ﻿@page "/DangKy"
+@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.JSInterop
+@using WebAsemly_NoiThat.Model
+@inject HttpClient Http
+@inject NavigationManager Navigation
 
 <div style="margin:0 auto">
     <div class="col-md-6 mt-3" style="width:100%">
         <div class="ml-5">
-            <h3 class="font-weight-bold">ĐĂNG KÝ</h3>
-            <div class="mt-5">
-                <label for="taikhoan" class="form-label">TÊN ĐĂNG NHẬP</label>
-                <input type="text" class="form-control input-dangnhap" id="taikhoan">
-            </div>
-            <div class="mt-4">
-                <label for="password" class="form-label">MẬT KHẨU</label>
-                <input type="password" class="form-control input-dangnhap" id="password" />
-            </div>
-            <div class="mt-4">
-                <label for="password" class="form-label">XÁC NHẬN MẬT KHẨU</label>
-                <input type="password" class="form-control input-dangnhap" id="password" />
-            </div>
-            <div class="mt-4">
-                <label for="email" class="form-label">EMAIL</label>
-                <input type="email" class="form-control input-dangnhap" id="email" />
-            </div>
-            <div class="mt-4">
-                <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG KÝ</button>
-            </div>
+            <EditForm Model="registerRequest" OnValidSubmit="HandleRegister">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <h3 class="font-weight-bold">ĐĂNG KÝ</h3>
+                <div class="mt-5">
+                    <label for="taikhoan" class="form-label">TÊN ĐĂNG NHẬP</label>
+                    <InputText id="taikhoan" class="form-control input-dangnhap" @bind-Value="registerRequest.TenNguoiDung" />
+                </div>
+                <div class="mt-4">
+                    <label for="password" class="form-label">MẬT KHẨU</label>
+                    <InputText id="password" type="password" class="form-control input-dangnhap" @bind-Value="registerRequest.MatKhau" />
+                </div>
+                <div class="mt-4">
+                    <label for="repassword" class="form-label">XÁC NHẬN MẬT KHẨU</label>
+                    <InputText id="repassword" type="password" class="form-control input-dangnhap" @bind-Value="registerRequest.RePassword" />
+                </div>
+                <div class="mt-4">
+                    <label for="email" class="form-label">EMAIL</label>
+                    <InputText id="email" type="email" class="form-control input-dangnhap" @bind-Value="registerRequest.Email" />
+                </div>
+                <div class="mt-4">
+                    <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG KÝ</button>
+                </div>
+            </EditForm>
         </div>
-
     </div>
-
 </div>
 
 @code {
+    private RegisterRequest registerRequest = new RegisterRequest();
 
+    private async Task HandleRegister()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Register/Register", registerRequest);
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/success");
+            }
+            else
+            {
+                Console.WriteLine("Đăng ký không thành công: " + response.ReasonPhrase);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Lỗi trong quá trình đăng ký: " + ex.Message);
+        }
+    }
+
+    private class RegisterRequest
+    {
+        public string TenNguoiDung { get; set; }
+        public string MatKhau { get; set; }
+        public string RePassword { get; set; }
+        public string Email { get; set; }
+    }
+
+
+    private class LoginResponse
+    {
+        public string Role { get; set; }
+        public int UserId { get; set; }
+    }
 }
+ 

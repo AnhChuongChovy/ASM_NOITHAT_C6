@@ -61,6 +61,7 @@
 
 .card-category .card .overlay:hover button {
     opacity: 1;
+
 }
 
 .card-category .card .overlay button:hover {
@@ -129,8 +130,6 @@
             width: 100%;
             height: auto;
         }
-
-         
 
         .card-category .text-center {
             font-size: 14px;

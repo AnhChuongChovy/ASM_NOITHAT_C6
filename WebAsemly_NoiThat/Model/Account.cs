@@ -32,4 +32,23 @@ namespace WebAsemly_NoiThat.Model
         public string Email { get; set; }
         public string MatKhau { get; set; }
     }
+
+    public class RegisterRequest
+    {
+
+        [Required]
+        public string TenNguoiDung { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public string MatKhau { get; set; }
+
+        [Required]
+        [Compare("MatKhau", ErrorMessage = "The password and confirmation password do not match.")]
+        public string RePassword { get; set; }
+
+    }
 }
