@@ -1,84 +1,88 @@
 ﻿@page "/DangKy"
-@using System.ComponentModel.DataAnnotations
-@using System.Net.Http
-@using System.Net.Http.Json
-@using System.Threading.Tasks
-@inject HttpClient Http
-@inject NavigationManager Navigation
 @using WebAsemly_NoiThat.Model
 
 <div style="margin:0 auto">
     <div class="col-md-6 mt-3" style="width:100%">
         <div class="ml-5">
             <h3 class="font-weight-bold">ĐĂNG KÝ</h3>
-            <EditForm Model="@newAccount" OnValidSubmit="HandleSubmit">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-
-                <div class="mt-4">
-                    <label for="tenDangNhap" class="form-label">TÊN ĐĂNG NHẬP</label>
-                    <InputText class="form-control input-dangnhap" id="tenDangNhap" @bind-Value="newAccount.TenNguoiDung" />
-                </div>
-                <div class="mt-4">
-                    <label for="password" class="form-label">MẬT KHẨU</label>
-                    <InputText class="form-control input-dangnhap" id="password" type="password" @bind-Value="newAccount.MatKhau" />
-                </div>
-                <div class="mt-4">
-                    <label for="confirmPassword" class="form-label">XÁC NHẬN MẬT KHẨU</label>
-                    <InputText class="form-control input-dangnhap" id="confirmPassword" type="password" @bind-Value="confirmPassword" />
-                    <ValidationMessage For="@(() => confirmPassword)" />
-                </div>
-                <div class="mt-4">
-                    <label for="email" class="form-label">EMAIL</label>
-                    <InputText class="form-control input-dangnhap" id="email" type="email" @bind-Value="newAccount.Email" />
-                </div>
-                <!-- Loại bỏ các trường DiaChi, SDT, GioiTinh -->
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG KÝ</button>
-                </div>
-            </EditForm>
+            <div class="mt-5">
+                <label for="username" class="form-label">TÊN ĐĂNG NHẬP</label>
+                <input type="text" class="form-control input-dangnhap" @bind="username">
+            </div>
+            <div class="mt-4">
+                <label for="password" class="form-label">MẬT KHẨU</label>
+                <input type="password" class="form-control input-dangnhap" @bind="password" />
+            </div>
+            <div class="mt-4">
+                <label for="confirmPassword" class="form-label">XÁC NHẬN MẬT KHẨU</label>
+                <input type="password" class="form-control input-dangnhap" @bind="confirmPassword" />
+            </div>
+            <div class="mt-4">
+                <label for="email" class="form-label">EMAIL</label>
+                <input type="email" class="form-control input-dangnhap" @bind="email" />
+            </div>
+            <div class="mt-4">
+                <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;" @onclick="HandleRegister">ĐĂNG KÝ</button>
+            </div>
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger mt-4">@errorMessage</div>
+            }
         </div>
     </div>
 </div>
 
 @code {
-    private Account newAccount = new Account();
+    private string username;
+    private string password;
     private string confirmPassword;
+    private string email;
+    private string errorMessage;
 
-    private async Task HandleSubmit()
+    [Inject]
+    private HttpClient Http { get; set; }
+
+    private async Task HandleRegister()
     {
-        if (newAccount.MatKhau != confirmPassword)
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(email))
         {
-            // Xử lý lỗi xác nhận mật khẩu không khớp
-            // Ví dụ: Hiển thị thông báo lỗi
+            errorMessage = "Vui lòng điền đầy đủ thông tin.";
             return;
         }
 
-        // Đặt giá trị mặc định cho các trường không bắt buộc nếu chúng không được nhập
-        newAccount.IDRole = 2;
-        newAccount.DiaChi = newAccount.DiaChi ?? "";
-        newAccount.SDT = newAccount.SDT ?? "";
-        newAccount.GioiTinh = newAccount.GioiTinh ?? "";
+        if (password != confirmPassword)
+        {
+            errorMessage = "Mật khẩu và xác nhận mật khẩu không khớp.";
+            return;
+        }
+
+        var newUser = new Account
+            {
+                TenNguoiDung = username,
+                MatKhau = password,
+                Email = email
+            };
 
         try
         {
-            // Gửi dữ liệu đăng ký đến API
-            var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Account/Register", newAccount);
+            var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Account", newUser);
+
             if (response.IsSuccessStatusCode)
             {
-                // Đăng ký thành công, điều hướng hoặc thông báo cho người dùng
-                Navigation.NavigateTo("/DangNhap");
+                username = string.Empty;
+                password = string.Empty;
+                confirmPassword = string.Empty;
+                email = string.Empty;
+                errorMessage = "Đăng ký thành công!";
             }
             else
             {
-                // Xử lý lỗi từ server
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                // Ví dụ: Hiển thị thông báo lỗi
+                errorMessage = "Đăng ký thất bại. Vui lòng thử lại.";
             }
         }
         catch (Exception ex)
         {
-            // Xử lý lỗi kết nối hoặc lỗi khác
+            errorMessage = $"Đã xảy ra lỗi: {ex.Message}";
         }
     }
 }

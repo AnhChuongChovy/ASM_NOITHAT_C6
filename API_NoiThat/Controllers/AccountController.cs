@@ -134,23 +134,36 @@ namespace API_NoiThat.Controllers
         //}
 
 
-        [HttpPost("Register")]
-        public async Task<ActionResult<Account>> PostProduct(Account product)
+        //[HttpPost("Register")]
+        //public async Task<ActionResult<Account>> PostProduct(Account product)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState); // Trả về chi tiết lỗi
+        //    }
+
+        //    if (product == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Account.Add(product);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetAccountId", new { id = product.ID }, product);
+        //}
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] Account user)
         {
-            if (!ModelState.IsValid)
+            if (user == null || string.IsNullOrEmpty(user.TenNguoiDung) || string.IsNullOrEmpty(user.MatKhau) || string.IsNullOrEmpty(user.Email))
             {
-                return BadRequest(ModelState); // Trả về chi tiết lỗi
+                return BadRequest("Invalid user data.");
             }
 
-            if (product == null)
-            {
-                return BadRequest();
-            }
-
-            _context.Account.Add(product);
+            _context.Account.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAccountId", new { id = product.ID }, product);
+            return CreatedAtAction("GetAccountId", new { id = user.ID }, user);
         }
     }
 }
