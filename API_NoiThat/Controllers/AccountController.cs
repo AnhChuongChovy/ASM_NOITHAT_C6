@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_NoiThat.Models;
-using WebAsemly_NoiThat.Model;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.IO;
 
 namespace API_NoiThat.Controllers
 {
@@ -65,12 +67,52 @@ namespace API_NoiThat.Controllers
                 return BadRequest("Mật khẩu mới và xác nhận mật khẩu không khớp.");
             }
 
-            account.MatKhau = request.NewPassword; // Trong thực tế, bạn nên mã hóa mật khẩu trước khi lưu
+            return NoContent();
+        }
+
+        private bool AccountExists(int id)
+        {
+            return _context.Account.Any(e => e.ID == id);
+        }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] Account user)
+        {
+            if (user == null || string.IsNullOrEmpty(user.TenNguoiDung) || string.IsNullOrEmpty(user.MatKhau) || string.IsNullOrEmpty(user.Email))
+            {
+                return BadRequest("Invalid user data.");
+            }
 
             _context.Account.Update(account);
             await _context.SaveChangesAsync();
 
             return Ok("Đổi mật khẩu thành công");
         }
+
+        [HttpPost("upload-account")]
+        public async Task<IActionResult> UploadImageAccount(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Image_SP_ASM");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var filePath = Path.Combine(folderPath, file.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var fileUrl = $"{Request.Scheme}://{Request.Host}/Image_SP_ASM/{file.FileName}";
+
+            return Ok(new { FileUrl = fileUrl });
+        }
+
     }
 }

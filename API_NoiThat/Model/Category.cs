@@ -11,9 +11,16 @@ namespace API_NoiThat.Models
         [Required]
         public string TenDanhMuc { get; set; }
         public string HinhAnh { get; set; }
+        public string TrangThai { get; set; }
+
         public ICollection<CategoryType> CategoryType { get; set; }
         public ICollection<Voucher> Voucher { get; set; }
 
+    }
+    public class PagedResult<T>
+    {
+        public List<T> Items { get; set; }
+        public int TotalCount { get; set; }
     }
 
 }

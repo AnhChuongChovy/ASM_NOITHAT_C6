@@ -6,22 +6,37 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 
+<div class="d-flex justify-content-center">
+    <div class="col-md-6 mt-3" style="width:100%">
+        <h3 class="font-weight-bold text-center">ĐĂNG NHẬP</h3>
 
-<h3>Đăng nhập</h3>
-
-<EditForm Model="loginRequest" OnValidSubmit="HandleLogin">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div>
-        <label>Email:</label>
-        <InputText @bind-Value="loginRequest.Email" />
+        <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+@*             <ValidationSummary />
+ *@
+            <div class="mt-4">
+                <label for="email" class="form-label">EMAIL:</label>
+                <InputText type="email" id="email" @bind-Value="loginModel.Email" class="form-control input-dangnhap" />
+                <ValidationMessage For="@(() => loginModel.Email)" />
+            </div>
+            <div class="mt-4">
+                <label for="password" class="form-label">MẬT KHẨU:</label>
+                <InputText type="password" id="password" @bind-Value="loginModel.Password" class="form-control input-dangnhap" />
+                <ValidationMessage For="@(() => loginModel.Password)" />
+            </div>
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="text-danger mt-2" role="alert">
+                    @errorMessage
+                </div>
+            }
+            <div class="mt-4">
+                <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;" type="submit">ĐĂNG NHẬP</button>
+            </div>
+        </EditForm>
+        
     </div>
-    <div>
-        <label>Mật khẩu:</label>
-        <InputText @bind-Value="loginRequest.MatKhau" type="password" />
-    </div>
-    <button type="submit">Đăng nhập</button>
-</EditForm>
+</div>
 
 @code {
     @code {

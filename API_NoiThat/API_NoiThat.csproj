@@ -26,4 +26,8 @@
     <ProjectReference Include="..\WebAsemly_NoiThat\WebAsemly_NoiThat.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Image_SP_ASM\" />
+  </ItemGroup>
+
 </Project>

@@ -64,9 +64,18 @@
                                     <span class="original-price">@obj.Gia.ToString("N0")đ</span><br>
                                     <span class="price">1.300.000đ</span>
                                 </p>
-                                <div class="overlay2">
-                                    <button>MUA NGAY</button>
-                                </div>
+                                @if(obj.SoLuongTrongKho == 0)
+                                {
+                                    <div class="overlay2">
+                                        <button @onclick:stopPropagation="true" class="">HẾT HÀNG</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="overlay2">
+                                        <button @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)">MUA NGAY</button>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

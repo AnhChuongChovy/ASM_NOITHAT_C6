@@ -69,7 +69,6 @@
     <None Include="wwwroot\Image_SP_ASM\dongoaithat6.webp" />
     <None Include="wwwroot\Image_SP_ASM\dongoaithat7.webp" />
     <None Include="wwwroot\Image_SP_ASM\dongoaithat8.webp" />
-    <None Include="wwwroot\Image_SP_ASM\dongoaithat9.webp" />
     <None Include="wwwroot\Image_SP_ASM\gheaston.webp" />
     <None Include="wwwroot\Image_SP_ASM\ghebull.webp" />
     <None Include="wwwroot\Image_SP_ASM\ghedonut.webp" />
@@ -127,6 +126,7 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.17" />

@@ -1,0 +1,44 @@
+﻿@page "/admin/index"
+@using System.Text.Json
+@layout AdminLayout 
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@using WebAsemly_NoiThat.Model
+@inherits LayoutComponentBase
+
+
+<h3 class="text-center mt-5">Hello @userName</h3>
+<button @onclick="Logout" class="btn btn-outline-danger">Đăng Xuất</button>
+
+
+@code {
+    private string userName = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userRole = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userRole");
+
+        // Nếu không có quyền Admin (IDRole = 1)
+        if (userRole != "1")
+        {
+            // Chuyển hướng tới trang không có quyền truy cập
+            NavigationManager.NavigateTo("/");
+        }
+        var json = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "user");
+        if (!string.IsNullOrEmpty(json))
+        {
+            var user = JsonSerializer.Deserialize<Account>(json);
+            if (user != null)
+            {
+                userName = user.TenNguoiDung;
+            }
+        }
+    }
+
+    private async Task Logout()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "user");
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "userId");
+        NavigationManager.NavigateTo("/DangNhap");
+    }
+}
