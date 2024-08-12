@@ -7,38 +7,46 @@
 @inject NavigationManager Navigation
 
 
-
 <div style="margin:0 auto">
     <div class="col-md-6 mt-3" style="width:100%">
         <div class="ml-5">
+
             <EditForm Model="registerRequest" OnValidSubmit="HandleRegister">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <h3 class="font-weight-bold">ĐĂNG KÝ</h3>
-                <div class="mt-5">
-                    <label for="taikhoan" class="form-label">TÊN ĐĂNG NHẬP</label>
-                    <InputText id="taikhoan" class="form-control input-dangnhap" @bind-Value="registerRequest.TenNguoiDung" />
-                </div>
-                <div class="mt-4">
-                    <label for="password" class="form-label">MẬT KHẨU</label>
-                    <InputText id="password" type="password" class="form-control input-dangnhap" @bind-Value="registerRequest.MatKhau" />
-                </div>
-                <div class="mt-4">
-                    <label for="repassword" class="form-label">XÁC NHẬN MẬT KHẨU</label>
-                    <InputText id="repassword" type="password" class="form-control input-dangnhap" @bind-Value="registerRequest.RePassword" />
-                </div>
-                <div class="mt-4">
-                    <label for="email" class="form-label">EMAIL</label>
-                    <InputText id="email" type="email" class="form-control input-dangnhap" @bind-Value="registerRequest.Email" />
-                </div>
-                <div class="mt-4">
-                    <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG KÝ</button>
-                </div>
-            </EditForm>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <h3 class="font-weight-bold">ĐĂNG KÝ</h3>
+                    <div class="mt-5">
+                        <label for="taikhoan" class="form-label">TÊN ĐĂNG NHẬP</label>
+                        <InputText id="taikhoan" class="form-control input-dangky" @bind-Value="registerRequest.TenNguoiDung" />
+                    <ValidationMessage For="@(() => registerRequest.TenNguoiDung)" />
+                    </div>
+                    <div class="mt-4">
+                        <label for="password" class="form-label">MẬT KHẨU</label>
+                        <InputText id="password" type="password" class="form-control input-dangky" @bind-Value="registerRequest.MatKhau" />
+                    <ValidationMessage For="@(() => registerRequest.MatKhau)" />
+                     
+                    </div>
+                    <div class="mt-4">
+                        <label for="repassword" class="form-label">XÁC NHẬN MẬT KHẨU</label>
+                        <InputText id="repassword" type="password" class="form-control input-dangky" @bind-Value="registerRequest.RePassword" />
+                    <ValidationMessage For="@(() => registerRequest.RePassword)" />
+                    </div>
+                    <div class="mt-4">
+                        <label for="email" class="form-label">EMAIL</label>
+                        <InputText id="email" type="email" class="form-control input-dangky" @bind-Value="registerRequest.Email" />
+                    <ValidationMessage For="@(() => registerRequest.Email)" />
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG KÝ</button>
+                    </div>
+                </EditForm>
+           
         </div>
     </div>
 </div>
 
+
+@inject IJSRuntime JS
 @code {
     private RegisterRequest registerRequest = new RegisterRequest();
 
@@ -46,10 +54,19 @@
     {
         try
         {
-            var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Register/Register", registerRequest);
+            var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Register", registerRequest);
             if (response.IsSuccessStatusCode)
             {
-                Navigation.NavigateTo("/success");
+                // Convert RegisterRequest to Account
+                var account = new Account
+                    {
+                        TenNguoiDung = registerRequest.TenNguoiDung,
+                        MatKhau = registerRequest.MatKhau,
+                        Email = registerRequest.Email,
+                        // Add other properties if needed
+                    };
+                await JS.InvokeVoidAsync("alert", "Đăng ký thành công!");
+                 
             }
             else
             {
@@ -62,6 +79,8 @@
         }
     }
 
+
+
     private class RegisterRequest
     {
         public string TenNguoiDung { get; set; }
@@ -70,7 +89,4 @@
         public string Email { get; set; }
     }
 
-
-     
 }
- 

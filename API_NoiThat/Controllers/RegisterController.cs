@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
-using static WebAsemly_NoiThat.Service.RegisterService;
+using WebAsemly_NoiThat.Pages;
+ 
 
 
 namespace API_NoiThat.Controllers
@@ -44,13 +45,11 @@ namespace API_NoiThat.Controllers
             {
                 TenNguoiDung = request.TenNguoiDung,
                 Email = request.Email,
-                MatKhau = request.MatKhau,
+                MatKhau = BCrypt.Net.BCrypt.HashPassword(request.MatKhau),
                 IDRole = 2
             };
-
             _context.Account.Add(newAccount);
-            await _context.SaveChangesAsync();
-
+            _context.SaveChanges();
             return Ok("Account registered successfully.");
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace API_NoiThat.Models
@@ -8,17 +7,24 @@ namespace API_NoiThat.Models
     {
         [Required]
         public int ID { get; set; }
+
         public int IDRole { get; set; }
+
         [Required]
         public string TenNguoiDung { get; set; }
+
         [Required]
         public string Email { get; set; }
+
         [Required]
         public string MatKhau { get; set; }
+
         [Required]
         public string DiaChi { get; set; }
+
         [Required]
         public string SDT { get; set; }
+
         [Required]
         public string GioiTinh { get; set; }
 
@@ -27,19 +33,19 @@ namespace API_NoiThat.Models
         public ICollection<Bill> Bill { get; set; }
         public ICollection<Favourite> Favourite { get; set; }
         public ICollection<Reviews> Reviews { get; set; }
-
     }
+
     public class LoginRequest
     {
         [Required]
         public string Email { get; set; }
+
         [Required]
         public string MatKhau { get; set; }
     }
 
     public class RegisterRequest
     {
-
         [Required]
         public string TenNguoiDung { get; set; }
 
@@ -53,6 +59,5 @@ namespace API_NoiThat.Models
         [Required]
         [Compare("MatKhau", ErrorMessage = "The password and confirmation password do not match.")]
         public string RePassword { get; set; }
-
     }
 }

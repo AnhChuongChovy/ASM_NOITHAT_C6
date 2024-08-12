@@ -21,6 +21,8 @@ namespace WebAsemly_NoiThat.Model
         public string SDT { get; set; }
         [Required]
         public string GioiTinh { get; set; }
+
+
         //public Role Role { get; set; }
         //public ICollection<Bill> Bill { get; set; }
         //public ICollection<Favourite> Favourite { get; set; }

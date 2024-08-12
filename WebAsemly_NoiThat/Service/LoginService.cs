@@ -14,5 +14,5 @@ namespace WebAsemly_NoiThat.Service
 
         
     }
-    public class RegisterService { }
+     
 }

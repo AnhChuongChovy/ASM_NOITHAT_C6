@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\homepages\home.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Pages\homepages\Carousel.razor" />
     <None Include="Pages\homepages\Voucher.razor" />
     <None Include="wwwroot\images\bggioithieu.webp" />

@@ -1,10 +1,9 @@
 ﻿using API_NoiThat.Data;
-using Microsoft.AspNetCore.Http;
+using API_NoiThat.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API_NoiThat.Models;
 
 namespace API_NoiThat.Controllers
 {
@@ -13,6 +12,7 @@ namespace API_NoiThat.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
+
         public AccountController(ApplicationDBContext context)
         {
             _context = context;
