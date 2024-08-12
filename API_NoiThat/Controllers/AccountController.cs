@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using API_NoiThat.Models;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.IO;
 
 namespace API_NoiThat.Controllers
 {
@@ -100,58 +101,7 @@ namespace API_NoiThat.Controllers
             return _context.Account.Any(e => e.ID == id);
         }
 
-
-        //[HttpPost("Register")]
-        //public async Task<IActionResult> Register([FromBody] Account account)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    // Kiểm tra xem tài khoản đã tồn tại chưa
-        //    var existingAccount = await _context.Account
-        //        .FirstOrDefaultAsync(a => a.Email == account.Email);
-
-        //    if (existingAccount != null)
-        //    {
-        //        return Conflict("Tài khoản đã tồn tại.");
-        //    }
-
-        //    // Mã hóa mật khẩu trước khi lưu
-        //    account.MatKhau = HashPassword(account.MatKhau);
-
-        //    _context.Account.Add(account);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok();
-        //}
-
-        //private string HashPassword(string password)
-        //{
-        //    // Implement your password hashing logic here
-        //    return password; // Placeholder
-        //}
-
-
-        //[HttpPost("Register")]
-        //public async Task<ActionResult<Account>> PostProduct(Account product)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState); // Trả về chi tiết lỗi
-        //    }
-
-        //    if (product == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Account.Add(product);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetAccountId", new { id = product.ID }, product);
-        //}
+        
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] Account user)
         {
@@ -165,5 +115,30 @@ namespace API_NoiThat.Controllers
 
             return CreatedAtAction("GetAccountId", new { id = user.ID }, user);
         }
+
+        [HttpPost("upload-account")]
+        public async Task<IActionResult> UploadImageAccount(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Image_SP_ASM");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var filePath = Path.Combine(folderPath, file.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var fileUrl = $"{Request.Scheme}://{Request.Host}/Image_SP_ASM/{file.FileName}";
+
+            return Ok(new { FileUrl = fileUrl });
+        }
+
     }
 }

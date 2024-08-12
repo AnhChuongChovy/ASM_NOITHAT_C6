@@ -2,6 +2,8 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Text.Json
 @using WebAsemly_NoiThat.Model
 
 <div class="container">
@@ -16,10 +18,10 @@
                     <p style="font-size:25px; font-weight:bold; text-transform:uppercase; padding-left:10px">Thông tin cá nhân</p>
                 </div>
                 <div class="text-center mt-2">
-                    <img id="profileImagePreview" src="/IMG/@account.HinhAnh" height="100px" width="100px" style="border-radius:50%; object-fit:cover; border:1px solid black"><br />
+                    <img id="profileImagePreview" src="@account.HinhAnh" height="100px" width="100px" style="border-radius:50%; object-fit:cover; border:1px solid black"><br />
                     <label for="profileImage" class="btn btn-primary mt-2">
                         Chọn ảnh
-                        <input type="file" id="profileImage" name="profileImage" class="d-none" @onchange="OnFileChange">
+                        <InputFile type="file" id="profileImage" name="profileImage" class="d-none" OnChange="HandleFileSelected" />
                     </label>
                 </div>
             </div>
@@ -77,13 +79,15 @@
                     </div>
                     <div class="col-md-9">
                         <InputRadioGroup @bind-Value="account.GioiTinh">
-                            @foreach (var gender in new[] { "Nam", "Nữ" })
-                            {
-                                <div class="form-check col-md-2 ml-2">
-                                    <InputRadio id="@($"gioiTinh{gender}")" class="form-check-input" Value="@gender" />
-                                    <label class="form-check-label" for="@($"gioiTinh{gender}")">@gender</label>
-                                </div>
-                            }
+                            <div class="d-flex">
+                                @foreach (var gender in new[] { "Nam", "Nữ" })
+                                {
+                                    <div class="form-check mr-3">
+                                        <InputRadio id="@($"gioiTinh{gender}")" class="form-check-input" Value="@gender" />
+                                        <label class="form-check-label" for="@($"gioiTinh{gender}")">@gender</label>
+                                    </div>
+                                }
+                            </div>
                         </InputRadioGroup>
                     </div>
                 </div>
@@ -94,12 +98,16 @@
     </div>
 </div>
 
+
+
 @code {
     [Parameter]
     public int id { get; set; }
 
     private Account account = new Account();
+    private IBrowserFile selectedFile;
 
+    // Load thông tin tài khoản theo id đã lưu vào local
     protected override async Task OnInitializedAsync()
     {
         var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
@@ -114,6 +122,37 @@
         }
     }
 
+    // Xử lý khi chọn tệp tin
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        if (file != null)
+        {
+            // Tạo MultipartFormDataContent để gửi tệp tin đến API
+            var content = new MultipartFormDataContent();
+            var streamContent = new StreamContent(file.OpenReadStream());
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+            content.Add(streamContent, "file", file.Name);
+
+            // Gửi tệp tin đến API
+            var response = await Http.PostAsync("https://localhost:44320/api/Account/upload-account", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<JsonElement>();
+                var fileUrl = result.GetProperty("FileUrl").GetString();
+                account.HinhAnh = fileUrl;
+                StateHasChanged();
+            }
+            else
+            {
+                Console.WriteLine("Lỗi khi tải lên tệp.");
+            }
+        }
+    }
+
+    // Cập nhật thông tin
     private async Task UpdateAccount()
     {
         var response = await Http.PutAsJsonAsync($"https://localhost:44320/api/Account/{account.ID}", account);
@@ -126,29 +165,5 @@
         {
             Console.WriteLine("Cập nhật không thành công.");
         }
-    }
-
-    private async Task OnFileChange(ChangeEventArgs e)
-    {
-        var file = (IBrowserFile)e.Value;
-
-        if (file != null)
-        {
-            var imageUrl = await UploadFile(file);
-            account.HinhAnh = imageUrl;
-            StateHasChanged();
-        }
-    }
-
-    private async Task<string> UploadFile(IBrowserFile file)
-    {
-        var formData = new MultipartFormDataContent();
-        var fileContent = new StreamContent(file.OpenReadStream());
-        formData.Add(fileContent, "file", file.Name);
-
-        var response = await Http.PostAsync("https://localhost:44320/api/Upload", formData);
-        var imageUrl = await response.Content.ReadAsStringAsync();
-
-        return imageUrl;
     }
 }

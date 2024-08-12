@@ -13,6 +13,7 @@ namespace WebAsemly_NoiThat.Pages
     {
         private LoginModel loginModel = new LoginModel();
 
+        private string errorMessage;
         private async Task HandleLogin()
         {
             var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Account/login", loginModel);
@@ -60,17 +61,22 @@ namespace WebAsemly_NoiThat.Pages
                 await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "Cart");
 
                 // Điều hướng người dùng sau khi đăng nhập
-                if (user.IDRole == 2)
+                if (user.IDRole == 1)
+                {
+                    NavigationManager.NavigateTo("/admin/index");
+                }
+                else if (user.IDRole == 2)
                 {
                     NavigationManager.NavigateTo($"/TaiKhoan/{user.ID}");
                 }
-                else if (user.IDRole == 1)
+                else
                 {
-                    NavigationManager.NavigateTo("/admin/index");
+                    NavigationManager.NavigateTo("/unauthorized");
                 }
             }
             else
             {
+                errorMessage = "Thông tin đăng nhập không đúng. Vui lòng kiểm tra lại.";
                 Console.WriteLine("Đăng nhập không thành công.");
             }
         }

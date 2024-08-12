@@ -93,35 +93,34 @@ namespace API_NoiThat.Controllers
         }
 
 
-
-
         [HttpPost("upload-image")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
             if (file == null || file.Length == 0)
-            {
-                return BadRequest("File không hợp lệ");
-            }
+                return BadRequest("No file uploaded.");
 
-            var folderPath = Path.Combine("wwwroot", "Image_SP_ASM");
-            var fileName = Path.GetFileName(file.FileName);
-            var filePath = Path.Combine(folderPath, fileName);
-
-            // Tạo thư mục nếu chưa tồn tại
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Image_SP_ASM");
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
 
-            // Lưu file vào thư mục
+            var filePath = Path.Combine(folderPath, file.FileName);
+
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            var imageUrl = $"/Image_SP_ASM/{fileName}"; // URL tương đối của ảnh
-            return Ok(imageUrl);
+            var fileUrl = $"{Request.Scheme}://{Request.Host}/Image_SP_ASM/{file.FileName}";
+
+            return Ok(new { FileUrl = fileUrl });
         }
+
+
+
+
+
 
 
     }

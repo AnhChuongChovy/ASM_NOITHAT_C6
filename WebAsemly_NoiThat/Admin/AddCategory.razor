@@ -1,5 +1,4 @@
-﻿<!-- Pages/Admin/Categories.razor -->
-@page "/admin/add-categories"
+﻿@page "/admin/add-categories"
 @inject HttpClient Http
 @layout AdminLayout
 @inject NavigationManager Navigation
@@ -7,7 +6,6 @@
 
 <h3 class="mt-3">Thêm danh mục</h3>
 
-<!-- Form để thêm/sửa danh mục -->
 <EditForm Model="@category" OnValidSubmit="@SaveCategory">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -26,45 +24,55 @@
     </div>
 </EditForm>
 
-
-
 @code {
     private Category category = new Category();
-    private IBrowserFile selectedFile;
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
-        selectedFile = e.File;
-        var buffer = new byte[selectedFile.Size];
-        await selectedFile.OpenReadStream().ReadAsync(buffer);
-
-        // Gửi buffer lên server
-        var content = new MultipartFormDataContent();
-        content.Add(new ByteArrayContent(buffer), "file", selectedFile.Name);
-
-        var uploadResult = await Http.PostAsync("https://localhost:44320/api/Category/upload-image", content);
-
-        if (uploadResult.IsSuccessStatusCode)
+        var file = e.File;
+        if (file != null)
         {
-            var imageUrl = await uploadResult.Content.ReadAsStringAsync();
-            category.HinhAnh = imageUrl; // Lưu URL vào category
-        }
-        else
-        {
-            Console.WriteLine("Failed to upload image.");
+            var content = new MultipartFormDataContent();
+            var streamContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024 * 15)); // 15 MB
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+            content.Add(streamContent, "file", file.Name);
+
+            var response = await Http.PostAsync("https://localhost:44320/api/Category/upload-image", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Sử dụng lớp dữ liệu UploadImageResponse
+                var result = await response.Content.ReadFromJsonAsync<UploadImageResponse>();
+                if (result != null)
+                {
+                    var fileUrl = result.FileUrl;
+                    category.HinhAnh = fileUrl; // Lưu URL hình ảnh vào thuộc tính của category
+                    Console.WriteLine($"Hình ảnh đã được tải lên: {category.HinhAnh}");
+                }
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Lỗi khi tải lên hình ảnh: {errorMessage}");
+            }
         }
     }
+
+
 
     private async Task SaveCategory()
     {
         try
         {
+            Console.WriteLine($"Tên danh mục: {category.TenDanhMuc}");
+            Console.WriteLine($"Hình ảnh: {category.HinhAnh}");
+
             var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Category", category);
 
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("Danh mục đã được thêm thành công.");
-                Navigation.NavigateTo($"/admin/list-categories");
+                Navigation.NavigateTo("/admin/list-categories");
             }
             else
             {

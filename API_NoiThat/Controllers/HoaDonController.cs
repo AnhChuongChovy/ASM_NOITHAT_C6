@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using WebAsemly_NoiThat.Model;
+
 
 namespace API_NoiThat.Controllers
 {
@@ -51,6 +52,22 @@ namespace API_NoiThat.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBillId", new { id = bill.ID }, bill);
+        }
+
+        [HttpGet("GetBillsByUserId/{userId}")]
+        public async Task<ActionResult<IEnumerable<Bill>>> GetBillsByUserId(int userId)
+        {
+            var bills = await _context.Bill
+                .Where(b => b.IDNguoiDung == userId)
+                .Include(b => b.BillDetail)
+                .ToListAsync();
+
+            if (bills == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(bills);
         }
     }
 }
