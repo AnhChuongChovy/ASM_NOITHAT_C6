@@ -9,20 +9,24 @@ namespace WebAsemly_NoiThat.Model
         [Required]
         public int ID { get; set; }
         public int IDRole { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập tên đăng nhập.")]
         public string TenNguoiDung { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập email.")]
         [EmailAddress(ErrorMessage = "Email không hợp lệ.")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
         public string MatKhau { get; set; }
-        
+
+        [Required(ErrorMessage = "Vui lòng nhập mật khẩu xác nhận.")]
+        [Compare(nameof(MatKhau), ErrorMessage = "Mật khẩu xác nhận không khớp.")]
+        public string XacNhanMatKhau { get; set; }
         public string DiaChi { get; set; }
         
         public string SDT { get; set; }
         
         public string GioiTinh { get; set; }
         public string HinhAnh { get; set; }
+        public string TrangThai { get; set; }
 
         public Role Role { get; set; }
         //public ICollection<Bill> Bill { get; set; }

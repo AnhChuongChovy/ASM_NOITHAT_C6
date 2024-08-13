@@ -12,6 +12,7 @@ namespace WebAsemly_NoiThat.Model
         public int IDDanhMuc { get; set; }
         public string TenLoaiDanhMuc { get; set; }
         public string HinhAnh { get; set; }
+        public string TrangThai {  get; set; }
         public Category Category { get; set; }
         public ICollection<Product> Product { get; set; }
     }

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +27,7 @@ namespace WebAsemly_NoiThat
             builder.Services.AddScoped<LocalStorageService>();
             //builder.Services.AddScoped<AdminService>();
 
-           
+
 
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             builder.Services.AddHttpClient("https://localhost:44320/api/", client =>

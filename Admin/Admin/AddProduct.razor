@@ -1,0 +1,95 @@
+﻿@page "/admin/add-products"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@layout MainLayout
+@using Model
+
+<h3 class="mt-3">Thêm Sản Phẩm</h3>
+
+<EditForm Model="@product" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="TenSP">Tên Sản Phẩm</label>
+                <InputText id="TenSP" class="form-control" @bind-Value="product.TenSP" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="CategoryType">Danh Mục Con</label>
+                <select id="CategoryType" class="form-control" @bind="product.IDLoaiDM">
+                    <option value="">Chọn danh mục con</option>
+                    @foreach (var categoryType in categoryTypes)
+                    {
+                        <option value="@categoryType.ID">@categoryType.TenLoaiDanhMuc</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Gia">Giá</label>
+                <InputNumber id="Gia" class="form-control" @bind-Value="product.Gia" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="VatLieu">Vật Liệu</label>
+                <InputText id="VatLieu" class="form-control" @bind-Value="product.VatLieu" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="KichThuoc">Kích Thước</label>
+                <InputText id="KichThuoc" class="form-control" @bind-Value="product.KichThuoc" />
+            </div>
+            
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="HinhAnh">Hình Ảnh</label>
+                <InputText id="HinhAnh" class="form-control" @bind-Value="product.HinhAnh" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="SoLuongTrongKho">Số Lượng Trong Kho</label>
+                <InputNumber id="SoLuongTrongKho" class="form-control" @bind-Value="product.SoLuongTrongKho" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="MoTa">Mô Tả</label>
+                <InputTextArea id="MoTa" class="form-control" @bind-Value="product.MoTa" />
+            </div>
+        </div>
+    </div>
+<button type="submit" class="btn btn-primary">Thêm</button>
+</EditForm>
+
+@code {
+    private Product product = new Product();
+    private List<CategoryType> categoryTypes = new List<CategoryType>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        categoryTypes = await Http.GetFromJsonAsync<List<CategoryType>>("https://localhost:44320/api/CategoryType/categorytypes");
+    }
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            await Http.PostAsJsonAsync("https://localhost:44320/api/Product", product);
+            NavigationManager.NavigateTo("/admin/products");
+        }
+        catch (Exception ex)
+        {
+            // Xử lý lỗi nếu cần
+            Console.WriteLine($"Error adding product: {ex.Message}");
+        }
+    }
+}

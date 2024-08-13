@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API_NoiThat.Models;
 using System;
+using System.IO;
 
 namespace API_NoiThat.Controllers
 {
@@ -86,6 +87,30 @@ namespace API_NoiThat.Controllers
             }
 
             return categoryType;
+        }
+
+        [HttpPost("upload-image")]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Image_SP_ASM");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var filePath = Path.Combine(folderPath, file.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var fileUrl = $"{Request.Scheme}://{Request.Host}/Image_SP_ASM/{file.FileName}";
+
+            return Ok(new { FileUrl = fileUrl });
         }
     }
 }

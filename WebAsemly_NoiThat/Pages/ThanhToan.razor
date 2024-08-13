@@ -11,80 +11,83 @@
 @inject HttpClient Http
 @using WebAsemly_NoiThat.Model
 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="form-group">
+                <label class="form-label">Tên người dùng:</label>
+                <input type="text" class="form-control sua" id="TenND" name="TenND" value="@account.TenNguoiDung" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Số điện thoại:</label>
+                <input type="text" class="form-control sua" id="SDT" name="SDT" value="@account.SDT" />
+            </div>
 
-<div class="row">
-    <div class="col-md-7">
-        <div class="form-group">
-            <label class="form-label">Tên người dùng:</label>
-            <input type="text" class="form-control sua" id="TenND" name="TenND" value="@account.TenNguoiDung" />
+            <div class="form-group">
+                <label class="form-label">Địa chỉ:</label>
+                <input type="text" class="form-control sua" id="Diachi" name="Diachi" placeholder="Địa chỉ" />
+            </div>
+
+            <div>
+                <label for="paymentMethod">Phương thức thanh toán:</label>
+                <select id="paymentMethod" name="paymentMethod" class="form-select">
+                    <option value="CreditCard">Credit Card</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="Thanh toán trực tiếp">Thanh toán khi nhận hàng</option>
+                </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-danger text-white mb-3 mt-3" style="width:50%; font-size:larger; border-radius:0; margin:0 auto" @onclick="HandlePayment">THANH TOÁN</button>
         </div>
-        <div class="form-group">
-            <label class="form-label">Số điện thoại:</label>
-            <input type="text" class="form-control sua" id="SDT" name="SDT" value="@account.SDT" />
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Địa chỉ:</label>
-            <input type="text" class="form-control sua" id="Diachi" name="Diachi" placeholder="Địa chỉ" />
-        </div>
-
-        <div>
-            <label for="paymentMethod">Phương thức thanh toán:</label>
-            <select id="paymentMethod" name="paymentMethod" class="form-select">
-                <option value="CreditCard">Credit Card</option>
-                <option value="PayPal">PayPal</option>
-                <option value="Thanh toán trực tiếp">Thanh toán khi nhận hàng</option>
-            </select>
-        </div>
-
-
-        <button type="submit" class="btn btn-danger text-white mb-3 mt-3" style="width:50%; font-size:larger; border-radius:0; margin:0 auto" @onclick="HandlePayment">THANH TOÁN</button>
-    </div>
-    <div class="col-md-5">
-        <div class="card" style="border-radius:0">
-            <h3 class="text-center mt-4 font-weight-bold">THÔNG TIN ĐƠN HÀNG</h3>
-            <hr />
-            <div class="row">
-                @if (cartItems == null)
-                {
-                    <p><em>Loading...</em></p>
-                }
-                else if (cartItems.Count == 0)
-                {
-                    <p class="text-center"><em>Giỏ hàng trống</em></p>
-                }
-                else
-                {
-                    @foreach (var item in cartItems)
+        <div class="col-md-5">
+            <div class="card" style="border-radius:0">
+                <h3 class="text-center mt-4 font-weight-bold">THÔNG TIN ĐƠN HÀNG</h3>
+                <hr />
+                <div class="row">
+                    @if (cartItems == null)
                     {
-                        var totalPrice = item.Quantity * item.Gia;
-
-                        <div class="col-md-4 mb-3">
-                            <div class="ml-3">
-                                <img src="/Image_SP_ASM/@item.HinhAnh" width="100%" height="100%" />
-                            </div>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span style="white-space: nowrap, overflow: hidden, text-overflow: ellipsis,display: block,width: 90%">Tên sản phẩm: <strong>@item.TenSP</strong></span><br />
-                            <span>Số lượng: <span class="text-primary">@item.Quantity</span></span><br />
-                            <span>Giá: <span class="text-danger">@item.Gia.ToString("N0") VNĐ</span></span>
-                        </div>
+                        <p><em>Loading...</em></p>
                     }
-                }
-            </div>
-            <hr />
-            <div class="row ml-3 mb-3" style="font-size:20px">
-                <strong>
-                    Tổng tiền: 
-                 <span  class="text-danger">@totalPrice.ToString("N0") VNĐ</span></strong>
-            </div>
-        </div>
-        @if (!string.IsNullOrEmpty(errorMessage))
-        {
-            <div class="alert alert-danger mt-3">@errorMessage</div>
-        }
+                    else if (cartItems.Count == 0)
+                    {
+                        <p class="text-center"><em>Giỏ hàng trống</em></p>
+                    }
+                    else
+                    {
+                        @foreach (var item in cartItems)
+                        {
+                            var totalPrice = item.Quantity * item.Gia;
 
+                            <div class="col-md-4 mb-3">
+                                <div class="ml-3">
+                                    <img src="@item.HinhAnh" width="100%" height="100%" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <span style="white-space: nowrap, overflow: hidden, text-overflow: ellipsis,display: block,width: 90%">Tên sản phẩm: <strong>@item.TenSP</strong></span><br />
+                                <span>Số lượng: <span class="text-primary">@item.Quantity</span></span><br />
+                                <span>Giá: <span class="text-danger">@item.Gia.ToString("N0") VNĐ</span></span>
+                            </div>
+                        }
+                    }
+                </div>
+                <hr />
+                <div class="row ml-3 mb-3" style="font-size:20px">
+                    <strong>
+                        Tổng tiền:
+                        <span class="text-danger">@totalPrice.ToString("N0") VNĐ</span>
+                    </strong>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger mt-3">@errorMessage</div>
+            }
+
+        </div>
     </div>
+
 </div>
 
 @code {

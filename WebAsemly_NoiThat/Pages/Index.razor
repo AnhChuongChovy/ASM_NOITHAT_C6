@@ -23,11 +23,72 @@
 <div class="mt-5">
     <img class="w-100" src="/images/banner/BestSeller.png" />
     <div class="position-relative">
-        <div class="overlay3"></div>
+        
     </div>
 </div>
 
-<h3 class="container mt-5 font-weight-bolder">TOP RATING</h3>
+<div class="container">
+    <h3 class="container mt-5 font-weight-bolder">BÀN </h3>
+    @if (SanPham == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="row" style="margin:0 auto">
+            @foreach (var obj in SanPham.Where(i => i.IDLoaiDM == 3).Take(soluongHienThi))
+            {
+                <div class="col-md-3 mt-4">
+                    <div class="card-product">
+                        <div class="card">
+                            <div class="image-container position-relative" @onclick="() => ChuyenTrang(obj.ID)" id="@obj.ID">
+                                <img src="@obj.HinhAnh" class="card-img-top" alt="Product Image" style="cursor: pointer;">
+                                <div class="overlay"></div>
+                                <div class="icon-container">
+                                    <i class="bi bi-cart" @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)"></i> |
+                                    <i class="bi bi-heart" @onclick:stopPropagation="true"></i>
+                                </div>
+                                <div class="discount-badge">-10%</div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@obj.TenSP</h5>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <p class="card-text">
+                                    <span class="original-price">@obj.Gia.ToString("N0")đ</span><br>
+                                    <span class="price">1.300.000đ</span>
+                                </p>
+                                @if (obj.SoLuongTrongKho == 0)
+                                {
+                                    <div class="overlay2">
+                                        <button @onclick:stopPropagation="true" class="">HẾT HÀNG</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="overlay2">
+                                        <button @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)">MUA NGAY</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <div class="row">
+        <div class="button-custom mt-5" style="margin: 0 auto;" @onclick="LoadMore">XEM THÊM</div>
+    </div>
+</div>
+
+
+<h3 class="container mt-5 font-weight-bolder">SẢN PHẨM HOT</h3>
 
 <div class="container">
     @if (SanPham == null)
@@ -43,7 +104,7 @@
                     <div class="card-product">
                         <div class="card">
                             <div class="image-container position-relative" @onclick="() => ChuyenTrang(obj.ID)" id="@obj.ID">
-                                <img src="/Image_SP_ASM/@obj.HinhAnh" class="card-img-top" alt="Product Image" style="cursor: pointer;">
+                                <img src="@obj.HinhAnh" class="card-img-top" alt="Product Image" style="cursor: pointer;">
                                 <div class="overlay"></div>
                                 <div class="icon-container">
                                     <i class="bi bi-cart" @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)"></i> |

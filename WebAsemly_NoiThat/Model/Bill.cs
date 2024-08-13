@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WebAsemly_NoiThat.Model
 {
@@ -20,6 +21,7 @@ namespace WebAsemly_NoiThat.Model
         public Account Account { get; set; }
         //public Payment Payment { get; set; }
         //public Shipping Shipping { get; set; }
+        [JsonIgnore]
         public ICollection<BillDetail> BillDetail { get; set; }
     }
 }

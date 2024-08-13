@@ -46,12 +46,12 @@
                 <label for="KichThuoc">Kích Thước</label>
                 <InputText id="KichThuoc" class="form-control" @bind-Value="product.KichThuoc" />
             </div>
-            
+
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="HinhAnh">Hình Ảnh</label>
-                <InputText id="HinhAnh" class="form-control" @bind-Value="product.HinhAnh" />
+                <InputFile id="HinhAnh" class="form-control" OnChange="HandleFileSelected" />
             </div>
         </div>
         <div class="col-md-4">
@@ -66,8 +66,14 @@
                 <InputTextArea id="MoTa" class="form-control" @bind-Value="product.MoTa" />
             </div>
         </div>
+        <div class="col-md-4">
+            @if (product.HinhAnh != null)
+            {
+                <img src="@product.HinhAnh" width="100px" height="100px" class="mt-2" />
+            }
+        </div>
     </div>
-<button type="submit" class="btn btn-primary">Thêm</button>
+    <button type="submit" class="btn btn-primary">Thêm</button>
 </EditForm>
 
 @code {
@@ -79,12 +85,43 @@
         categoryTypes = await Http.GetFromJsonAsync<List<CategoryType>>("https://localhost:44320/api/CategoryType/categorytypes");
     }
 
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            var content = new MultipartFormDataContent();
+            var streamContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024 * 15)); // 15 MB
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+            content.Add(streamContent, "file", file.Name);
+
+            var response = await Http.PostAsync("https://localhost:44320/api/Product/upload-image", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Sử dụng lớp dữ liệu UploadImageResponse
+                var result = await response.Content.ReadFromJsonAsync<UploadImageResponse>();
+                if (result != null)
+                {
+                    var fileUrl = result.FileUrl;
+                    product.HinhAnh = fileUrl; // Lưu URL hình ảnh vào thuộc tính của category
+                    Console.WriteLine($"Hình ảnh đã được tải lên: {product.HinhAnh}");
+                }
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Lỗi khi tải lên hình ảnh: {errorMessage}");
+            }
+        }
+    }
+
     private async Task HandleSubmit()
     {
         try
         {
             await Http.PostAsJsonAsync("https://localhost:44320/api/Product", product);
-            NavigationManager.NavigateTo("/admin/products");
+            NavigationManager.NavigateTo("/admin/list-products");
         }
         catch (Exception ex)
         {

@@ -15,14 +15,15 @@ namespace API_NoiThat.Models
         public string Email { get; set; }
         [Required]
         public string MatKhau { get; set; }
-        [Required]
+        
         public string DiaChi { get; set; }
-        [Required]
+        
         public string SDT { get; set; }
-        [Required]
+       
         public string GioiTinh { get; set; }
 
         public string HinhAnh { get; set; }
+        public string TrangThai { get; set; }
         public Role Role { get; set; }
         public ICollection<Bill> Bill { get; set; }
         public ICollection<Favourite> Favourite { get; set; }

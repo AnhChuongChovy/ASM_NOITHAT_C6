@@ -29,9 +29,12 @@ namespace API_NoiThat.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Bill>> GetBillId(int id)
+        public async Task<ActionResult<Bill>> GetBill(int id)
         {
-            var bill = await _context.Bill.FindAsync(id);
+            var bill = await _context.Bill
+                .Include(b => b.BillDetail) // Load BillDetail information
+                .FirstOrDefaultAsync(b => b.ID == id);
+
             if (bill == null)
             {
                 return NotFound();
@@ -39,7 +42,7 @@ namespace API_NoiThat.Controllers
 
             return bill;
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Models.Bill>> PostBill(Models.Bill bill)
         {
@@ -54,20 +57,36 @@ namespace API_NoiThat.Controllers
             return CreatedAtAction("GetBillId", new { id = bill.ID }, bill);
         }
 
-        [HttpGet("GetBillsByUserId/{userId}")]
-        public async Task<ActionResult<IEnumerable<Bill>>> GetBillsByUserId(int userId)
+
+        [HttpGet("by-bill/{billId}")]
+        public async Task<ActionResult<IEnumerable<BillDetail>>> GetBillDetailsByBillId(int billId)
         {
-            var bills = await _context.Bill
-                .Where(b => b.IDNguoiDung == userId)
-                .Include(b => b.BillDetail)
+            var billDetails = await _context.BillDetail
+                .Where(bd => bd.IDHoaDon == billId)
+                .Include(bd => bd.Product) // Load Product information
                 .ToListAsync();
 
-            if (bills == null)
+            if (billDetails == null || !billDetails.Any())
             {
                 return NotFound();
             }
 
-            return Ok(bills);
+            return billDetails;
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBillStatus(int id, [FromBody] string newStatus)
+        {
+            var bill = await _context.Bill.FindAsync(id);
+            if (bill == null)
+            {
+                return NotFound();
+            }
+
+            bill.TrangThai = newStatus;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 }

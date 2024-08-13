@@ -16,14 +16,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var userRole = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userRole");
+        var userRole = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
 
-        // Nếu không có quyền Admin (IDRole = 1)
-        if (userRole != "1")
-        {
-            // Chuyển hướng tới trang không có quyền truy cập
-            NavigationManager.NavigateTo("/");
-        }
+
         var json = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "user");
         if (!string.IsNullOrEmpty(json))
         {
@@ -31,6 +26,18 @@
             if (user != null)
             {
                 userName = user.TenNguoiDung;
+            }
+            if (user.IDRole == 1)
+            {
+               
+                NavigationManager.NavigateTo("/admin/index");
+
+            }
+            // Nếu không có quyền Admin (IDRole = 1)
+            else
+            {
+                // Chuyển hướng tới trang không có quyền truy cập
+                NavigationManager.NavigateTo("/");
             }
         }
     }

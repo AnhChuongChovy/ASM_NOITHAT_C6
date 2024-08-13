@@ -1,44 +1,23 @@
 ﻿@page "/DanhMuc/{categoryId:int}"
-@inject  ProductService ProductService
-@inject NavigationManager Navigation
-@using WebAsemly_NoiThat.Service
 @using WebAsemly_NoiThat.Model
 
+<h2>@category?.TenDanhMuc</h2>
 
-<h3>Danh Mục</h3>
-
-@if (categoryTypes == null)
+@if (category == null)
 {
     <p>Loading...</p>
 }
 else
 {
-    <ul>
-        @foreach (var categoryType in categoryTypes)
-        {
-            <li @onclick="() => LoadProducts(categoryType.ID)">
-                @categoryType.TenLoaiDanhMuc
-            </li>
-        }
-    </ul>
-
-    @if (products != null)
+    @foreach (var categoryType in categoryTypes)
     {
-        <h4>Sản phẩm</h4>
-        <div class="row">
-            @foreach (var product in products)
+        <h3>@categoryType.TenLoaiDanhMuc</h3>
+        <ul>
+            @foreach (var product in categoryType.Product)
             {
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="/Image_SP_ASM/@product.HinhAnh" class="card-img-top" alt="@product.TenSP" @onclick="() => ChuyenTrang(product.ID)">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.TenSP</h5>
-                            <p class="card-text">@product.Gia.ToString("N0") đ</p>
-                        </div>
-                    </div>
-                </div>
+                <li>@product.TenSP - @product.Gia</li>
             }
-        </div>
+        </ul>
     }
 }
 
@@ -46,21 +25,23 @@ else
     [Parameter]
     public int categoryId { get; set; }
 
+    private Category category;
     private List<CategoryType> categoryTypes;
-    private List<Product> products;
 
     protected override async Task OnInitializedAsync()
     {
-        categoryTypes = await ProductService.GetCategoryTypesAsync(categoryId);
-    }
-
-    private async Task LoadProducts(int categoryTypeId)
-    {
-        products = await ProductService.GetProductsAsync(categoryTypeId);
-    }
-
-    private void ChuyenTrang(int productId)
-    {
-        Navigation.NavigateTo($"/product/{productId}");
+        try
+        {
+            var httpClient = new HttpClient();
+            category = await httpClient.GetFromJsonAsync<Category>($"https://localhost:44320/api/Category/{categoryId}");
+            if (category != null)
+            {
+                categoryTypes = category.CategoryType.ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading category: {ex.Message}");
+        }
     }
 }

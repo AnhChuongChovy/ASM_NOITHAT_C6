@@ -1,88 +1,78 @@
 ﻿@page "/DangKy"
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Http.Json
+@inject HttpClient Http
+@using System.Net.Mail
+@using System.Net
 @using WebAsemly_NoiThat.Model
 
-<div style="margin:0 auto">
+<EditForm Model="@newAccount" OnValidSubmit="HandleRegister">
+    <DataAnnotationsValidator />
+    @* <ValidationSummary /> *@
+
     <div class="col-md-6 mt-3" style="width:100%">
         <div class="ml-5">
             <h3 class="font-weight-bold">ĐĂNG KÝ</h3>
             <div class="mt-5">
                 <label for="username" class="form-label">TÊN ĐĂNG NHẬP</label>
-                <input type="text" class="form-control input-dangnhap" @bind="username">
+                <InputText class="form-control input-dangnhap" id="username" @bind-Value="newAccount.TenNguoiDung" />
+                <ValidationMessage For="@(() => newAccount.TenNguoiDung)" />
             </div>
             <div class="mt-4">
                 <label for="password" class="form-label">MẬT KHẨU</label>
-                <input type="password" class="form-control input-dangnhap" @bind="password" />
+                <InputText type="password" class="form-control input-dangnhap" id="password" @bind-Value="newAccount.MatKhau" />
+                <ValidationMessage For="@(() => newAccount.MatKhau)" />
             </div>
             <div class="mt-4">
                 <label for="confirmPassword" class="form-label">XÁC NHẬN MẬT KHẨU</label>
-                <input type="password" class="form-control input-dangnhap" @bind="confirmPassword" />
+                <InputText type="password" class="form-control input-dangnhap" id="confirmPassword" @bind-Value="newAccount.XacNhanMatKhau" />
+                <ValidationMessage For="@(() => newAccount.XacNhanMatKhau)" />
             </div>
             <div class="mt-4">
                 <label for="email" class="form-label">EMAIL</label>
-                <input type="email" class="form-control input-dangnhap" @bind="email" />
+                <InputText type="email" class="form-control input-dangnhap" id="email" @bind-Value="newAccount.Email" />
+                <ValidationMessage For="@(() => newAccount.Email)" />
             </div>
             <div class="mt-4">
-                <button class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;" @onclick="HandleRegister">ĐĂNG KÝ</button>
+                <button type="submit" class="btn btn-outline-secondary" style="width:150px; height:50px; border-radius:10px;">ĐĂNG KÝ</button>
             </div>
-            @if (!string.IsNullOrEmpty(errorMessage))
+            @if (!string.IsNullOrEmpty(message))
             {
-                <div class="alert alert-danger mt-4">@errorMessage</div>
+                <div class="alert mt-4 @messageClass">@message</div>
             }
         </div>
     </div>
-</div>
+</EditForm>
 
 @code {
-    private string username;
-    private string password;
-    private string confirmPassword;
-    private string email;
-    private string errorMessage;
-
-    [Inject]
-    private HttpClient Http { get; set; }
+    private Account newAccount = new Account();
+    private string message;
+    private string messageClass;
 
     private async Task HandleRegister()
     {
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(email))
-        {
-            errorMessage = "Vui lòng điền đầy đủ thông tin.";
-            return;
-        }
-
-        if (password != confirmPassword)
-        {
-            errorMessage = "Mật khẩu và xác nhận mật khẩu không khớp.";
-            return;
-        }
-
-        var newUser = new Account
-            {
-                TenNguoiDung = username,
-                MatKhau = password,
-                Email = email
-            };
-
         try
         {
-            var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Account", newUser);
-
+                // Đăng ký tài khoản
+            var response = await Http.PostAsJsonAsync("https://localhost:44320/api/Account/register", newAccount);
             if (response.IsSuccessStatusCode)
             {
-                username = string.Empty;
-                password = string.Empty;
-                confirmPassword = string.Empty;
-                email = string.Empty;
-                errorMessage = "Đăng ký thành công!";
+                message = "Đăng ký thành công.";
+                messageClass = "alert-success";
             }
             else
             {
-                errorMessage = "Đăng ký thất bại. Vui lòng thử lại.";
+                var error = await response.Content.ReadAsStringAsync();
+                message = $"Đăng ký không thành công: {error}";
+                messageClass = "alert-danger";
             }
+            
         }
         catch (Exception ex)
         {
-            errorMessage = $"Đã xảy ra lỗi: {ex.Message}";
+            message = $"Đã xảy ra lỗi: {ex.Message}";
+            messageClass = "alert-danger";
         }
     }
 }
+

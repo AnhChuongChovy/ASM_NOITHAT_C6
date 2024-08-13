@@ -8,21 +8,23 @@
 
 
 <div class="container mt-3">
-        @if(CategoryTypes == null)
-        {
-            <p>Loading...</p>
-        }
-        else
-        {
+    @if (CategoryTypes == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
         <div class="row">
-            @foreach(var item in CategoryTypes)
+            @foreach (var item in CategoryTypes)
             {
-                <div class="col-md-3 mt-5">
+                <div class="col-6 col-sm-3 col-md-3 col-lg-3 mt-4">
                     <div class="card-category">
-                        <div class="card" style="width: 19rem;" id="@item.ID">
-                            <img src="/images/products/@item.HinhAnh" class="card-img-top" alt="...">
-                            <div class="overlay">
-                                <button @onclick="() => ChuyenTrang(item.ID)">XEM NGAY</button>
+                        <div class="card" id="@item.ID">
+                            <div class="img-container">
+                                <img src="@item.HinhAnh" class="card-img-top" alt="...">
+                                <div class="overlay">
+                                    <button @onclick="() => ChuyenTrang(item.ID)">XEM NGAY</button>
+                                </div>
                             </div>
                             <div class="card-body text-center">
                                 <p class="card-text text-uppercase">@item.TenLoaiDanhMuc</p>
@@ -32,7 +34,7 @@
                 </div>
             }
         </div>
-        }
+    }
 </div>
 
 @code {

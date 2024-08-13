@@ -1,0 +1,119 @@
+﻿@page "/admin/edit-account/{accountId:int}"
+@inject HttpClient Http
+@layout AdminLayout
+@inject NavigationManager NavigationManager
+@using WebAsemly_NoiThat.Model
+
+<h3>Chỉnh Sửa Tài Khoản</h3>
+
+@if (account != null)
+{
+    <EditForm Model="@account" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="tenNguoiDung">Tên Người Dùng</label>
+                <InputText id="tenNguoiDung" class="form-control" @bind-Value="account.TenNguoiDung" />
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="email">Email</label>
+                <InputText id="email" type="email" class="form-control" @bind-Value="account.Email" />
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="diaChi">Địa Chỉ</label>
+                <InputText id="diaChi" class="form-control" @bind-Value="account.DiaChi" />
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="sdt">SĐT</label>
+                <InputText id="sdt" class="form-control" @bind-Value="account.SDT" />
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="gioiTinh">Giới Tính</label>
+                <InputText id="gioiTinh" class="form-control" @bind-Value="account.GioiTinh" />
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="matKhau">Mật Khẩu</label>
+                <InputText id="matKhau" disabled class="form-control" @bind-Value="account.MatKhau" />
+            </div>
+
+
+            <div class="form-group col-md-4">
+                <label for="trangThai">Trạng Thái</label>
+                <InputSelect id="trangThai" class="form-control" @bind-Value="account.TrangThai" >
+                    <option value="">Chọn trạng thái</option>
+                    <option value="Ẩn">Ẩn</option>
+                    <option value="Hiện">Hiện</option>
+                </InputSelect>
+            </div>
+        </div>
+        
+
+        
+
+        
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <button type="button" class="btn btn-secondary" @onclick="NavigateBack">Hủy</button>
+    </EditForm>
+}
+else
+{
+    <p>Đang tải dữ liệu...</p>
+}
+
+@code {
+    [Parameter]
+    public int accountId { get; set; }
+
+    private Account account = new Account();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAccount();
+    }
+
+    private async Task LoadAccount()
+    {
+        try
+        {
+            account = await Http.GetFromJsonAsync<Account>($"https://localhost:44320/api/Account/{accountId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi khi tải tài khoản: {ex.Message}");
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var response = await Http.PutAsJsonAsync($"https://localhost:44320/api/Account/{accountId}", account);
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo("/admin/list-accounts");
+            }
+            else
+            {
+                Console.WriteLine($"Cập nhật không thành công. Mã trạng thái: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi khi cập nhật tài khoản: {ex.Message}");
+        }
+    }
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/admin/list-accounts");
+    }
+}
+

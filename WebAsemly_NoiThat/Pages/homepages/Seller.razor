@@ -1,143 +1,125 @@
-﻿<div style="background-color:rgba(248,164,136,0.6)" class="container">
-        <div class="row mt-5">
-            <h3 class="font-weight-bolder text-dark mt-4"> SẢN PHẨM GIẢM GIÁ</h3>
+﻿@using Newtonsoft.Json
+@using WebAsemly_NoiThat.Service
+@inject LocalStorageService LocalStorageService
+@inject ProductService ProductService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 
-            <div class="col-md-3 mt-4">
-                <div class="card-product">
-                    <div class="card">
-                        <div class="image-container position-relative">
-                            <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                            <div class="overlay"></div>
-                            <div class="icon-container">
-                                <i class="bi bi-cart"></i> |
-                                <i class="bi bi-heart"></i>
-                            </div>
-                            <div class="discount-badge">-10%</div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Bàn học VLine0292</h5>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                            </div>
-                            <p class="card-text">
-                                <span class="original-price">1.444.440 VND</span><br>
-                                <span class="price">1.300.000 VND</span>
-                            </p>
-                            <div class="overlay2">
-                                <button>MUA NGAY</button>
+<div>
+    <div class="container">
+        <h3 class="container mt-5 font-weight-bolder">PHÒNG KHÁCH </h3>
+        @if (SanPham == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <div class="row" style="margin:0 auto">
+                @foreach (var obj in SanPham.Where(c => c.IDLoaiDM == 1).Take(soluongHienThi))
+                {
+                    <div class="col-md-3 mt-4">
+                        <div class="card-product">
+                            <div class="card">
+                                <div class="image-container position-relative" @onclick="() => ChuyenTrang(obj.ID)" id="@obj.ID">
+                                    <img src="@obj.HinhAnh" class="card-img-top" alt="Product Image" style="cursor: pointer;">
+                                    <div class="overlay"></div>
+                                    <div class="icon-container">
+                                        <i class="bi bi-cart" @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)"></i> |
+                                        <i class="bi bi-heart" @onclick:stopPropagation="true"></i>
+                                    </div>
+                                    <div class="discount-badge">-10%</div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">@obj.TenSP</h5>
+                                    <div class="rating">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                    <p class="card-text">
+                                        <span class="text-danger">@obj.Gia.ToString("N0")đ</span><br>
+                                    </p>
+                                    @if (obj.SoLuongTrongKho == 0)
+                                    {
+                                        <div class="overlay2">
+                                            <button @onclick:stopPropagation="true" class="">HẾT HÀNG</button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="overlay2">
+                                            <button @onclick:stopPropagation="true" @onclick="() => AddToCartAsync(obj)">MUA NGAY</button>
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
-
-
-            <div class="col-md-3 mt-4">
-                <div class="card-product">
-                    <div class="card">
-                        <div class="image-container position-relative">
-                            <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                            <div class="overlay"></div>
-                            <div class="icon-container">
-                                <i class="bi bi-cart"></i> |
-                                <i class="bi bi-heart"></i>
-                            </div>
-                            <div class="discount-badge">-10%</div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Bàn học VLine0292</h5>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                            </div>
-                            <p class="card-text">
-                                <span class="original-price">1.444.440 VND</span><br>
-                                <span class="price">1.300.000 VND</span>
-                            </p>
-                            <div class="overlay2">
-                                <button>MUA NGAY</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-md-3 mt-4">
-                <div class="card-product">
-                    <div class="card">
-                        <div class="image-container position-relative">
-                            <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                            <div class="overlay"></div>
-                            <div class="icon-container">
-                                <i class="bi bi-cart"></i> |
-                                <i class="bi bi-heart"></i>
-                            </div>
-                            <div class="discount-badge">-10%</div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Bàn học VLine0292</h5>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                            </div>
-                            <p class="card-text">
-                                <span class="original-price">1.444.440 VND</span><br>
-                                <span class="price">1.300.000 VND</span>
-                            </p>
-                            <div class="overlay2">
-                                <button>MUA NGAY</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mt-4">
-                <div class="card-product">
-                    <div class="card">
-                        <div class="image-container position-relative">
-                            <img src="/images/products/banan6.webp" class="card-img-top" alt="Product Image">
-                            <div class="overlay"></div>
-                            <div class="icon-container">
-                                <i class="bi bi-cart"></i> |
-                                <i class="bi bi-heart"></i>
-                            </div>
-                            <div class="discount-badge">-10%</div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Bàn học VLine0292</h5>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                            </div>
-                            <p class="card-text">
-                                <span class="original-price">1.444.440 VND</span><br>
-                                <span class="price">1.300.000 VND</span>
-                            </p>
-                            <div class="overlay2">
-                                <button>MUA NGAY</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        }
+        <div class="row">
+            <div class="button-custom mt-5" style="margin: 0 auto;" @onclick="LoadMore">XEM THÊM</div>
         </div>
-        <div class="row mt-5">
-            <div class="button-custom mb-4">XEM THÊM</div>
-        </div>
+    </div>
+
 </div>
+
+@code {
+    private List<Model.Product> SanPham;
+    private int soluongHienThi = 8;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SanPham = await ProductService.GetProducts();
+    }
+
+    private async Task AddToCartAsync(Model.Product product)
+    {
+        // Lấy userId từ localStorage
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+
+        // Khóa để lưu trữ giỏ hàng trong Local Storage
+        var cartKey = string.IsNullOrEmpty(userId) ? "Cart" : $"Cart_{userId}";
+
+        // Lấy dữ liệu giỏ hàng từ localStorage
+        var existingCart = await LocalStorageService.GetItemAsync<List<Model.Product>>(cartKey);
+        List<Model.Product> cart = existingCart ?? new List<Model.Product>();
+
+        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+        var existingProduct = cart.FirstOrDefault(p => p.ID == product.ID);
+        if (existingProduct != null)
+        {
+            // Nếu có, tăng số lượng của sản phẩm lên 1
+            existingProduct.Quantity++;
+        }
+        else
+        {
+            // Nếu chưa, thêm sản phẩm vào giỏ hàng với số lượng ban đầu là 1
+            product.Quantity = 1;
+            cart.Add(product);
+        }
+
+        // Serialize danh sách giỏ hàng thành JSON và lưu lại vào localStorage
+        await LocalStorageService.SetItemAsync(cartKey, cart);
+
+        // Cung cấp phản hồi cho người dùng
+        await JSRuntime.InvokeVoidAsync("alert", "Sản phẩm đã được thêm vào giỏ hàng!");
+    }
+
+
+    //Chuyển qua trang chi tiết khi nhấn vào sản phẩm
+    private void ChuyenTrang(int id)
+    {
+        var product = SanPham.FirstOrDefault(p => p.ID == id);
+        Navigation.NavigateTo($"/ChiTietSanPham/{id}");
+    }
+
+    //Thêm 8 sản phẩm nữa khi bấm vào nút xem thêm
+    private void LoadMore()
+    {
+        soluongHienThi += 8;
+    }
+}

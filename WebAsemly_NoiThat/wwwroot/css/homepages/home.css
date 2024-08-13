@@ -1,0 +1,685 @@
+﻿ /*nav bar*/
+.navbar-custom {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-item {
+    margin-right: 15px;
+}
+
+.search-bar {
+    margin: 20px 0;
+}
+
+.custom-search-input {
+    border-radius: 25px;
+    border: 1px solid #dee2e6; 
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+    .custom-search-input:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .icon-wrapper img {
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+    }
+
+.nav-link-icon {
+    font-size: 1.5rem;
+}
+
+.auth-links {
+    font-size: 0.9rem;
+    text-align: right;
+    margin-top: 10px;
+}
+
+/*voucher*/
+
+.coupon .kanan {
+    border-left: 1px dashed #ddd;
+    width: 40% !important;
+    position: relative;
+}
+
+    .coupon .kanan .info::after, .coupon .kanan .info::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #dedede;
+        border-radius: 100%;
+    }
+
+    .coupon .kanan .info::before {
+        top: -10px;
+        left: -10px;
+    }
+
+    .coupon .kanan .info::after {
+        bottom: -10px;
+        left: -10px;
+    }
+
+.coupon .time {
+    font-size: 1.3rem;
+}
+
+/* Media query for devices with a width between 769px and 1440px */
+@media (min-width: 769px) and (max-width: 1440px) {
+    .coupon .kanan {
+        width: 30% !important;
+    }
+}
+
+/* Media query for devices with a width between 575px and 768px */
+@media (min-width: 575px) and (max-width: 768px) {
+    .coupon {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+        .coupon .kiri, .coupon .kanan {
+            flex: none;
+            width: 100%;
+            border-left: none;
+            border-top: 1px dashed #ddd;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+            .coupon .kanan .info::before, .coupon .kanan .info::after {
+                display: none;
+            }
+}
+
+/* Media query for devices with a width of 575px or less */
+@media all and (max-width: 575px) {
+    .coupon {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+        .coupon .kiri, .coupon .kanan {
+            flex: none;
+            width: 100%;
+            border-left: none;
+            border-top: 1px dashed #ddd;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+            .coupon .kanan .info::before, .coupon .kanan .info::after {
+                display: none;
+            }
+
+        .coupon .time {
+            font-size: 1rem;
+        }
+}
+/*Carousel*/
+/* Base styles for the carousel */
+#carouselExampleAutoplaying {
+    width: 100%;
+}
+
+.carousel-inner {
+    height: 350px;
+}
+
+.carousel-item img {
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
+}
+
+/* Media query for devices with a width between 769px and 1440px */
+@media (min-width: 769px) and (max-width: 1440px) {
+    .carousel-inner {
+        height: auto;
+    }
+}
+
+/* Media query for devices with a width between 575px and 768px */
+@media (min-width: 575px) and (max-width: 768px) {
+    .carousel-inner {
+        height: auto;
+    }
+}
+
+/* Media query for devices with a width of 575px or less */
+@media all and (max-width: 575px) {
+    .carousel-inner {
+        height: auto;
+    }
+}
+
+/*Card product*/
+.card-product .card {
+    position: relative;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    border-radius: initial;
+    width: 307px;
+    height: 507px;
+}
+
+    .card-product .card img {
+        border-radius: initial;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.3s ease;
+    }
+
+.card-product .card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-product .original-price {
+    text-decoration: line-through;
+    color: #323334;
+}
+
+.card-product .price {
+    color: #DF1313;
+}
+
+.card-product .rating i {
+    color: gold;
+}
+
+.card-product .card .discount-badge {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: red;
+    color: white;
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 0px 0px 15px 0px;
+}
+
+.card-product .image-container {
+    position: relative;
+    width: 100%;
+    height: 307px;
+    overflow: hidden;
+}
+
+.card-product .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-product .image-container:hover .overlay {
+    opacity: 1;
+}
+
+.card-product .card .image-product:hover {
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+}
+
+.card-product .card .overlay2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    opacity: 1;
+    transition: color 0.3s ease-in-out;
+    color: black;
+}
+
+    .card-product .card .overlay2 button {
+        width: 175px;
+        height: 42px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 400;
+        background-color: transparent;
+        color: black;
+        font-size: 16px;
+        cursor: pointer;
+        border: solid thin;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+        transition: color 0.3s ease;
+        transition: background-color 0.3s ease 0s;
+    }
+
+        .card-product .card .overlay2 button:hover {
+            background-color: #5AA897;
+            color: white;
+            border: solid #5AA897 thin;
+        }
+
+/* New CSS to handle long text */
+.card-product .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Icon styles */
+.card-product .icon-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background-color: #FFFF;
+    width: 138px;
+    height: 50px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 100px;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: revert;
+}
+
+.card-product .image-container:hover .icon-container {
+    opacity: 1;
+}
+
+.card-product .icon-container i {
+    background: white;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+    .card-product .icon-container i:hover {
+        background: #5AA897;
+        color: white;
+    }
+
+@media (min-width: 769px) and (max-width: 1440px ) {
+    .card-product {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-product .card {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-product .image-container {
+            height: auto;
+        }
+
+        .card-product .card-body {
+            padding: 1rem;
+        }
+
+        .card-product .card-title {
+            font-size: 16px;
+        }
+
+        .card-product .price,
+        .card-product .original-price {
+            font-size: 14px;
+        }
+
+        .card-product .icon-container {
+            font-size: 20px;
+        }
+
+        .card-product .card .overlay2 button {
+            width: 150px;
+            height: 36px;
+            font-size: 14px;
+        }
+}
+
+/* Responsive styles for smaller tablets */
+@media (min-width: 575px) and (max-width: 768px) {
+    .card-product {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-product .card {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-product .image-container {
+            height: auto;
+        }
+
+        .card-product .card-body {
+            padding: 1rem;
+        }
+
+        .card-product .card-title {
+            font-size: 14px;
+        }
+
+        .card-product .price,
+        .card-product .original-price {
+            font-size: 12px;
+        }
+
+        .card-product .icon-container {
+            font-size: 18px;
+        }
+
+        .card-product .card .overlay2 button {
+            width: 130px;
+            height: 32px;
+            font-size: 12px;
+        }
+}
+
+/* Responsive styles for mobile phones */
+@media all and (max-width: 575px) {
+    .card-product {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-product .card {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-product .image-container {
+            height: auto;
+        }
+
+        .card-product .card-body {
+            padding: 0.5rem;
+        }
+
+        .card-product .card .discount-badge {
+            font-size: 15px;
+        }
+
+        .card-product .card-title {
+            font-size: 12px;
+        }
+
+        .card-product .price,
+        .card-product .original-price {
+            font-size: 10px;
+        }
+
+        .card-product .icon-container {
+            font-size: 16px;
+        }
+
+        .card-product .card .overlay2 button {
+            width: 110px;
+            height: 28px;
+            font-size: 10px;
+        }
+}
+
+/*Card Category*/
+
+.card-category .card {
+    position: relative;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: initial;
+    width: 270px;
+    height: auto;
+}
+
+.card-category .img-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.card-category .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 0px;
+    display: block;
+}
+
+.card-category .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-category .card .img-container:hover .overlay {
+    opacity: 1;
+}
+
+.card-category .card .overlay button {
+    width: 200px;
+    height: 48px;
+    background-color: transparent;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    border: solid thin;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s linear;
+    transition: background-color 0.3s linear;
+}
+
+.card-category .card .overlay:hover button {
+    opacity: 1;
+}
+
+.card-category .card .overlay button:hover {
+    background-color: #5AA897;
+    border: solid #5AA897 thin;
+}
+
+@media (min-width: 1400px) and (max-width: 1920px) {
+    .container-fluid {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1400px ) {
+    .card-category {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-category .card {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-category img {
+            height: auto;
+        }
+
+        .card-category .card-body {
+            font-size: 14px;
+            padding: 10px;
+        }
+        .card-category .card .overlay button {
+            width: 130px;
+            height: 40px;
+            font-size: 14px;
+        }
+}
+@media (min-width: 770px) and (max-width: 900px ) {
+    .card-category {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-category .card {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-category img {
+            height: auto;
+        }
+
+        .card-category .card-body{
+            font-size: 13px;
+            padding: 8px;
+        }
+
+        .card-category .card .overlay button {
+            width: 100px;
+            height: 35px;
+            font-size: 12px;
+        }
+}
+/* Responsive styles for smaller tablets */
+@media (min-width: 575px) and (max-width: 768px) {
+    .card-category {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-category .card {
+            width: 110%;
+            height: auto;
+        }
+
+        .card-category img {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-category .card-body {
+            font-size: 13px;
+            padding: 8px;
+        }
+
+        .card-category .card .overlay button {
+            width: 100px;
+            height: 35px;
+            font-size: 11px;
+        }
+}
+
+/* Responsive styles for mobile phones */
+@media all and (max-width: 575px) {
+    .card-category {
+        width: 100%; /* Adjusted width to fit two cards in one row with some gap */
+
+        display: inline-block; /* Make cards display inline */
+        vertical-align: top; /* Align cards at the top */
+    }
+
+        .card-category .card {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-category img {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-category .card .overlay button {
+            width: 140px;
+            height: 40px;
+            font-size: 15px;
+        }
+}
+
+/*Button custom*/
+
+.row .button-custom {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 48px;
+    background-color: transparent;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    border: solid thin;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    transition: color 0.3s ease;
+    transition: background-color 0.3s ease 0s;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .row .button-custom:hover {
+        background-color: #5AA897;
+        color: white;
+        border: solid #5AA897 thin;
+    }
+
+/*Bestseller*/
+/*.overlay3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500px;
+    height: 340px;
+}*/

@@ -1,0 +1,47 @@
+﻿@page "/admin/categorytype-details/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@layout MainLayout
+@using Model
+
+<h3>Chi Tiết Danh Mục Con</h3>
+
+@if (categoryType != null && category != null)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <img src="/Image_SP_ASM/@category.HinhAnh" alt="@categoryType.TenLoaiDanhMuc" class="img-fluid" />
+        </div>
+        <div class="col-md-8">
+            <h4>@categoryType.TenLoaiDanhMuc</h4>
+            <p><strong>Danh Mục:</strong> @category?.TenDanhMuc</p>
+            <button class="btn btn-primary" @onclick="EditCategoryType">Chỉnh sửa</button>
+        </div>
+    </div>
+}
+else
+{
+    <p>Đang tải dữ liệu...</p>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private CategoryType categoryType;
+    private Category category;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categoryType = await Http.GetFromJsonAsync<CategoryType>($"https://localhost:44320/api/CategoryType/{id}");
+        if (categoryType != null)
+        {
+            category = await Http.GetFromJsonAsync<Category>($"https://localhost:44320/api/Category/{categoryType.IDDanhMuc}");
+        }
+    }
+
+    private void EditCategoryType()
+    {
+        NavigationManager.NavigateTo($"/admin/edit-categorytype/{id}");
+    }
+}

@@ -6,6 +6,7 @@ using System;
 using WebAsemly_NoiThat.Model;
 using System.Text.Json;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 
 namespace WebAsemly_NoiThat.Pages
 {
@@ -61,18 +62,30 @@ namespace WebAsemly_NoiThat.Pages
                 await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "Cart");
 
                 // Điều hướng người dùng sau khi đăng nhập
-                if (user.IDRole == 1)
+                if (user.IDRole == 1 && user.TrangThai != "Ẩn")
                 {
+                    // Điều hướng đến trang admin nếu là admin và trạng thái không phải "Ẩn"
                     NavigationManager.NavigateTo("/admin/index");
                 }
                 else if (user.IDRole == 2)
                 {
-                    NavigationManager.NavigateTo($"/TaiKhoan/{user.ID}");
+                    if (user.TrangThai != "Ẩn")
+                    {
+                        // Điều hướng đến trang của tài khoản người dùng nếu là người dùng và trạng thái không phải "Ẩn"
+                        NavigationManager.NavigateTo($"/TaiKhoan/{user.ID}");
+                    }
+                    else
+                    {
+                        // Hiển thị thông báo lỗi nếu tài khoản người dùng bị ẩn
+                        errorMessage = "Tài khoản không tồn tại!";
+                    }
                 }
                 else
                 {
+                    // Điều hướng đến trang không được phép nếu không phải là admin hoặc người dùng hợp lệ
                     NavigationManager.NavigateTo("/unauthorized");
                 }
+
             }
             else
             {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WebAppBlazor.Models;
+using WebAsemly_NoiThat.Model;
 
 namespace WebAsemly_NoiThat.Model
 {
@@ -14,7 +14,6 @@ namespace WebAsemly_NoiThat.Model
         public string TenSP { get; set; }
         [Required]
         public double Gia { get; set; }
-        [Required]
         public string MoTa { get; set; }
         [Required]
         public string VatLieu { get; set; }
@@ -23,8 +22,9 @@ namespace WebAsemly_NoiThat.Model
         [Required]
         public string KichThuoc { get; set; }
         public string HinhAnh { get; set; }
+        public string TrangThai { get; set; }
         public ICollection<BillDetail> BillDetail { get; set; }
-        public ICollection<ProductImage> ProductImage { get; set; }
+        public List<ProductImage> ProductImage { get; set; } = new List<ProductImage>();        
         //public ICollection<Reviews> Reviews { get; set; }
         //public ICollection<Favourite> Favourite { get; set; }
         public int Quantity { get; set; }
@@ -32,4 +32,5 @@ namespace WebAsemly_NoiThat.Model
         public CategoryType CategoryType { get; set; }
 
     }
+   
 }

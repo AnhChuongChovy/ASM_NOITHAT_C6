@@ -117,11 +117,5 @@ namespace API_NoiThat.Controllers
             return Ok(new { FileUrl = fileUrl });
         }
 
-
-
-
-
-
-
     }
 }

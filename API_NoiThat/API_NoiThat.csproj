@@ -5,6 +5,114 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Image_SP_ASM\banan1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan10.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan11.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan12.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan8.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banan9.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bangaming1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bangaming2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bangaming3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bangamingchankimloai.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bangamingchanthep.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bangamingchuk.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banhocsinh.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banlv024.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem10.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem11.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem12.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem8.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bantrangdiem9.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvangphong11.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong10.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong12.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong8.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\banvanphong9.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\bggioithieu.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat10.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\dongoaithat8.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\gheaston.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ghebull.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ghedonut.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ghehiroshima.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu10.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu11.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu12.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu8.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\giuongngu9.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\imgtestnoithat.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\imgtestnoithat3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi10.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi11.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi12.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi8.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\ketivi9.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao10.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao11.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao12.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao8.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\tuquanao9.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong1.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong2.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong3.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong4.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong5.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong6.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong7.webp" />
+    <Content Remove="wwwroot\Image_SP_ASM\vachnganphong8.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.17" />
@@ -27,7 +135,218 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Image_SP_ASM\" />
+    <None Include="wwwroot\Image_SP_ASM\banan1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan10.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan11.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan12.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan8.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banan9.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bangaming1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bangaming2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bangaming3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bangamingchankimloai.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bangamingchanthep.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bangamingchuk.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banhocsinh.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banlv024.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem10.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem11.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem12.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem8.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bantrangdiem9.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvangphong11.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong10.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong12.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong8.webp" />
+    <None Include="wwwroot\Image_SP_ASM\banvanphong9.webp" />
+    <None Include="wwwroot\Image_SP_ASM\bggioithieu.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat10.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\dongoaithat8.webp" />
+    <None Include="wwwroot\Image_SP_ASM\gheaston.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ghebull.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ghedonut.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ghehiroshima.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu10.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu11.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu12.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu8.webp" />
+    <None Include="wwwroot\Image_SP_ASM\giuongngu9.webp" />
+    <None Include="wwwroot\Image_SP_ASM\imgtestnoithat.webp" />
+    <None Include="wwwroot\Image_SP_ASM\imgtestnoithat3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi10.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi11.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi12.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi8.webp" />
+    <None Include="wwwroot\Image_SP_ASM\ketivi9.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao10.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao11.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao12.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao8.webp" />
+    <None Include="wwwroot\Image_SP_ASM\tuquanao9.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong1.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong2.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong3.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong4.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong5.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong6.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong7.webp" />
+    <None Include="wwwroot\Image_SP_ASM\vachnganphong8.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Image_SP_ASM\banchunhat6ghe.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\bantron6ghe.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\ghenadia.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\gheorleandro.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\ghewishbone.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri10.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri3.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri4.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri5.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri6.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri7.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri8.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\hangtrangtri9.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\imgtestnoithat2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep10.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep3.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep4.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep5.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep6.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep7.jpeg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep8.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\Image_SP_ASM\tubep9.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

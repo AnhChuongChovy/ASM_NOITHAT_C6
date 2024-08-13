@@ -1,0 +1,117 @@
+﻿@page "/admin/list-bills"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@layout AdminLayout
+@using WebAsemly_NoiThat.Model
+
+<h3>Danh Sách Hóa Đơn</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">ID Người Dùng</th>
+            <th class="text-center">Tổng Tiền</th>
+            <th class="text-center">Ngày Đặt Hàng</th>
+            <th class="text-center">Trạng Thái</th>
+            <th class="text-center">Hành Động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (bills != null && bills.Count > 0)
+        {
+            @foreach (var bill in bills)
+            {
+                <tr>
+                    <td class="text-center">@bill.ID</td>
+                    <td class="text-center">@bill.IDNguoiDung</td>
+                    <td class="text-center">@bill.TongTien</td>
+                    <td class="text-center">@bill.NgayDatHang</td>
+                    <td class="text-center">
+                        <span class="@GetStatusClass(bill.TrangThai)">@GetStatusAbbreviation(bill.TrangThai)</span>
+                    </td>
+                    <td class="text-center">
+                        <a href="@($"/admin/bill-details/{bill.ID}")" class="btn btn-info btn-sm">Chi Tiết</a>
+                        <!-- Nút thay đổi trạng thái -->
+                        <button @onclick="() => ChangeStatus(bill.ID, dxl)" class="btn btn-success btn-sm">Xác nhận</button>
+                        <button @onclick="() => ChangeStatus(bill.ID, h)" class="btn btn-danger btn-sm">Hủy</button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center">Không có hóa đơn nào.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Bill> bills = new List<Bill>();
+    string dxl = "Xác nhận";
+    string h = "Đã Hủy";
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBills();
+    }
+
+    private async Task LoadBills()
+    {
+        try
+        {
+            bills = await Http.GetFromJsonAsync<List<Bill>>("https://localhost:44320/api/HoaDon");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi khi tải hóa đơn: {ex.Message}");
+        }
+    }
+
+
+    private async Task ChangeStatus(int billId, string newStatus)
+    {
+        try
+        {
+            var response = await Http.PutAsJsonAsync($"https://localhost:44320/api/HoaDon/{billId}", newStatus);
+            if (response.IsSuccessStatusCode)
+            {
+                var bill = bills.FirstOrDefault(b => b.ID == billId);
+                if (bill != null)
+                {
+                    bill.TrangThai = newStatus;
+                    StateHasChanged(); // Refresh the page to show the updated status
+                }
+            }
+            else
+            {
+                Console.WriteLine("Lỗi khi cập nhật trạng thái hóa đơn.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi khi cập nhật trạng thái: {ex.Message}");
+        }
+    }
+
+    private string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Xác nhận" => "text-success",
+            "Đã Hủy" => "text-danger",
+            _ => "text-primary"
+           
+        };
+    }
+
+    private string GetStatusAbbreviation(string status)
+    {
+        return status switch
+        {
+            "Xác nhận" => "Đang giao",
+            "Đã Hủy" => "Hủy",
+            _ => "Chờ xử lí"
+        };
+    }
+}

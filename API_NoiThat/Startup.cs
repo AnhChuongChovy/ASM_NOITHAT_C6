@@ -58,7 +58,6 @@ namespace API_NoiThat
                 options.Cookie.IsEssential = true;
             });
 
-
             //API
             services.AddSwaggerGen(c =>
             {

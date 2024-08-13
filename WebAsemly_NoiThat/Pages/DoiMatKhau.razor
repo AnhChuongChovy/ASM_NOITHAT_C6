@@ -1,0 +1,81 @@
+﻿@page "/DoiMatKhau"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@using WebAsemly_NoiThat.Model
+
+<div class="container mt-4 w-50">
+    <h3>Đổi Mật Khẩu</h3>
+    <EditForm Model="changePasswordModel" OnValidSubmit="HandleChangePassword">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="CurrentPassword">Mật khẩu cũ</label>
+            <InputText id="CurrentPassword" class="form-control" @bind-Value="changePasswordModel.CurrentPassword" type="@(showPasswords ? "text" : "password")" />
+            <ValidationMessage For="@(() => changePasswordModel.CurrentPassword)" />
+        </div>
+
+        <div class="form-group">
+            <label for="NewPassword">Mật khẩu mới</label>
+            <InputText id="NewPassword" class="form-control" @bind-Value="changePasswordModel.NewPassword" type="@(showPasswords ? "text" : "password")" />
+            <ValidationMessage For="@(() => changePasswordModel.NewPassword)" />
+        </div>
+
+        <div class="form-group">
+            <label for="ConfirmPassword">Xác nhận mật khẩu mới</label>
+            <InputText id="ConfirmPassword" class="form-control" @bind-Value="changePasswordModel.ConfirmPassword" type="@(showPasswords ? "text" : "password")" />
+            <ValidationMessage For="@(() => changePasswordModel.ConfirmPassword)" />
+        </div>
+
+        <div class="mb-3">
+            <InputCheckbox id="showPasswords" @bind-Value="showPasswords" />
+            <label class="form-check-label" for="showPasswords">Hiển thị mật khẩu</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            <div class="alert @AlertClass mt-2" role="alert">
+                @Message
+            </div>
+        }
+    </EditForm>
+
+</div>
+
+@code {
+    private ChangePasswordModel changePasswordModel = new ChangePasswordModel();
+    private string Message;
+    private string AlertClass;
+    private bool showPasswords = false;
+
+    private async Task HandleChangePassword()
+    {
+        // Lấy userId từ localStorage
+        var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            Navigation.NavigateTo("/DangNhap");
+            return;
+        }
+
+        // Gọi API đổi mật khẩu
+        var response = await Http.PostAsJsonAsync($"https://localhost:44320/api/Account/ChangePassword/{userId}", changePasswordModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Message = "Đổi mật khẩu thành công!";
+            AlertClass = "alert-success"; // Màu xanh
+                                          // Reset form
+            changePasswordModel = new ChangePasswordModel();
+        }
+        else
+        {
+            Message = "Đổi mật khẩu thất bại!";
+            AlertClass = "alert-danger"; // Màu đỏ
+        }
+        StateHasChanged();
+    }
+}
+

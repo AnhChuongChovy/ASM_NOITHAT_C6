@@ -13,7 +13,7 @@ namespace API_NoiThat.Models
         public string TenSP { get; set; }
         [Required]
         public double Gia { get; set; } 
-        [Required]
+        
         public string MoTa { get; set; }
         [Required]
         public string VatLieu { get; set; }
@@ -22,9 +22,9 @@ namespace API_NoiThat.Models
         [Required]
         public string KichThuoc { get; set; }
         public string HinhAnh { get; set; }
-
+        public string TrangThai { get; set; }
         public ICollection<BillDetail> BillDetail { get; set; }
-        public ICollection<ProductImage> ProductImage { get; set; }
+        public List<ProductImage> ProductImage { get; set; } = new List<ProductImage>(); 
         public ICollection<Reviews> Reviews { get; set; }
         public ICollection<Favourite> Favourite { get; set; }
         public ICollection<Voucher> Voucher { get; set; }

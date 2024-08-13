@@ -1,0 +1,136 @@
+﻿@page "/admin/list-accounts"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@layout AdminLayout
+@using WebAsemly_NoiThat.Model
+
+<h3>Danh Sách Tài Khoản</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Tên Người Dùng</th>
+            <th class="text-center">Hình Ảnh</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Địa Chỉ</th>
+            <th class="text-center">Vai Trò</th>
+            <th class="text-center">Trạng Thái</th>
+            <th class="text-center">Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (accounts != null && accounts.Count > 0)
+        {
+            @foreach (var account in accounts)
+            {
+                <tr>
+                    <td class="text-center">@account.ID</td>
+                    <td class="text-center">@account.TenNguoiDung</td>
+                    <td class="text-center">
+                        <img src="@account.HinhAnh" alt="Hình ảnh người dùng" width="50" height="50" />
+                    </td>
+                    <td class="text-center">@account.Email</td>
+                    <td class="text-center">@account.DiaChi</td>
+                    <td class="text-center">
+                        @if (account.IDRole == 1)
+                        {
+                            <span class="text-success">Admin</span>
+                        }
+                        else
+                        {
+                            <span class="text-primary">User</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if (account.TrangThai == "Ẩn")
+                        {
+                            <span class="text-danger">@account.TrangThai</span>
+                        }
+                        else
+                        {
+                            <span class="text-success">@account.TrangThai</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if (account.IDRole != 1)
+                        {
+                            <button @onclick="() => EditAccount(account.ID)" class="btn btn-primary">Sửa</button>
+                            <button @onclick="() => DeleteAccount(account.ID)" class="btn btn-danger">Ẩn</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center">Không có tài khoản nào.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Account> accounts = new List<Account>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userRoleId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "roleId");
+        await LoadAccounts();
+    }
+
+    private async Task LoadAccounts()
+    {
+        try
+        {
+            accounts = await Http.GetFromJsonAsync<List<Account>>("https://localhost:44320/api/Account");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading accounts: {ex.Message}");
+        }
+    }
+
+    private void EditAccount(int accountId)
+    {
+        NavigationManager.NavigateTo($"/admin/edit-account/{accountId}");
+    }
+
+    private async Task DeleteAccount(int accountId)
+    {
+        try
+        {
+            // Tìm tài khoản hiện tại trong danh sách địa phương
+            var account = accounts.FirstOrDefault(a => a.ID == accountId);
+            if (account == null)
+            {
+                Console.WriteLine("Tài khoản không tồn tại.");
+                return;
+            }
+
+            // Cập nhật trạng thái của tài khoản
+            account.TrangThai = "Ẩn";
+
+            // Gửi PUT request để cập nhật tài khoản với trạng thái mới
+            var response = await Http.PutAsJsonAsync($"https://localhost:44320/api/Account/{accountId}", account);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Làm mới giao diện để phản ánh trạng thái đã thay đổi
+                StateHasChanged();
+            }
+            else
+            {
+                // Ghi lại mã trạng thái và lý do nếu cập nhật không thành công
+                Console.WriteLine($"Cập nhật trạng thái không thành công. Mã trạng thái: {response.StatusCode}, Lý do: {response.ReasonPhrase}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi khi cập nhật trạng thái tài khoản: {ex.Message}");
+        }
+    }
+
+
+}

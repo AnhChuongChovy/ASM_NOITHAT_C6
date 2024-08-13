@@ -1,6 +1,10 @@
 ﻿@page "/ChiTietSanPham/{id:int}"
+@using Newtonsoft.Json
 @using WebAsemly_NoiThat.Service
 @inject ProductService ProductService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject LocalStorageService LocalStorageService
 
 <div class="container">
     @if (product == null)
@@ -12,12 +16,12 @@
         <p>Home/ Sản phẩm/ <span class="font-weight-bold">@product.TenSP</span></p>
         <div class="row">
             <div class="col-md-6 text-center">
-                <img src="/Image_SP_ASM/@product.HinhAnh" / class="ml-2" width="450px" height="400px">
+                <img src="@product.HinhAnh" class="ml-2" width="80%" height="auto" />
                 <div class="mt-3">
-                    <img src="\IMG\sofago601_anh2.webp" / width="100px" height="100px">
-                    <img src="\IMG\sofago601_anh3.jpg" / width="100px" height="100px">
-                    <img src="\IMG\sofago601_anh4.webp" / width="100px" height="100px">
-                    <img src="\IMG\sofago601_anh4.webp" / width="100px" height="100px">
+                    <img src="\IMG\sofago601_anh2.webp" width="100px" height="100px" />
+                    <img src="\IMG\sofago601_anh3.jpg" width="100px" height="100px" />
+                    <img src="\IMG\sofago601_anh4.webp" width="100px" height="100px" />
+                    <img src="\IMG\sofago601_anh4.webp" width="100px" height="100px" />
                 </div>
             </div>
 
@@ -27,30 +31,27 @@
                 <span>9,8k <span style="color:red">Đánh giá</span> </span>
 
                 <div>
-                    <span style="font-weight:bold;color:green;font-size:larger;padding-left:20px">-25%</span>
-                    <span style="font-weight:bold;color:red; font-size:larger;padding-left:20px">8,500,000đ </span>
-                    <span style="font-weight:bold; font-size:larger;padding-left:20px">@product.Gia.ToString("N0")đ</span>
+                    <span style="font-weight:bold; font-size:larger; color:red">@product.Gia.ToString("N0")đ</span>
                 </div>
                 <div>
                     <p>Chất Liệu:</p>
-                    <li>Thân ghế: Gỗ tràm tự nhiên</li>
-                    <li>Chân ghế: Gỗ cao su tự nhiên</li>
-                    <li>Vải sợ tổng hợp kháng khuẩn, chống nhăn, kháng bụi bẩn và nắm móc</li>
-                    <li>Tấm phản: Gỗ công nghiệp Plywood chuẩn CARB-P2(*)</li>
+                    <li>Kích thước: <span class="font-weight-bold">@product.KichThuoc</span> </li>
+                    <li>Vật liệu: <span class="font-weight-bold">@product.VatLieu</span></li>
+                    <li>Số lượng còn lại: <span class="font-weight-bold ">@product.SoLuongTrongKho</span></li>
+                    <li>Mô tả: <span class="font-weight-bold">@product.MoTa</span></li>
                     <br />
-                    <p>Màu sắc: Nâu</p>
                     <p>Vận chuyển: Miễn phí vận chuyển</p>
                     <div class="row" style="margin-left:1px">
-                        <p style="padding-top:7px; ">Số lượng:</p>
-                        <div class="btn-group ml-3" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-primary">-</button>
-                            <button type="button" class="btn" style="border:1px solid black">1</button>
-                            <button type="button" class="btn btn-primary">+</button>
+                        <p style="padding-top:7px;">Số lượng:</p>
+                        <div class="btn-group col-6 col-sm-6 col-md-6 col-lg-3" role="group" aria-label="Basic example">
+                            <button @onclick="DecreaseQuantity" class="btn btn-primary">-</button>
+                            <button class="btn">@quantity</button>
+                            <button @onclick="IncreaseQuantity" class="btn btn-primary">+</button>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-6">
-                            <button class="btn w-100" style="background: #5AA897; color:white;font-weight:bold;height:50px">THÊM VÀO GIỎ HÀNG</button>
+                            <button @onclick="() => AddToCartAsync(product)" class="btn w-100" style="background: #5AA897; color:white;font-weight:bold;height:50px">THÊM VÀO GIỎ HÀNG</button>
                         </div>
                         <div class="col-md-6">
                             <button class="btn w-100" style="background: #B93737; color:white;font-weight:bold;height:50px">MUA NGAY</button>
@@ -78,11 +79,11 @@
 
                 <div class="mt-5">
                     <span>Gỗ tràm tự nhiên</span><br />
-                    <span>Khung ghế được làm bằng gỗ tràm tự nhiên đảm bảo vệ độ chắc chắn cao, chống công vênh, mối mọt.</span><br />
+                    <span>Khung ghế được làm bằng gỗ tràm tự nhiên đảm bảo độ chắc chắn cao, chống cong vênh, mối mọt.</span><br />
                     <span>Tấm phản</span><br />
-                    <span>Sử dụng gỗ công nghiệp Plywood có độ bền cao, đạt chuẩn CARB-P2 an toàn tuyệt đối cho người sức khỏe người dùng và đạt chứng nhận FSC bảo vệ và phát triển rừng bền vững.</span><br />
+                    <span>Sử dụng gỗ công nghiệp Plywood có độ bền cao, đạt chuẩn CARB-P2 an toàn tuyệt đối cho sức khỏe người dùng và đạt chứng nhận FSC bảo vệ và phát triển rừng bền vững.</span><br />
                     <span>Vải bọc sợi tổng hợp - soil release</span><br />
-                    <span>Sofa VLINE sử dụng vải bọc sợi tổng hợp giúp kháng khuẩn, chống nhăn, kháng bụi bẩn và nấm mốc, dễ dàng vệ sinh.</span><br />
+                    <span>Sofa VLINE sử dụng vải bọc sợi tổng hợp giúp kháng khuẩn, chống nhăn, kháng bụi bẩn và nấm mốc, dễ dàng vệ sinh.</span><br />
                 </div>
 
                 <div class="mt-5">
@@ -91,7 +92,7 @@
 
                 <div class="mt-5">
                     <span>Sofa có kích thước tiêu chuẩn</span><br />
-                    <span>Sofa có kích thước rộng rãi thoải mái, với thiết kế tinh giản giúp tối ưu hóa diện tích cho nội thất phòng khách dễ dàng kết hợp đồ nội thất gỗ khác trong ngôi nhà.</span>
+                    <span>Sofa có kích thước rộng rãi thoải mái, với thiết kế tinh giản giúp tối ưu hóa diện tích cho nội thất phòng khách dễ dàng kết hợp đồ nội thất gỗ khác trong ngôi nhà.</span>
                 </div>
 
                 <div class="mt-5">
@@ -100,7 +101,7 @@
 
                 <div class="mt-5">
                     <span>Độ nghiêng hoàn hảo</span><br />
-                    <span>Độ nghiêng lưng tựa vừa phải giúp cho người ngồi cảm thấy thư giản và thoải mái nhất.</span>
+                    <span>Độ nghiêng lưng tựa vừa phải giúp cho người ngồi cảm thấy thư giãn và thoải mái nhất.</span>
                 </div>
 
                 <div class="mt-5">
@@ -109,7 +110,7 @@
 
                 <div class="mt-5">
                     <span>Khóa dán chống trượt</span><br />
-                    <span>Với khóa dán cố định bạn không còn lo lắng về nệm trượt ra khỏi ghế sofa.</span>
+                    <span>Với khóa dán cố định bạn không còn lo lắng về nệm trượt ra khỏi ghế sofa.</span>
                 </div>
 
                 <div class="mt-5">
@@ -118,18 +119,78 @@
             </div>
         </div>
     }
-   
 </div>
-
 
 @code {
     [Parameter]
     public int id { get; set; }
     private Model.Product product;
 
+    private int quantity = 1;
+
     protected override async Task OnInitializedAsync()
     {
         product = await ProductService.GetProductId(id);
     }
 
+    private void IncreaseQuantity()
+    {
+        quantity++;
+    }
+
+    private void DecreaseQuantity()
+    {
+        if (quantity > 1)
+        {
+            quantity--;
+        }
+    }
+
+    private async Task AddToCartAsync(Model.Product product)
+    {
+        try
+        {
+            // Kiểm tra nếu số lượng bằng 0
+            if (product.SoLuongTrongKho == 0)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "Số lượng phải lớn hơn 0 để thêm sản phẩm vào giỏ hàng.");
+                return; // Ngừng thực hiện nếu số lượng bằng 0
+            }
+
+            // Lấy userId từ localStorage
+            var userId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userId");
+
+            // Khóa để lưu trữ giỏ hàng trong Local Storage
+            var cartKey = string.IsNullOrEmpty(userId) ? "Cart" : $"Cart_{userId}";
+
+            // Lấy dữ liệu giỏ hàng từ localStorage
+            var existingCart = await LocalStorageService.GetItemAsync<List<Model.Product>>(cartKey);
+            List<Model.Product> cart = existingCart ?? new List<Model.Product>();
+
+            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+            var existingProduct = cart.FirstOrDefault(p => p.ID == product.ID);
+            if (existingProduct != null)
+            {
+                // Nếu có, tăng số lượng của sản phẩm
+                existingProduct.Quantity += quantity;
+            }
+            else
+            {
+                // Nếu chưa, thêm sản phẩm vào giỏ hàng với số lượng hiện tại
+                product.Quantity = quantity;
+                cart.Add(product);
+            }
+
+            // Serialize danh sách giỏ hàng thành JSON và lưu lại vào localStorage
+            await LocalStorageService.SetItemAsync(cartKey, cart);
+
+            // Phản hồi thành công
+            await JSRuntime.InvokeVoidAsync("alert", "Sản phẩm đã được thêm vào giỏ hàng!");
+        }
+        catch (Exception ex)
+        {
+            // Xử lý lỗi và cung cấp phản hồi cho người dùng
+            await JSRuntime.InvokeVoidAsync("alert", $"Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng: {ex.Message}");
+        }
+    }
 }

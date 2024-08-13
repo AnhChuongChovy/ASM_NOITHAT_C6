@@ -1,0 +1,209 @@
+﻿@page "/admin/list-categories"
+@inject HttpClient Http
+@layout MainLayout
+@inject NavigationManager NavigationManager
+@using Model
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <h3>Danh Sách Danh Mục</h3>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control w-100" @bind="searchTerm" @oninput="SearchCategories" placeholder="Tìm kiếm theo tên danh mục..." />
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" @onclick="AddCategory">Thêm danh mục</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered mt-3">
+    <thead>
+        <tr>
+            <th class="text-center">
+                <a @onclick="SortByID" class="bi bi-sort-alpha-down" style="text-decoration:none; color:black; cursor:pointer"> ID</a>
+            </th>
+            <th class="text-center">
+                <a @onclick="SortByName" class="bi bi-sort-alpha-down" style="text-decoration:none; color:black; cursor:pointer;"> Tên Danh Mục</a>
+            </th>
+            <th class="text-center">Hình Ảnh</th>
+            <th class="text-center">Trạng Thái</th>
+            <th class="text-center">Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (filteredCategories != null && filteredCategories.Any())
+        {
+            @foreach (var category in filteredCategories)
+            {
+                <tr>
+                    <td style="text-align: center; vertical-align: middle;">@category.ID</td>
+                    <td style="vertical-align: middle;">@category.TenDanhMuc</td>
+                    <td style="text-align: center; vertical-align: middle;">
+                        @if (!string.IsNullOrEmpty(category.HinhAnh))
+                        {
+                            <img src="@category.HinhAnh" width="100px" height="100px" />
+                        }
+                    </td>
+                    @if(category.TrangThai == "Hiện")
+                    {
+                        <td style="text-align: center; vertical-align: middle; color:green">@category.TrangThai</td>
+                    }
+                    else
+                    {
+                        <td style="text-align: center; vertical-align: middle; color:red">@category.TrangThai</td>
+                    }
+                    <td style="vertical-align: middle;">
+                        <button class="btn btn-primary bi bi-pen" @onclick="() => EditCategory(category.ID)"></button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" style="text-align: center;">Không có danh mục nào.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" @onclick="PreviousPage" disabled="@(!HasPreviousPage)" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 0; i < totalPages; i++)
+        {
+            <li class="page-item @(currentPage == i ? "active" : "")">
+                <a class="page-link" @onclick="() => GoToPage(i)">@($"{i + 1}")</a>
+            </li>
+        }
+        <li class="page-item">
+            <a class="page-link" @onclick="NextPage" disabled="@(!HasNextPage)" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+@code {
+    private List<Category> categories = new List<Category>();
+    private List<Category> filteredCategories = new List<Category>();
+
+    private int currentPage = 0;
+    private int pageSize = 5;
+    private bool hasMoreCategories = true;
+    private bool hasPreviousPage = false;
+
+    private int totalCategories = 0;
+    private int totalPages => (int)Math.Ceiling((double)totalCategories / pageSize);
+
+    private bool HasNextPage => hasMoreCategories;
+    private bool HasPreviousPage => hasPreviousPage;
+
+    private string searchTerm = string.Empty;
+    private bool isSortedAscending = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategories();
+        filteredCategories = categories;
+    }
+
+    private async Task LoadCategories()
+    {
+        var response = await Http.GetFromJsonAsync<List<Category>>($"https://localhost:44320/api/Category?pageIndex={currentPage}&pageSize={pageSize}");
+
+        if (response != null && response.Any())
+        {
+            categories = response;
+            filteredCategories = categories;
+            hasMoreCategories = response.Count == pageSize;
+            hasPreviousPage = currentPage > 0;
+            totalCategories = response.Count;
+        }
+        else
+        {
+            hasMoreCategories = false;
+            hasPreviousPage = currentPage > 0;
+        }
+    }
+
+    private async Task GoToPage(int pageIndex)
+    {
+        currentPage = pageIndex;
+        await LoadCategories();
+    }
+
+    private async Task NextPage()
+    {
+        currentPage++;
+        await LoadCategories();
+    }
+
+    private async Task PreviousPage()
+    {
+        if (currentPage > 0)
+        {
+            currentPage--;
+            await LoadCategories();
+        }
+    }
+
+    private void SearchCategories(ChangeEventArgs e)
+    {
+        searchTerm = e.Value.ToString();
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredCategories = categories;
+        }
+        else
+        {
+            filteredCategories = categories
+                .Where(c => c.TenDanhMuc.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
+    private void SortByName()
+    {
+        if (isSortedAscending)
+        {
+            filteredCategories = filteredCategories.OrderBy(c => c.TenDanhMuc).ToList();
+        }
+        else
+        {
+            filteredCategories = filteredCategories.OrderByDescending(c => c.TenDanhMuc).ToList();
+        }
+        isSortedAscending = !isSortedAscending;
+    }
+
+    private void SortByID()
+    {
+        if (isSortedAscending)
+        {
+            filteredCategories = filteredCategories.OrderBy(c => c.ID).ToList();
+        }
+        else
+        {
+            filteredCategories = filteredCategories.OrderByDescending(c => c.ID).ToList();
+        }
+        isSortedAscending = !isSortedAscending;
+    }
+
+    private void EditCategory(int id)
+    {
+        NavigationManager.NavigateTo($"/edit-category/{id}");
+    }
+
+    private void AddCategory()
+    {
+        NavigationManager.NavigateTo("admin/add-categories");
+    }
+}

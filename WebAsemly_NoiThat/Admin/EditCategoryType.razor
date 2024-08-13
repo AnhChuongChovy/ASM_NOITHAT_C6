@@ -9,25 +9,41 @@
 <EditForm Model="@categoryType" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <div class="form-group">
+    <div class="row">
+        <div class="form-group col-md-4">
         <label for="TenLoaiDanhMuc">Tên Danh Mục Con</label>
         <InputText id="TenLoaiDanhMuc" class="form-control" @bind-Value="categoryType.TenLoaiDanhMuc" />
     </div>
-    <div class="form-group">
+
+        <div class="form-group col-md-4">
+            <label for="IDDanhMuc">Danh Mục</label>
+            <select id="IDDanhMuc" class="form-control" @bind="categoryType.IDDanhMuc">
+                <option value="">Chọn danh mục</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category.ID">@category.TenDanhMuc</option>
+                }
+            </select>
+        </div>
+
+        
+        
+    </div>
+    
+    <div class="row">
+        <div class="form-group col-md-4">
         <label for="HinhAnh">Hình Ảnh</label>
-        <InputText id="HinhAnh" class="form-control" @bind-Value="categoryType.HinhAnh" />
+        <InputFile id="HinhAnh" class="form-control" OnChange="HandleFileSelected" />
     </div>
-    <div class="form-group">
-        <label for="IDDanhMuc">Danh Mục</label>
-        <select id="IDDanhMuc" class="form-control" @bind="categoryType.IDDanhMuc">
-            <option value="">Chọn danh mục</option>
-            @foreach (var category in categories)
-            {
-                <option value="@category.ID">@category.TenDanhMuc</option>
-            }
-        </select>
+    <div class="col-md-4">
+        @if (!string.IsNullOrEmpty(categoryType.HinhAnh))
+        {
+            <img src="@categoryType.HinhAnh" width="100px" height="100px" />
+        }
     </div>
+    </div>
+    
+    
 
     <button type="submit" class="btn btn-primary">Lưu</button>
 </EditForm>
@@ -43,6 +59,37 @@
     {
         categoryType = await Http.GetFromJsonAsync<CategoryType>($"https://localhost:44320/api/CategoryType/{id}");
         categories = await Http.GetFromJsonAsync<List<Category>>("https://localhost:44320/api/Category");
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            var content = new MultipartFormDataContent();
+            var streamContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024 * 15)); // 15 MB
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+            content.Add(streamContent, "file", file.Name);
+
+            var response = await Http.PostAsync("https://localhost:44320/api/CategoryType/upload-image", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Sử dụng lớp dữ liệu UploadImageResponse
+                var result = await response.Content.ReadFromJsonAsync<UploadImageResponse>();
+                if (result != null)
+                {
+                    var fileUrl = result.FileUrl;
+                    categoryType.HinhAnh = fileUrl; // Lưu URL hình ảnh vào thuộc tính của category
+                    Console.WriteLine($"Hình ảnh đã được tải lên: {categoryType.HinhAnh}");
+                }
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Lỗi khi tải lên hình ảnh: {errorMessage}");
+            }
+        }
     }
 
     private async Task HandleSubmit()

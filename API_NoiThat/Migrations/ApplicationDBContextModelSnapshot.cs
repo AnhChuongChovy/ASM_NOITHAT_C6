@@ -27,7 +27,6 @@ namespace API_NoiThat.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("DiaChi")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -35,7 +34,6 @@ namespace API_NoiThat.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GioiTinh")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HinhAnh")
@@ -49,7 +47,6 @@ namespace API_NoiThat.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SDT")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenNguoiDung")
@@ -140,6 +137,9 @@ namespace API_NoiThat.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TrangThai")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.ToTable("Category");
@@ -159,6 +159,9 @@ namespace API_NoiThat.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TenLoaiDanhMuc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThai")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -227,7 +230,6 @@ namespace API_NoiThat.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MoTa")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SoLuongTrongKho")
@@ -235,6 +237,9 @@ namespace API_NoiThat.Migrations
 
                     b.Property<string>("TenSP")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThai")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VatLieu")

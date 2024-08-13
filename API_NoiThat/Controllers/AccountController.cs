@@ -23,11 +23,12 @@ namespace API_NoiThat.Controllers
             _configuration = configuration;
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
-        //{
-        //    return await _context.Account.ToListAsync();
-        //}
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        {
+            var account = await _context.Account.ToListAsync();
+            return Ok(account);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccountId(int id)
@@ -42,22 +43,25 @@ namespace API_NoiThat.Controllers
             return account;
         }
 
-
-
-
         [HttpPost("login")]
         public async Task<ActionResult<Account>> Login([FromBody] LoginModel model)
         {
             var account = await _context.Account
                 .Include(a => a.Role)
-                .FirstOrDefaultAsync(a => a.Email == model.Email && a.MatKhau == model.Password);
+                .FirstOrDefaultAsync(a => a.Email == model.Email);
 
             if (account == null)
             {
-                return Unauthorized(); // Trả về mã lỗi 401 nếu thông tin đăng nhập không chính xác
+                return Unauthorized();
             }
 
-            // Trả về thông tin người dùng và token (nếu sử dụng token)
+            // So sánh mật khẩu đã mã hóa
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(model.Password, account.MatKhau);
+            if (!isPasswordValid)
+            {
+                return Unauthorized();
+            }
+
             return Ok(new
             {
                 account.ID,
@@ -67,6 +71,7 @@ namespace API_NoiThat.Controllers
             });
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
@@ -74,6 +79,7 @@ namespace API_NoiThat.Controllers
             {
                 return BadRequest();
             }
+
 
             _context.Entry(account).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
@@ -101,22 +107,34 @@ namespace API_NoiThat.Controllers
             return _context.Account.Any(e => e.ID == id);
         }
 
-        
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody] Account user)
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(Account account)
         {
-            if (user == null || string.IsNullOrEmpty(user.TenNguoiDung) || string.IsNullOrEmpty(user.MatKhau) || string.IsNullOrEmpty(user.Email))
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid user data.");
+                return BadRequest(ModelState);
             }
 
-            _context.Account.Add(user);
+            // Kiểm tra email đã tồn tại chưa
+            var existingUser = await _context.Account.FirstOrDefaultAsync(u => u.Email == account.Email);
+            if (existingUser != null)
+            {
+                return Conflict("Email đã được sử dụng.");
+            }
+
+            // Mã hóa mật khẩu (có thể dùng thư viện BCrypt hoặc Identity)
+            account.MatKhau = BCrypt.Net.BCrypt.HashPassword(account.MatKhau);
+            account.IDRole = 2;
+            // Lưu thông tin người dùng vào database
+            _context.Account.Add(account);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAccountId", new { id = user.ID }, user);
+            return Ok(new { Message = "Đăng ký thành công." });
         }
 
-        [HttpPost("upload-account")]
+        //Up hình
+        [HttpPost("upload-image")]
         public async Task<IActionResult> UploadImageAccount(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -138,6 +156,38 @@ namespace API_NoiThat.Controllers
             var fileUrl = $"{Request.Scheme}://{Request.Host}/Image_SP_ASM/{file.FileName}";
 
             return Ok(new { FileUrl = fileUrl });
+        }
+
+        //Đổi mật khẩu
+        [HttpPost("ChangePassword/{id}")]
+        public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordModel model)
+        {
+            var account = await _context.Account.FindAsync(id);
+            if (account == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Kiểm tra mật khẩu hiện tại
+            if (!BCrypt.Net.BCrypt.Verify(model.CurrentPassword, account.MatKhau))
+            {
+                return BadRequest("Mật khẩu hiện tại không chính xác.");
+            }
+
+            // Mã hóa mật khẩu mới
+            account.MatKhau = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+
+            _context.Account.Update(account);
+            await _context.SaveChangesAsync();
+
+            return Ok("Password changed successfully.");
+        }
+
+        public class ChangePasswordModel
+        {
+            public string CurrentPassword { get; set; }
+            public string NewPassword { get; set; }
+            public string ConfirmPassword { get; set; }
         }
 
     }
