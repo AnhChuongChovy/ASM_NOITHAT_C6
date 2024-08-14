@@ -4,10 +4,21 @@
 @layout AdminLayout
 @using WebAsemly_NoiThat.Model
 
-<h3>Danh Sách Danh Mục Con</h3>
 
-<div class="mb-3">
-    <input type="text" @bind="searchTerm" @oninput="SearchCategoryTypes" class="form-control" placeholder="Tìm kiếm theo tên danh mục con..." />
+<div class="row mt-3">
+    <div class="col-md-6">
+        <h3>Danh Sách Danh Mục Con</h3>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" @bind="searchTerm" @oninput="SearchCategoryTypes" class="form-control" placeholder="Tìm kiếm theo tên danh mục con..." />
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" @onclick="AddCategory">Thêm danh mục</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <table class="table table-striped table-bordered">
@@ -16,7 +27,7 @@
             <th class="text-center">ID</th>
             <th class="text-center">Tên Danh Mục Con</th>
             <th class="text-center">Hình Ảnh</th>
-            <th class="text-center">Danh Mục</th>
+            <th class="text-center">Trạng Thái</th>
             <th class="text-center">Thao Tác</th>
         </tr>
     </thead>
@@ -26,13 +37,13 @@
             @foreach (var categoryType in filteredCategoryTypes)
             {
                 <tr>
-                    <td class="text-center">@categoryType.ID</td>
-                    <td>@categoryType.TenLoaiDanhMuc</td>
-                    <td class="text-center">
+                    <td style="text-align: center; vertical-align: middle;">@categoryType.ID</td>
+                    <td style="text-align: center; vertical-align: middle;">@categoryType.TenLoaiDanhMuc</td>
+                    <td style="text-align: center; vertical-align: middle;">
                         <img src="@categoryType.HinhAnh" alt="@categoryType.TenLoaiDanhMuc" class="img-fluid" width="100" />
                     </td>
-                    <td>@categoryType.Category?.TenDanhMuc</td>
-                    <td class="text-center">
+                    <td style="text-align: center; vertical-align: middle;">@categoryType.TrangThai</td>
+                    <td style="text-align: center; vertical-align: middle;">
                         <button class="bi bi-eye btn btn-info" @onclick="() => ViewCategoryType(categoryType.ID)"></button>
                         <button class="btn btn-primary bi bi-pen" @onclick="() => EditCategoryType(categoryType.ID)"></button>
                     </td>
@@ -148,5 +159,8 @@
     {
         NavigationManager.NavigateTo($"/admin/edit-categorytype/{id}");
     }
-
+    private void AddCategory()
+    {
+        NavigationManager.NavigateTo("admin/add-categorytype");
+    }
 }

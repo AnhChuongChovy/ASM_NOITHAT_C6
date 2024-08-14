@@ -10,9 +10,9 @@
     <DataAnnotationsValidator />
     <div class="row">
         <div class="form-group col-md-4">
-        <label for="TenLoaiDanhMuc">Tên Danh Mục Con</label>
-        <InputText id="TenLoaiDanhMuc" class="form-control" @bind-Value="categoryType.TenLoaiDanhMuc" />
-    </div>
+            <label for="TenLoaiDanhMuc">Tên Danh Mục Con</label>
+            <InputText id="TenLoaiDanhMuc" class="form-control" @bind-Value="categoryType.TenLoaiDanhMuc" />
+        </div>
 
         <div class="form-group col-md-4">
             <label for="IDDanhMuc">Danh Mục</label>
@@ -24,11 +24,13 @@
                 }
             </select>
         </div>
-
-        <div class="form-group col-md-4">
-        <label for="HinhAnh">Hình Ảnh</label>
-        <InputFile id="HinhAnh" class="form-control" OnChange="HandleFileSelected" />
     </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="HinhAnh">Hình Ảnh</label>
+            <InputFile id="HinhAnh" class="form-control" OnChange="HandleFileSelected" />
+        </div>
         <div class="col-md-4">
             @if (!string.IsNullOrEmpty(categoryType.HinhAnh))
             {
@@ -36,9 +38,7 @@
             }
         </div>
     </div>
-    
-    
-    
+
 
     <button type="submit" class="btn btn-primary">Lưu</button>
 </EditForm>

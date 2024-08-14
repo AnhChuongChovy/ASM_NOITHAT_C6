@@ -36,7 +36,7 @@
     else
     {
         <div class="row" style="margin:0 auto">
-            @foreach (var obj in SanPham.Where(i => i.IDLoaiDM == 3).Take(soluongHienThi))
+            @foreach (var obj in SanPham.Take(soluongHienThi))
             {
                 <div class="col-md-3 mt-4">
                     <div class="card-product">

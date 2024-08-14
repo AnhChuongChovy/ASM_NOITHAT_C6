@@ -42,6 +42,8 @@ namespace API_NoiThat.Controllers
             return Ok(products);
         }
 
+        
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProductId(int id)
         {

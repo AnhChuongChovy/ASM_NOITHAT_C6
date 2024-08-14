@@ -4,15 +4,11 @@
 @layout AdminLayout
 @using WebAsemly_NoiThat.Model
 
-<h3>Chi Tiết Hóa Đơn</h3>
-
 @if (bill != null)
 {
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
             <h5 class="card-title">Hóa Đơn ID: @bill.ID</h5>
-            <p class="card-text">ID Thanh Toán: @bill.IDThanhToan</p>
-            <p class="card-text">ID Vận Chuyển: @bill.IDVanChuyen</p>
             <p class="card-text">ID Người Dùng: @bill.IDNguoiDung</p>
             <p class="card-text">Tổng Tiền: @bill.TongTien</p>
             <p class="card-text">Ngày Đặt Hàng: @bill.NgayDatHang</p>
